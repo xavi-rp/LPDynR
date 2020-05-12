@@ -40,6 +40,12 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
   }else if(class(LandProd_current) != "RasterLayer"){
     stop("Please provide objects of classe RasterLayer (or file names to read in some)")
   }
+  
+  ## Checking for same extent/resolution
+  if(any(extent(LandProd_change) != extent(LandProd_current), res(LandProd_change) != res(LandProd_current)))
+    stop("LandProd_change and LandProd_current must have same extent and resolution")
+  
+  
     
 
   ## Combined Assessment ####
