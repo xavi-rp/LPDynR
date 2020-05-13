@@ -12,7 +12,7 @@
 #' @param LandProd_change RasterLayer object (or its file name). Land Productivity Long Term Change Map
 #' @param LandProd_current RasterLayer object (or its file name). Land Productivity Current Status Map
 #' @param filename Character. Output filename. Optional
-#' @return \code{LPD_CombAssess}. Land Productivity Dynamics (LPD) indicator. RasterLayer of the combined assessment of the Land Productivity Long Term Change Map and the Land Productivity Current Status Map 
+#' @return RasterLayer of the Land Productivity Dynamics (LPD) indicator. Produced by the combined assessment of the Land Productivity Long Term Change Map and the Land Productivity Current Status Map 
 #' @name LPD_CombAssess()
 #' @references 
 #' @examples
@@ -45,8 +45,6 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
   if(any(extent(LandProd_change) != extent(LandProd_current), res(LandProd_change) != res(LandProd_current)))
     stop("LandProd_change and LandProd_current must have same extent and resolution")
   
-  
-    
 
   ## Combined Assessment ####
   LPD_CombAssess <- LandProd_current
