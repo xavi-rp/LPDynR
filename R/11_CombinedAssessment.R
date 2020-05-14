@@ -1,5 +1,4 @@
-
-#### Combined Assessment of Land Productivity  ####
+#### Combined Assessment of Land Productivity
 ## Land Productivity Long Term Change Map + Land Productivity Current Status Map
 
 #'
@@ -18,6 +17,7 @@
 #' @param filename Character. Output filename. Optional
 #' @return RasterLayer
 #' @name LPD_CombAssess()
+#' @export
 #' @examples
 #' \dontrun{
 #' LPDynR:::LPD_CombAssess(LandProd_change = LandProd_change_raster,

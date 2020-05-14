@@ -1,4 +1,4 @@
-#### Local Net Productivity Scaling (LNS)  ####
+#### Local Net Productivity Scaling (LNS)
 
 #'
 #' @author Xavier Rotllan-Puig
@@ -23,6 +23,7 @@
 #' @return RasterLayer object
 #' @name LNScaling()
 #' @references Prince, S.D., Becker-Reshef, I. and Rishmawi, K. 2009. “Detection and Mapping of Long-Term Land Degradation Using Local Net Production Scaling: Application to Zimbabwe.” REMOTE SENSING OF ENVIRONMENT 113 (5): 1046–57
+#' @export
 #' @examples
 #' \dontrun{
 #' LPDynR:::LNScaling(EFTs = EFTs_raster,
