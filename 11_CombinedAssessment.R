@@ -4,15 +4,20 @@
 
 #'
 #' @author Xavier Rotllan-Puig
-#' @title Land Productivity Dynamics Indicator (Combined Assessment)
-#' @description Land Productivity Long Term Change Map + Land Productivity Current Status Map
-#' @details 
+#' @title LPD_CombAssess
+#' @description LPD_CombAssess combines a 'LandProd_change' map (RasterLayer) with a 'LandProd_current'
+#' map (RasterLayer), giving a 6-classes map ranging from declining to strongly increasing land
+#' productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 50% of the 
+#' highest local production (within the EFT) and pixels with more or equal to their 50%
+#' @details The Land Productivity Dynamics (LPD) is a qualitative indicator produced by the combined 
+#' assessment of the Land Productivity Long Term Change Map and the Land Productivity Current 
+#' Status Map  
 #' @import 
 #' @importFrom
 #' @param LandProd_change RasterLayer object (or its file name). Land Productivity Long Term Change Map
 #' @param LandProd_current RasterLayer object (or its file name). Land Productivity Current Status Map
 #' @param filename Character. Output filename. Optional
-#' @return RasterLayer of the Land Productivity Dynamics (LPD) indicator. Produced by the combined assessment of the Land Productivity Long Term Change Map and the Land Productivity Current Status Map 
+#' @return RasterLayer
 #' @name LPD_CombAssess()
 #' @references 
 #' @examples

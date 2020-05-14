@@ -2,21 +2,27 @@
 
 #'
 #' @author Xavier Rotllan-Puig
-#' @title Local Net Productivity Scaling (LNS)
-#' @description 
-#' @details 
-#' @import 
-#' @importFrom raster raster stack
-#' @importFrom data.table as.data.table
+#' @title LNScaling
+#' @description LNScaling (Local Net Productivity Scaling) uses a productivity variable
+#' (Raster*), e.g. season growth, to calculate the actual status of land productivity 
+#' relative to its potential in homogeneous land areas or Ecosystem Functional Types 
+#' (RasterLayer). If the productivity variable 'ProdVar' is a RasterStack or RasterBrick 
+#' object with time series, it is calculated the average of the last 4 years
+#' @details The Local Net Primary Production Scaling (LNS) method (Prince, 2009) calculates
+#'  the difference between the potential and actual Net Primary Production for each pixel 
+#'  in homogeneous land areas. The current land production related to the local potential 
+#'  reflects the current level of productivity efficiency and, therefore, it is useful for 
+#'  the delineation of a land productivity status map
+#' @import raster
+#' @importFrom data.table as.data.table merge setkeyv
 #' @importFrom dplyr group_by summarise_at
-#' @param 
-#' @param EFTs RasterLayer object (or its file name). Ecosystem Functional Types. It has to contain a varibale called 'clstr' with the number of EFT (cluster) each pixel belongs to
+#' @param EFTs RasterLayer object (or its file name). Ecosystem Functional Types. Its first variable has the number of EFT (cluster) each pixel belongs to
 #' @param ProdVar Raster* object (or its file name). Productivity variable (e.g. Cyclic fraction -season growth-)
 #' @param filename Character. Output filename. Optional
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
-#' @return Raster l
-#' @name LPD_CombAssess()
-#' @references 
+#' @return RasterLayer object 
+#' @name LNScaling()
+#' @references Prince, S.D., Becker-Reshef, I. and Rishmawi, K. 2009. “Detection and Mapping of Long-Term Land Degradation Using Local Net Production Scaling: Application to Zimbabwe.” REMOTE SENSING OF ENVIRONMENT 113 (5): 1046–57
 #' @examples
 #' \dontrun{
 #' LPDynR:::LNScaling(EFTs = EFTs_raster,
@@ -76,7 +82,6 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
   if(exists("EFTs_df")) rm(EFTs_df)
   #gc()
   
-  group_by summarise_at
   ## Calculating 90-percentile by EFT ####
   ## EFT = 0 is NoData in the raster
   ProdVar_90perc <- as.data.table(ProdVar_average_df %>% group_by(EFT) %>% summarise_at(.vars = "ProductivityVariable", .funs = c("ProductivityVariable_90perc" = quantile), prob = 0.9, na.rm = TRUE))
