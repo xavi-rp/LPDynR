@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("Xavier", "Rotllan-Puig", email = "xavi.rotllan.puig@gmail.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 Depends: R (>= 3.6.0)
-License: What license is it under?
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
