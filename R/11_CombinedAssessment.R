@@ -7,19 +7,17 @@
 #' @title LPD_CombAssess
 #' @description LPD_CombAssess combines a 'LandProd_change' map (RasterLayer) with a 'LandProd_current'
 #' map (RasterLayer), giving a 6-classes map ranging from declining to strongly increasing land
-#' productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 50% of the 
+#' productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 50% of the
 #' highest local production (within the EFT) and pixels with more or equal to their 50%
-#' @details The Land Productivity Dynamics (LPD) is a qualitative indicator produced by the combined 
-#' assessment of the Land Productivity Long Term Change Map and the Land Productivity Current 
-#' Status Map  
-#' @import 
-#' @importFrom
+#' @details The Land Productivity Dynamics (LPD) is a qualitative indicator produced by the combined
+#' assessment of the Land Productivity Long Term Change Map and the Land Productivity Current
+#' Status Map
+#' @import raster
 #' @param LandProd_change RasterLayer object (or its file name). Land Productivity Long Term Change Map
 #' @param LandProd_current RasterLayer object (or its file name). Land Productivity Current Status Map
 #' @param filename Character. Output filename. Optional
 #' @return RasterLayer
 #' @name LPD_CombAssess()
-#' @references 
 #' @examples
 #' \dontrun{
 #' LPDynR:::LPD_CombAssess(LandProd_change = LandProd_change_raster,
@@ -30,26 +28,26 @@
 
 LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
                            filename = ""){
-  
+
   ## Reading in rasters ####
   if(any(is.null(LandProd_change), is.null(LandProd_current))) stop("Please provide objects of classe RasterLayer (or file names to read in some)")
-  
+
   if(is.character(LandProd_change)){
     LandProd_change <- raster(LandProd_change)
   }else if(class(LandProd_change) != "RasterLayer"){
     stop("Please provide objects of classe RasterLayer (or file names to read in some)")
   }
-    
+
   if(is.character(LandProd_current)){
     LandProd_current <- raster(LandProd_current)
   }else if(class(LandProd_current) != "RasterLayer"){
     stop("Please provide objects of classe RasterLayer (or file names to read in some)")
   }
-  
+
   ## Checking for same extent/resolution
   if(any(extent(LandProd_change) != extent(LandProd_current), res(LandProd_change) != res(LandProd_current)))
     stop("LandProd_change and LandProd_current must have same extent and resolution")
-  
+
 
   ## Combined Assessment ####
   LPD_CombAssess <- LandProd_current
@@ -65,7 +63,7 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
   LPD_CombAssess[LandProd_change %in% c(16:17, 19:20)  & LandProd_current >= 50] <- 5      # 5(i): Increasing land productivity
   LPD_CombAssess[LandProd_change %in% c(18, 21:22)     & LandProd_current >= 50] <- 6      # 6(si): Strongly increasing land productivity
   LPD_CombAssess[is.na(LandProd_change)] <- NA
-  
+
   ## Saving results ####
   if (filename != "") writeRaster(LPD_CombAssess, filename = filename, overwrite = TRUE)
   return(LPD_CombAssess)
