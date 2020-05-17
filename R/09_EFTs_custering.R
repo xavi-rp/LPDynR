@@ -31,17 +31,21 @@
 
 EFT_clust <- function(obj2clust = NULL,
                       n_clust = 20,
+                      filename = "",
                       ...){
 
   ## Reading in data
 
-  if(any(is.null(obj2clust), is.null())) stop("Please provide objects of classe Raster* (or file names to read in some)")
+  if(is.null(obj2clust)) stop("Please provide objects of classe Raster* (or file names to read in some)")
 
   if(is.character(obj2clust)){
     obj2clust <- stack(obj2clust)
   }else if(!class(obj2clust) %in% c("RasterLayer", "RasterStack", "RasterBrick")){
     stop("Please provide objects of classe Raster* (or a file name to read in from)")
   }
+
+  if(!is.numeric(n_clust) | is.na(n_clust) | is.null(n_clust))
+    stop("Please provide a number of clusters")
 
 
   obj2clust_ini <- as.data.frame(obj2clust)
