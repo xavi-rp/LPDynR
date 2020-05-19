@@ -140,8 +140,7 @@ PCAs4clust <- function(obj2process = NULL,
   }
 
 
-
-  ## Saving results ####
+  ## Saving results
   if (filename != "") writeRaster(pca_final_brick, filename = filename, options = "INTERLEAVE=BAND", overwrite = TRUE)
   return(pca_final_brick)
 
