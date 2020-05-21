@@ -1,4 +1,4 @@
-#### Steadiness Index ####
+## Steadiness Index
 
 #'
 #' @author Xavier Rotllan-Puig
@@ -31,12 +31,12 @@ steadiness <- function(obj2process = NULL,
                        ...){
 
   ## Reading in data (Standing Biomass)
-  if(is.null(obj2process)) stop("Please provide an objects of classe Raster* (or a file names to read in from)")
+  if(is.null(obj2process)) stop("Please provide an object of classe Raster* (or a file names to read in from)")
 
   if(is.character(obj2process)){
     obj2process <- stack(obj2process)
   }else if(!class(obj2process) %in% c("RasterLayer", "RasterStack", "RasterBrick")){
-    stop("Please provide objects of classe Raster* (or a file name to read in from)")
+    stop("Please provide an object of classe Raster* (or a file name to read in from)")
   }
 
   #obj2process <- stack(paste0("/Users/xavi_rp/Documents/D6_LPD/phenolo_data_Cat", "/mi_clean_Cat.tif"))
