@@ -11,7 +11,6 @@
 #' and regional studies. In addition, baseline_lev() classifies 10% of pixels as high level of land productivity and the rest
 #' (100 - ('drylandProp' + 10) ) as medium level.
 #' @import raster parallel
-#' @importFrom data.table as.data.table rbind
 #' @param obj2process Raster* object (or its file name). If time series, each layer is one year
 #' @param yearsBaseline Numeric. Number of years to be averaged and used as baseline. Optional. Default is 3
 #' @param drylandProp Numeric. Proportion of drylands over total land, either expressed as a fraction of unity or %. Optional. Default is 0.4
@@ -52,6 +51,8 @@ baseline_lev <- function(obj2process = NULL,
   }else if(!class(obj2process) %in% c("RasterLayer", "RasterStack", "RasterBrick")){
     stop("Please provide an object of classe Raster* (or a file name to read in from)")
   }
+
+  if(yearsBaseline > nlayers(obj2process)) yearsBaseline <- nlayers(obj2process)
 
   if(combineSteadiness & is.null(SteadinessIndex)) stop("Please provide an object of classe Raster* (or a file name to read in from) with the Steadiness Index; or set combineSteadiness = FALSE")
 
