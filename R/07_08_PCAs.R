@@ -9,7 +9,7 @@
 #' PCA, as well as the most associated variable to those Principal Components (PCs). A threshold
 #' of cumulative variance (cumul_var_threshold; default = 0.9) is needed. Secondly, a 'final PCA'
 #' is run with the results of the 'screening PCA' (i.e. number of PC axes and their most associated
-#' variables)
+#' variables). PCAs4clust uses \code{\link[stats]{prcomp}} to run PCAs
 #' @import raster
 #' @importFrom stats prcomp
 #' @importFrom data.table rbindlist setorderv
@@ -17,14 +17,15 @@
 #' @param cumul_var_threshold Numeric. Optional (default = 0.9). Threshold of cumulative variance
 #' to select the number of useful PCs
 #' @param filename Character. Output filename. Optional
-#' @param ... Optional. Arguments for prcomp()
+#' @param ... Optional. Arguments for \code{\link[stats]{prcomp}}
 #' @return RasterBrick object
-#' @name PCAs4clust()
+#' @name PCAs4clust
+#' @seealso \code{\link{rm_multicol}}; \code{\link[stats]{prcomp}}
 #' @export
 #' @examples
 #' \dontrun{
-#' LPDynR:::PCAs4clust(obj2process = obj2process_raster,
-#'                      cumul_var_threshold = 0.9)
+#' PCAs4clust(obj2process = obj2process_raster,
+#'             cumul_var_threshold = 0.9)
 #' }
 #'
 

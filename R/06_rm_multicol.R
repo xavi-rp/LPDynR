@@ -6,7 +6,7 @@
 #' @description rm_multicol calculates the average of each variable and removes those variables highly correlated
 #' @details Firstly, after reading in all .tif files in 'dir2process', if they are multiband (time series), averages are
 #' calculated. Secondly, it creates a RasterBrick object with those (averaged) variables which have a Pearson's
-#' correlation coefficient below 'multicol_cutoff'. See ?virtualspecies::removeCollinearity() for further arguments
+#' correlation coefficient below 'multicol_cutoff'. See \code{\link[virtualspecies]{removeCollinearity}} for further arguments
 #' and functionalities
 #' @import raster parallel
 #' @importFrom virtualspecies removeCollinearity
@@ -17,13 +17,14 @@
 #' @param filename Character. Output filename. Optional
 #' @param ... Optional. Arguments for removeCollinearity()
 #' @return RasterBrick object
-#' @name rm_multicol()
+#' @name rm_multicol
+#' @seealso \code{\link[virtualspecies]{removeCollinearity}}
 #' @references Leroy B, Meynard CN, Bellard C, Courchamp F (2015). “virtualspecies, an R package to generate virtual species distributions”. Ecography. doi: 10.1111/ecog.01388
 #' @export
 #' @examples
 #' \dontrun{
-#' LPDynR:::rm_multicol(dir2process = dir2rasters,
-#'                      multicol_cutoff = 0.7)
+#' rm_multicol(dir2process = dir2rasters,
+#'             multicol_cutoff = 0.7)
 #' }
 #'
 

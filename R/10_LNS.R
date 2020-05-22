@@ -3,7 +3,7 @@
 #'
 #' @author Xavier Rotllan-Puig
 #' @title LNScaling
-#' @description LNScaling() (Local Net Productivity Scaling) uses a productivity variable
+#' @description LNScaling (Local Net Productivity Scaling) uses a productivity variable
 #' (Raster*), e.g. season growth, to calculate the actual status of land productivity
 #' relative to its potential in homogeneous land areas or Ecosystem Functional Types
 #' (RasterLayer). If the productivity variable 'ProdVar' is a RasterStack or RasterBrick
@@ -21,13 +21,14 @@
 #' @param filename Character. Output filename. Optional
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @return RasterLayer object
-#' @name LNScaling()
+#' @name LNScaling
+#' @seealso \code{\link{EFT_clust}}
 #' @references Prince, S.D., Becker-Reshef, I. and Rishmawi, K. 2009. “Detection and Mapping of Long-Term Land Degradation Using Local Net Production Scaling: Application to Zimbabwe.” REMOTE SENSING OF ENVIRONMENT 113 (5): 1046–57
 #' @export
 #' @examples
 #' \dontrun{
-#' LPDynR:::LNScaling(EFTs = EFTs_raster,
-#'                    ProdVar = ProdVar_brick)
+#' LNScaling(EFTs = EFTs_raster,
+#'           ProdVar = ProdVar_brick)
 #' }
 #'
 

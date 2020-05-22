@@ -5,25 +5,27 @@
 #' @title EFT_clust
 #' @description EFT_clust derives the Ecosystem Functional Types using K-means to perform a clustering on the
 #' pixels of the Raster* object
-#' @details kmeans() does not optimize the final number of clusters. It needs to be set by means of n_clust
-#' (default = 20). There are several methods and statistics to determine the optimal number. clust_optim()
-#' produces a scree plot to help the user to decide the optimal number of clusters. In this case, kmeans()
-#' uses as default iter.max = 500 and algorithm = "MacQueen", but these can be modified passing the arguments
-#' throuh ...
+#' @details \code{\link[stats]{kmeans}} does not optimize the final number of clusters. It needs to be set by means of 'n_clust'
+#' (default = 20). There are several methods and statistics to determine the optimal number. \code{\link{clust_optim}}
+#' produces a scree plot to help the user to decide the optimal number of clusters.
+#'
+#' EFT_clust passes as default to \code{\link[stats]{kmeans}} iter.max = 500 and algorithm = "MacQueen", but these can be
+#' modified passing these arguments throuh '...'
 #' @import raster
 #' @importFrom dplyr bind_rows
 #' @importFrom stats kmeans
 #' @param obj2clust RasterStack or RasterBrick object (or its file name). Each layer is one variable
 #' @param n_clust Numeric. Number of total clusters. Optional. Default = 20
 #' @param filename Character. Output filename. Optional
-#' @param ... Arguments for kmeans(). Optional
+#' @param ... Arguments for \code{\link[stats]{kmeans}}. Optional
 #' @return RasterLayer object
-#' @name EFT_clust()
+#' @seealso \code{\link{PCAs4clust}}; \code{\link{clust_optim}}; \code{\link[stats]{kmeans}}
+#' @name EFT_clust
 #' @export
 #' @examples
 #' \dontrun{
-#' LPDynR:::EFT_clust(obj2clust = EFTs_raster,
-#'                    n_clust = 20)
+#' EFT_clust(obj2clust = EFTs_raster,
+#'          n_clust = 20)
 #' }
 #'
 

@@ -27,14 +27,14 @@ See Ivits et al. (2013) for further explanations
 }
 \examples{
 \dontrun{
-LPDynR:::steadiness(obj2process = obj2process_raster)
+steadiness(obj2process = obj2process_raster)
 }
 
 }
 \references{
 Ivits, E., M. Cherlet, W. Mehl, and S. Sommer. 2013. “Ecosystem Functional Units Characterized by
 Satellite Observed Phenology and Productivity Gradients: A Case Study for Europe.” Ecological Indicators 27: 17–28.
-https://doi.org/10.1016/j.ecolind.2012.11.010.
+\url{https://doi.org/10.1016/j.ecolind.2012.11.010}
 }
 \author{
 Xavier Rotllan-Puig

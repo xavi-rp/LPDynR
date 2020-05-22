@@ -16,11 +16,11 @@
 #' @name steadiness
 #' @references Ivits, E., M. Cherlet, W. Mehl, and S. Sommer. 2013. “Ecosystem Functional Units Characterized by
 #' Satellite Observed Phenology and Productivity Gradients: A Case Study for Europe.” Ecological Indicators 27: 17–28.
-#' https://doi.org/10.1016/j.ecolind.2012.11.010.
+#' \url{https://doi.org/10.1016/j.ecolind.2012.11.010}
 #' @export
 #' @examples
 #' \dontrun{
-#' LPDynR:::steadiness(obj2process = obj2process_raster)
+#' steadiness(obj2process = obj2process_raster)
 #' }
 #'
 
@@ -45,14 +45,14 @@ steadiness <- function(obj2process = NULL,
   yrs <- 1:nlayers(obj2process)
 
   beginCluster(cores2use)
-  slope_rstr <- clusterR(obj2process, calc, args = list(fun = slp_lm), export = "yrs")
+  slope_rstr <- clusterR(obj2process, calc, args = list(fun = LPDynR:::slp_lm), export = "yrs")
   endCluster()
 
 
   ## Computing net change: MTID (Multi Temporal Image Differencing)
   beginCluster(cores2use)
   years <- length(yrs)
-  mtid_rstr <- clusterR(obj2process, calc, args = list(fun = mtid_function), export = "years")
+  mtid_rstr <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mtid_function), export = "years")
   endCluster()
 
 

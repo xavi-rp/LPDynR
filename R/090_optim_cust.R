@@ -7,14 +7,15 @@
 #' total within-cluster sum of squares at y-axis
 #' @details The 'scree plot method' allows the user to assess how the quality of the
 #' K-means clustering improves when increasing the number of clusters. An elbow in the curve
-#' indicates the optimal number of clusters
+#' indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}
 #' @import raster
 #' @importFrom stats kmeans
 #' @param obj2clust RasterStack or RasterBrick object (or its file name). Each layer is one variable
 #' @param num_clstrs Numeric. Optional. Vector with a sequence of number of clusters to check for optimal
-#' @param ... Optional. Arguments for kmeans()
+#' @param ... Optional. Arguments for \code{\link[stats]{kmeans}}
 #' @return A scree plot
-#' @name clust_optim()
+#' @name clust_optim
+#' @seealso \code{\link{PCAs4clust}}; \code{\link{EFT_clust}}; \code{\link[stats]{kmeans}}
 #' @export
 #' @examples
 #' \dontrun{

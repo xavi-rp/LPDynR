@@ -53,7 +53,7 @@ baseline_lev <- function(obj2process = NULL,
   ## Averaging first years
   beginCluster(cores2use)
   yrs <- 1:yearsBaseline
-  obj2process_avg13 <- clusterR(obj2process, calc, args = list(fun = mean_years_function), export = "yrs")
+  obj2process_avg13 <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mean_years_function), export = "yrs")
   endCluster()
 
   #some checks...

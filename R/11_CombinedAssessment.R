@@ -16,12 +16,13 @@
 #' @param LandProd_current RasterLayer object (or its file name). Land Productivity Current Status Map
 #' @param filename Character. Output filename. Optional
 #' @return RasterLayer
-#' @name LPD_CombAssess()
+#' @name LPD_CombAssess
+#' @seealso \code{\link{LongTermChange}}; \code{\link{LNScaling}}
 #' @export
 #' @examples
 #' \dontrun{
-#' LPDynR:::LPD_CombAssess(LandProd_change = LandProd_change_raster,
-#'                         LandProd_current = LandProd_current_raster)
+#' LPD_CombAssess(LandProd_change = LandProd_change_raster,
+#'                LandProd_current = LandProd_current_raster)
 #' }
 #'
 

@@ -20,16 +20,16 @@ state_change(obj2process = NULL, yearsBaseline = 3, cores2use = 1,
 RasterLayer object
 }
 \description{
-state_change() derives land productivity state change between the beginning and the end of the time series
+state_change derives land productivity state change between the beginning and the end of the time series
 on study, resulting in a 3-class RasterLayer object with (1) not change, (2) changed 1 class and (3) changed 2 or more classes
 }
 \details{
-state_change() uses the average of 'yearsBaseline' number of years at the beginning and the end of the time series
+state_change uses the average of 'yearsBaseline' number of years at the beginning and the end of the time series
 }
 \examples{
 \dontrun{
-LPDynR:::state_change(obj2process = obj2process_raster,
-                      yearsBaseline = 3)
+state_change(obj2process = obj2process_raster,
+             yearsBaseline = 3)
 }
 
 }

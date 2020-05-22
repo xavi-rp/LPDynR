@@ -3,9 +3,9 @@
 #'
 #' @author Xavier Rotllan-Puig
 #' @title state_change
-#' @description state_change() derives land productivity state change between the beginning and the end of the time series
+#' @description state_change derives land productivity state change between the beginning and the end of the time series
 #' on study, resulting in a 3-class RasterLayer object with (1) not change, (2) changed 1 class and (3) changed 2 or more classes
-#' @details state_change() uses the average of 'yearsBaseline' number of years at the beginning and the end of the time series
+#' @details state_change uses the average of 'yearsBaseline' number of years at the beginning and the end of the time series
 #' @import raster parallel
 #' @param obj2process Raster* object (or its file name). If time series, each layer is one year
 #' @param yearsBaseline Numeric. Number of years to be averaged at the beginning and end of the time series. Optional. Default is 3
@@ -16,8 +16,8 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' LPDynR:::state_change(obj2process = obj2process_raster,
-#'                       yearsBaseline = 3)
+#' state_change(obj2process = obj2process_raster,
+#'              yearsBaseline = 3)
 #' }
 #'
 
@@ -42,7 +42,7 @@ state_change <- function(obj2process = NULL,
   ## Averaging first years
   beginCluster(cores2use)
   yrs <- 1:yearsBaseline
-  obj2process_avg13 <- clusterR(obj2process, calc, args = list(fun = mean_years_function), export = "yrs")
+  obj2process_avg13 <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mean_years_function), export = "yrs")
   endCluster()
 
   #some checks...
@@ -72,7 +72,7 @@ state_change <- function(obj2process = NULL,
   beginCluster(cores2use)
   num_yrs <- dim(obj2process)[3]
   yrs <- ((num_yrs) - (yearsBaseline - 1)):num_yrs
-  obj2process_avgLast3 <- clusterR(obj2process, calc, args = list(fun = mean_years_function), export = "yrs")
+  obj2process_avgLast3 <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mean_years_function), export = "yrs")
   endCluster()
 
 
