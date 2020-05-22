@@ -12,7 +12,7 @@
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @param filename Character. Output filename. Optional
 #' @return RasterLayer object
-#' @name state_change()
+#' @name state_change
 #' @export
 #' @examples
 #' \dontrun{

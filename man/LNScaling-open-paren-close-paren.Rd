@@ -21,7 +21,7 @@ LNScaling(EFTs = NULL, ProdVar = NULL, cores2use = 1,
 RasterLayer object
 }
 \description{
-LNScaling (Local Net Productivity Scaling) uses a productivity variable
+LNScaling() (Local Net Productivity Scaling) uses a productivity variable
 (Raster*), e.g. season growth, to calculate the actual status of land productivity
 relative to its potential in homogeneous land areas or Ecosystem Functional Types
 (RasterLayer). If the productivity variable 'ProdVar' is a RasterStack or RasterBrick

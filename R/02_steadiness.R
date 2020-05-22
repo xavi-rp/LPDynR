@@ -6,14 +6,14 @@
 #' @description steadiness derives the Steadiness Index from a land productivity variable
 #' @details The Steadiness Index is based on the combination of two metrics calculated per pixel: (1) the slope derived
 #' from a linear regression of the different years of the time series and (2) the net change on the same period. It
-#' results in a 4 class RasterLayer object ranging from (1) strong negative to (4) strong positive ecosystem dynamics.
+#' results in a 4-class RasterLayer object ranging from (1) strong negative to (4) strong positive ecosystem dynamics.
 #' See Ivits et al. (2013) for further explanations
 #' @import raster parallel
 #' @param obj2process Raster* object (or its file name). If time series, each layer is one year
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @param filename Character. Output filename. Optional
 #' @return RasterLayer object
-#' @name steadiness()
+#' @name steadiness
 #' @references Ivits, E., M. Cherlet, W. Mehl, and S. Sommer. 2013. “Ecosystem Functional Units Characterized by
 #' Satellite Observed Phenology and Productivity Gradients: A Case Study for Europe.” Ecological Indicators 27: 17–28.
 #' https://doi.org/10.1016/j.ecolind.2012.11.010.

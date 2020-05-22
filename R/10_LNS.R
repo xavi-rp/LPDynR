@@ -1,9 +1,9 @@
-#### Local Net Productivity Scaling (LNS)
+## Local Net Productivity Scaling (LNS)
 
 #'
 #' @author Xavier Rotllan-Puig
 #' @title LNScaling
-#' @description LNScaling (Local Net Productivity Scaling) uses a productivity variable
+#' @description LNScaling() (Local Net Productivity Scaling) uses a productivity variable
 #' (Raster*), e.g. season growth, to calculate the actual status of land productivity
 #' relative to its potential in homogeneous land areas or Ecosystem Functional Types
 #' (RasterLayer). If the productivity variable 'ProdVar' is a RasterStack or RasterBrick
