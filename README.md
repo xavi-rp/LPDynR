@@ -8,7 +8,7 @@ LPD is the methodological basis of the *LPDynR* package. It is based on a combin
 
 &nbsp;
 
-![Figure1: Flowchart of the process to calculate the Land Productivity Dynamics indicator and followed by *LPDynR*](doc/graph02.png?raw=true)
+![](doc/graph02.png?raw=true "Figure1: Flowchart of the process to calculate the Land Productivity Dynamics indicator and followed by *LPDynR*")
 
 
 &nbsp;
