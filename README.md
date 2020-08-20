@@ -1,0 +1,28 @@
+# LPDynR
+
+As part of the UN Sustainable Development Goal 15 (Life on Land), the indicator 15.3.1 is adopted to measure the Land Degradation Neutrality (stable —or increasing— state regarding the amount and quality of land resources required to support ecosystem functions and services and enhance food security during a certain period of time). It is a binary indicator (i.e. degraded/not degraded), expressed as the proportion (%) of land that is degraded over total land area, and is based on three sub-indicators: (1) Trends in Land Cover, (2) Land Productivity and (3) Carbon Stocks. 
+
+The Land Productivity sub-indicator (LP) refers to the total above-ground Net Primary Production and reflects changes in health and productive capacity of the land. Its declining trends can be usually understood as land degradation. LP is calculated using the Land Productivity Dynamics (LPD) approach, first developed by Ivits and Cherlet (2013). The LPD approach uses phenological and productivity variables derived from time series of remote sensed imagery, particularly the normalized difference vegetation index (NDVI), to estimate ecosystem dynamics and change. 
+
+LPD is the methodological basis of the *LPDynR* package. It is based on a combined assessment of two sources of information, as seen in Figure 1. On the one hand, the first layer is the Long Term Change Map and, in general terms, it shows the tendency of change of land productivity (positive or negative) and the effect that this tendency might have had on a particular original point after a certain period of time. On the other hand, the second layer is the Current Status Map, which provides information on the current efficiency levels of vegetation on the productivity or, in other words, the current level of land productivity in relation to its potential. Further explanations for both branches can be found in the ATBD. The final result of the indicator is a categorical map with 6 classes of land productivity dynamics, ranging from declining to strongly increasing productivity.
+
+&nbsp;
+
+![Figure1: Flowchart of the process to calculate the Land Productivity Dynamics indicator and followed by *LPDynR*](doc/graph02.png?raw=true)
+
+
+&nbsp;
+
+### To install the latest version:
+
+```
+library(devtools)
+install_github("xavi-rp/LPDynR")
+```
+
+&nbsp;
+
+### References
+
+Ivits, E., and M. Cherlet. 2013. “Land-Productivity Dynamics Towards Integrated Assessment of Land Degradation at Global Scales.” Technical Report EUR 26052. Joint Research Centre of the European Commission.
+
