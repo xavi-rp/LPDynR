@@ -25,8 +25,7 @@
 state_change <- function(obj2process = NULL,
                          yearsBaseline = 3,
                          cores2use = 1,
-                         filename = "",
-                         ...){
+                         filename = ""){
 
   ## Reading in data (Standing Biomass)
   if(is.null(obj2process)) stop("Please provide an object of classe Raster* (or a file names to read in from)")
@@ -41,7 +40,7 @@ state_change <- function(obj2process = NULL,
 
   ## Averaging first years
   beginCluster(cores2use)
-  yrs <- 1:yearsBaseline
+  yrs <<- 1:yearsBaseline
   obj2process_avg13 <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mean_years_function), export = "yrs")
   endCluster()
 
@@ -71,7 +70,7 @@ state_change <- function(obj2process = NULL,
   ## Averaging last years
   beginCluster(cores2use)
   num_yrs <- dim(obj2process)[3]
-  yrs <- ((num_yrs) - (yearsBaseline - 1)):num_yrs
+  yrs <<- ((num_yrs) - (yearsBaseline - 1)):num_yrs
   obj2process_avgLast3 <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mean_years_function), export = "yrs")
   endCluster()
 
@@ -95,6 +94,7 @@ state_change <- function(obj2process = NULL,
 
 
   ## Saving results
+  rm(list = c("yrs"), envir = globalenv())
   if (filename != "") writeRaster(obj2process_3classChange, filename = filename, overwrite = TRUE)
   return(obj2process_3classChange)
 

@@ -5,7 +5,7 @@
 \title{baseline_lev}
 \usage{
 baseline_lev(obj2process = NULL, yearsBaseline = 3,
-  drylandProp = 0.4, cores2use = 1, filename = "", ...)
+  drylandProp = 0.4, cores2use = 1, filename = "")
 }
 \arguments{
 \item{obj2process}{Raster* object (or its file name). If time series, each layer is one year}
@@ -27,10 +27,10 @@ object with (1) low, (2) medium and (3) high productivity
 }
 \details{
 baseline_lev() uses the proportion of drylands over the total land ('drylandProp') to classify the level of productivity into
-low level. UNPD declares that 40% of the World’s land resources are drylands (Middleton et al., 2011) and, therefore, 40% of pixels
-at the global level can be classified as low productivity land. This assumption is the default, but it should be adjusted for local
-and regional studies. In addition, baseline_lev() classifies 10% of pixels as high level of land productivity and the rest
-(100 - ('drylandProp' + 10) ) as medium level.
+low level. UNPD declares that 40 percent of the World’s land resources are drylands (Middleton et al., 2011) and, therefore, 40 percent
+of pixels at the global level can be classified as low productivity land. This assumption is the default, but it should be adjusted for
+local and regional studies. In addition, baseline_lev() classifies 10 percent of pixels as high level of land productivity and the rest
+(100 - ('drylandProp' + 10)) as medium level.
 }
 \examples{
 \dontrun{

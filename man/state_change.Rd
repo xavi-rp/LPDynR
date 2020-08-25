@@ -5,7 +5,7 @@
 \title{state_change}
 \usage{
 state_change(obj2process = NULL, yearsBaseline = 3, cores2use = 1,
-  filename = "", ...)
+  filename = "")
 }
 \arguments{
 \item{obj2process}{Raster* object (or its file name). If time series, each layer is one year}

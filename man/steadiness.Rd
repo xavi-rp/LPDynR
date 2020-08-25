@@ -4,7 +4,7 @@
 \alias{steadiness}
 \title{steadiness}
 \usage{
-steadiness(obj2process = NULL, cores2use = 1, filename = "", ...)
+steadiness(obj2process = NULL, cores2use = 1, filename = "")
 }
 \arguments{
 \item{obj2process}{Raster* object (or its file name). If time series, each layer is one year}

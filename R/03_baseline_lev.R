@@ -6,10 +6,10 @@
 #' @description baseline_lev() derives land productivity at the beginning of the time series on study, resulting in a 3-class RasterLayer
 #' object with (1) low, (2) medium and (3) high productivity
 #' @details baseline_lev() uses the proportion of drylands over the total land ('drylandProp') to classify the level of productivity into
-#' low level. UNPD declares that 40% of the World’s land resources are drylands (Middleton et al., 2011) and, therefore, 40% of pixels
-#' at the global level can be classified as low productivity land. This assumption is the default, but it should be adjusted for local
-#' and regional studies. In addition, baseline_lev() classifies 10% of pixels as high level of land productivity and the rest
-#' (100 - ('drylandProp' + 10) ) as medium level.
+#' low level. UNPD declares that 40 percent of the World’s land resources are drylands (Middleton et al., 2011) and, therefore, 40 percent
+#' of pixels at the global level can be classified as low productivity land. This assumption is the default, but it should be adjusted for
+#' local and regional studies. In addition, baseline_lev() classifies 10 percent of pixels as high level of land productivity and the rest
+#' (100 - ('drylandProp' + 10)) as medium level.
 #' @import raster parallel
 #' @param obj2process Raster* object (or its file name). If time series, each layer is one year
 #' @param yearsBaseline Numeric. Number of years to be averaged and used as baseline. Optional. Default is 3
@@ -34,8 +34,7 @@ baseline_lev <- function(obj2process = NULL,
                          yearsBaseline = 3,
                          drylandProp = 0.4,
                          cores2use = 1,
-                         filename = "",
-                         ...){
+                         filename = ""){
 
   ## Reading in data (Standing Biomass)
   if(is.null(obj2process)) stop("Please provide an object of classe Raster* (or a file names to read in from)")
@@ -52,7 +51,7 @@ baseline_lev <- function(obj2process = NULL,
 
   ## Averaging first years
   beginCluster(cores2use)
-  yrs <- 1:yearsBaseline
+  yrs <<- 1:yearsBaseline
   obj2process_avg13 <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mean_years_function), export = "yrs")
   endCluster()
 
@@ -92,6 +91,7 @@ baseline_lev <- function(obj2process = NULL,
   obj2process_3class <- reclassify(obj2process_avg13, rcl = pix_categs1, filename = '', include.lowest = FALSE, right = TRUE)
 
   ## Saving results
+  rm(list = c("yrs"), envir = globalenv())
   if (filename != "") writeRaster(obj2process_3class, filename = filename, overwrite = TRUE)
   return(obj2process_3class)
 

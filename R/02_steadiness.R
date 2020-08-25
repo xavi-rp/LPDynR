@@ -27,8 +27,7 @@
 
 steadiness <- function(obj2process = NULL,
                        cores2use = 1,
-                       filename = "",
-                       ...){
+                       filename = ""){
 
   ## Reading in data (Standing Biomass)
   if(is.null(obj2process)) stop("Please provide an object of classe Raster* (or a file names to read in from)")
@@ -42,7 +41,7 @@ steadiness <- function(obj2process = NULL,
   #obj2process <- stack(paste0("/Users/xavi_rp/Documents/D6_LPD/phenolo_data_Cat", "/mi_clean_Cat.tif"))
 
   ## Fitting a linear regression and getting the slope
-  yrs <- 1:nlayers(obj2process)
+  yrs <<- 1:nlayers(obj2process)
 
   beginCluster(cores2use)
   slope_rstr <- clusterR(obj2process, calc, args = list(fun = LPDynR:::slp_lm), export = "yrs")
@@ -51,7 +50,7 @@ steadiness <- function(obj2process = NULL,
 
   ## Computing net change: MTID (Multi Temporal Image Differencing)
   beginCluster(cores2use)
-  years <- length(yrs)
+  years <<- length(yrs)
   mtid_rstr <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mtid_function), export = "years")
   endCluster()
 
@@ -65,6 +64,7 @@ steadiness <- function(obj2process = NULL,
 
 
   ## Saving results
+  rm(list = c("yrs", "years"), envir = globalenv())
   if (filename != "") writeRaster(SteadInd_rstr, filename = filename, overwrite = TRUE)
   return(SteadInd_rstr)
 
