@@ -10,7 +10,7 @@
 #' produces a scree plot to help the user to decide the optimal number of clusters.
 #'
 #' EFT_clust passes as default to \code{\link[stats]{kmeans}} iter.max = 500 and algorithm = "MacQueen", but these can be
-#' modified passing these arguments throuh '...'
+#' modified passing these arguments through '...'
 #' @import raster
 #' @importFrom dplyr bind_rows
 #' @importFrom stats kmeans

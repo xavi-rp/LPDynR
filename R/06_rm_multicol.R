@@ -46,6 +46,7 @@ rm_multicol <- function(dir2process = NULL,
                  pattern = ".tif$", full.names = TRUE)
 
   if(length(varbles) == 0) stop(paste0("No .tif files in ", dir2process))
+  if(length(varbles) > 0) cat(paste0(varbles, "... being processed.", "\n"))
 
 
   vrbles <- c()
@@ -57,7 +58,7 @@ rm_multicol <- function(dir2process = NULL,
     rstr_name <- rstr_name[length(rstr_name)]
     rstr_name <- sub(".tif", "", rstr_name)
     #assign(rstr_name, var2process)
-    cat(rstr_name, "... read in", "\n")
+    #cat(rstr_name, "... read in", "\n")
 
     ## Calculating averages
     # Average is calculated over ALL the available years, but this might be included as an argument
@@ -70,7 +71,7 @@ rm_multicol <- function(dir2process = NULL,
     vrbles <- c(vrbles, rstr_name)
 
     stack_rstrs_avg <- stack(stack_rstrs_avg, rstr_average)
-    print(paste0(rstr_name, " ... average calculated"))
+    #print(paste0(rstr_name, " ... average calculated"))
 
   }
   #writeRaster(stack_rstrs_avg, paste0(path2tempResults, "/stack_rstrs_avg.tif"), options = "INTERLEAVE=BAND", overwrite = TRUE)

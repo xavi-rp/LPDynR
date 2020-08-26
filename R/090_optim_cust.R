@@ -39,7 +39,7 @@ clust_optim <- function(obj2clust = NULL,
     stop("Please provide objects of classe Raster* (or a file name to read in from)")
   }
 
-  if(!is.numeric(num_clstrs) | is.na(num_clstrs) | is.null(num_clstrs))
+  if(!is.numeric(num_clstrs) | any(is.na(num_clstrs)) | is.null(num_clstrs))
     stop("Please provide a sequence of number of clusters to check for optimal")
 
 
@@ -48,7 +48,7 @@ clust_optim <- function(obj2clust = NULL,
 
 
   ## K-means
-  wss <- (nrow(obj2clust) - 1) * sum(apply(obj2clust[, - c(length(obj2clust))], 2, var))
+  wss <- (nrow(obj2clust) - 1) * sum(apply(as.data.frame(obj2clust[, - c(length(obj2clust))]), 2, var))
 
   dts <- list(...)
   if(is.null(dts$nstart)) dts$nstart <- 1

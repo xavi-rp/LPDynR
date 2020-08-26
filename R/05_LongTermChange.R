@@ -108,7 +108,7 @@ LongTermChange <- function(SteadinessIndex = NULL,
 
   if(is.character(SteadinessIndex)){
     SteadinessIndex <- raster(SteadinessIndex)
-  }else if(!class(obj2process) %in% c("RasterLayer")){
+  }else if(!class(SteadinessIndex) %in% c("RasterLayer")){
     stop("Please provide an object of classe RasterLayer for Steadiness Index (or a file name to read in from)")
   }
 
@@ -119,7 +119,7 @@ LongTermChange <- function(SteadinessIndex = NULL,
   }
 
   if(is.character(StateChange)){
-    StateChange <- stack(StateChange)
+    StateChange <- raster(StateChange)
   }else if(!class(StateChange) != "RasterLayer"){
     stop("Please provide objects of classe RasterLayer for 'StateChange' (or a file name to read in from)")
   }
