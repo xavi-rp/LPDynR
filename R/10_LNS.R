@@ -15,6 +15,7 @@
 #'  the delineation of a land productivity status map
 #' @import raster
 #' @importFrom data.table as.data.table setkeyv
+#' @importFrom magrittr %>%
 #' @importFrom dplyr group_by summarise_at
 #' @param EFTs RasterLayer object (or its file name). Ecosystem Functional Types. Its first variable has the number of EFT (cluster) each pixel belongs to
 #' @param ProdVar Raster* object (or its file name). Productivity variable (e.g. Cyclic fraction -season growth-)
@@ -92,7 +93,7 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
   ## Assigning maximum (potential) productivity to outliers ####
   ## outliers:  value > percentile 90 intra-cluster
 
-  ProdVar_average_df <- data.table::merge(as.data.table(ProdVar_average_df), ProdVar_90perc, by = "EFT", all.x = TRUE)
+  ProdVar_average_df <- merge(as.data.table(ProdVar_average_df), ProdVar_90perc, by = "EFT", all.x = TRUE)
   setkeyv(ProdVar_average_df, "rwnms")
 
   cond <- ProdVar_average_df$ProductivityVariable > ProdVar_average_df$ProductivityVariable_90perc & !is.na(ProdVar_average_df$ProductivityVariable)
