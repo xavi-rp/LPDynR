@@ -114,13 +114,13 @@ LongTermChange <- function(SteadinessIndex = NULL,
 
   if(is.character(BaselineLevels)){
     BaselineLevels <- raster(BaselineLevels)
-  }else if(class(BaselineLevels) != "RasterLayer"){
+  }else if(!class(BaselineLevels) %in% "RasterLayer"){
     stop("Please provide objects of classe RasterLayer for 'BaselineLevels' (or a file name to read in from)")
   }
 
   if(is.character(StateChange)){
     StateChange <- raster(StateChange)
-  }else if(!class(StateChange) != "RasterLayer"){
+  }else if(!class(StateChange) %in% "RasterLayer"){
     stop("Please provide objects of classe RasterLayer for 'StateChange' (or a file name to read in from)")
   }
 

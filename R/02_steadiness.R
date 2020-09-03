@@ -50,8 +50,8 @@ steadiness <- function(obj2process = NULL,
 
   ## Computing net change: MTID (Multi Temporal Image Differencing)
   beginCluster(cores2use)
-  years <<- length(yrs)
-  mtid_rstr <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mtid_function), export = "years")
+  #years <<- length(yrs)
+  mtid_rstr <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mtid_function))#, export = "years")
   endCluster()
 
 
@@ -61,10 +61,12 @@ steadiness <- function(obj2process = NULL,
   SteadInd_rstr[slope_rstr < 0 & mtid_rstr < 0] <- 2   # moderate negative ecoystem dynamics
   SteadInd_rstr[slope_rstr > 0 & mtid_rstr < 0] <- 3   # moderate positive ecosystem dynamics
   SteadInd_rstr[slope_rstr > 0 & mtid_rstr > 0] <- 4   # strong positive ecosystem dynamics
+  SteadInd_rstr[slope_rstr == 0 | mtid_rstr == 0] <- 0   # stable ecosystem dynamics
 
 
   ## Saving results
-  rm(list = c("yrs", "years"), envir = globalenv())
+  #rm(list = c("yrs", "years"), envir = globalenv())
+  rm(list = c("yrs"), envir = globalenv())
   if (filename != "") writeRaster(SteadInd_rstr, filename = filename, overwrite = TRUE)
   return(SteadInd_rstr)
 

@@ -7,21 +7,25 @@
 
 slp_lm <- function(x){
   if (all(is.na(x))){
-    NA
+    slp <- NA
   } else if (sum(!is.na(x)) == 1){
-    sum(x, na.rm = TRUE)
+    slp <- 0
   } else {
-    lm(x ~ yrs)$coefficients[2]
+    slp <- lm(x ~ yrs)$coefficients[2]
   }
+  return(slp)
 }
 
 mtid_function <- function(x){
-  if (all(is.na(x)) | sum(!is.na(x)) == 1){
-    NA
+  if (all(is.na(x))){
+    mtid <- NA
+  } else if (sum(!is.na(x)) == 1){
+    mtid <- 0
   } else {
     years1 <- max(which(!is.na(x)))
-    sum(x[years1] - x[-years1], na.rm = TRUE)
+    mtid <- sum(x[years1] - x[-years1], na.rm = TRUE) # last year with data minus each year; then all summed
   }
+  return(mtid)
 }
 
 
