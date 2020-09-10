@@ -44,15 +44,6 @@ state_change <- function(obj2process = NULL,
   obj2process_avg13 <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mean_years_function), export = "yrs")
   endCluster()
 
-  #some checks...
-  rning_tsts <- "n"
-  rning_tsts <- "y"
-  if(rning_tsts == "y"){
-    chk_avg <- round(mean(as.vector(obj2process[20, 40][1:3])), 0) == round(as.vector(obj2process_avg13[20, 40]), 0) # has to be TRUE
-    if(chk_avg != TRUE) stop("Something wrong in the averaging process")
-  }
-
-
   ## Classification of averaged pixels
   pix_categs <- raster::quantile(obj2process_avg13, probs =  seq(0, 1, 0.1), names = TRUE)
   pix_categs01 <- c(pix_categs[- length(pix_categs)])

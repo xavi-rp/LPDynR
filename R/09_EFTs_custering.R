@@ -63,9 +63,13 @@ EFT_clust <- function(obj2clust = NULL,
 
   ## Clustering using optimal number of clusters
   dts <- list(...)
-  if(is.null(dts$nstart)) dts$nstart <- 1
+  if(is.null(dts$nstart)) dts$nstart <- 1                   # kmeans makes 'nstart' initial configurations and reports the best one
   if(is.null(dts$iter.max)) dts$iter.max <- 500
   if(is.null(dts$algorithm)) dts$algorithm <- "MacQueen"
+  # Hartigan-Wong algorithm generally does a better job than either of those, but trying several random
+  # starts (‘nstart’> 1) is often recommended. In rare cases, when some of the points (rows of ‘x’) are
+  # extremely close, the algorithm may not converge in the “Quick-Transfer” stage, signalling a warning
+  #(and returning ‘ifault = 4’). Slight rounding of the data may be advisable in that case. (from ?kmeans)
 
   kmeans_clustring <- kmeans(obj2clust_ini[, - c(length(obj2clust_ini))],
                              centers = n_clust,
