@@ -56,8 +56,8 @@ baseline_lev <- function(obj2process = NULL,
   endCluster()
 
   #some checks...
-  rning_tsts <- "n"
   rning_tsts <- "y"
+  rning_tsts <- "n"
   if(rning_tsts == "y"){
     chk_cell <- raster::sampleRandom(obj2process_avg13, size = 1, cells = TRUE)[1]
     chk_avg <- round(mean(as.vector(obj2process[chk_cell][1:yearsBaseline])), 0) == round(as.vector(obj2process_avg13[chk_cell]), 0) # has to be TRUE
