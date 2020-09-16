@@ -23,7 +23,153 @@ install_github("xavi-rp/LPDynR")
 
 &nbsp;
 
+
+### Example
+
+```
+library(LPDynR)
+```
+
+Loading a land productivity variable derived from Earth Observation imagery. A RasterBrick or RasterStack object with time series (each layer is one year).
+```
+variables_dir <- "yourDirectoryPath/"   # directory where land productivity and phenological variables are (RasterBrick or RasterStack objects with time series)
+
+sb <- brick(paste0(variables_dir, "/standingBiomass.tif"))    # Standing biomass (integral between the two minimas)
+```
+&nbsp;
+
+
+1) **Steadiness Index** (trend tendency + net change).
+```
+?steadiness
+
+SteadInd <- steadiness(obj2process = sb, 
+                       cores2use = 3,  # for parallel processing
+                       filename = "SteadInd.tif")
+```
+&nbsp;
+
+
+2) **Baseline Level**. The user has to define the proportion of drylands over the total land. As examples, in Europe drylands cover 20% of total land (FAO, 2019); globally, 40 percent of the World’s land resources are drylands (Middleton et al., 2011).
+
+```
+?baseline_lev
+
+Baseline_Level <- baseline_lev(obj2process = sb, 
+                               yearsBaseline = 3, 
+                               drylandProp = 0.4,    # 40% of total land 
+                               cores2use = 3, 
+                               filename = "Baseline_Level.tif")
+```
+&nbsp;
+
+
+3) **State Change**.
+```
+?state_change
+
+State_Change <- state_change(obj2process = sb, 
+                             yearsBaseline = 3, 
+                             cores2use = 3,
+                             filename = "State_Change.tif")
+```
+&nbsp;
+
+
+4) **Long Term Change Map**.
+```
+?LongTermChange
+
+Long_Term_Change_Map <- LongTermChange(SteadinessIndex = SteadInd, 
+                                       BaselineLevels = Baseline_Level,
+                                       StateChange = State_Change, 
+                                       filename = "Long_Term_Change_Map.tif")
+```
+&nbsp;
+
+
+5) Renoving multicollinearity among variables.
+```
+?rm_multicol
+
+variables_noCor <- rm_multicol(dir2process = variables_dir,    
+                               multicol_cutoff = 0.7, 
+                               cores2use = 3,
+                               filename = "variables_noCor.tif")
+```
+&nbsp;
+
+
+6) PCAs: Preparing variables for clustering.
+```
+?PCAs4clust
+
+pca_final_brick <- PCAs4clust(obj2process = variables_noCor, 
+                              cumul_var_threshold = 0.9,
+                              filename = "pca_final_brick.tif")
+```
+&nbsp;
+
+
+7) Ecosystem Functional Types (**EFTs**).
+```
+?clust_optim
+?EFT_clust
+
+# Producing a scree plot with number of cluster at x-axis and total within-cluster sum of squares at y-axis.
+# The 'scree plot method' allows the user to assess how the quality of the K-means clustering improves when 
+# increasing the number of clusters. An elbow in the curve indicates the optimal number of clusters
+
+jpeg("OptimalNumClusters.jpg")
+clust_optim(obj2clust = pca_final_brick, 
+            num_clstrs = seq(5, 50, 5))
+dev.off()
+
+
+# Deriving EFTs with the optimal number of clusters calculated before
+
+EFTs <- EFT_clust(obj2clust = pca_final_brick, 
+                  n_clust = 12, 
+                  nstart = 5,  
+                  algorithm = "Hartigan-Wong",
+                  filename = "EFTs.tif")
+```
+&nbsp;
+
+
+8) Local net productivity scaling (**LNS**). Current Net Primary Production relative to its potential.
+```
+?LNScaling
+
+# Productivity variable
+si <- brick(paste0(variables_dir, "/cyclicFraction.tif"))    # Season integral (seasonal growth)
+
+LNScal <- LNScaling(EFTs = EFTs, 
+                    ProdVar = si, 
+                    cores2use = 3,
+                    filename = "LNScal.tif")
+```
+&nbsp;
+
+
+9) **Land Productivity Dynamics Combined Assessment**. The final product, a RasterLayer object.
+```
+?LPD_CombAssess
+
+LPD_finalMap <- LPD_CombAssess(LandProd_change = "Long_Term_Change_Map", 
+                               LandProd_current =  "LNScal",
+                               filename = "LPD_finalMap.tif")
+plot(LPD_finalMap)
+```
+
+&nbsp;
+
+&nbsp;
+
 ### References
 
-Ivits, E., and M. Cherlet. 2013. “Land-Productivity Dynamics Towards Integrated Assessment of Land Degradation at Global Scales.” Technical Report EUR 26052. Joint Research Centre of the European Commission.
+- FAO. 2019. “Trees, forests and land use in drylands: the first global assessment” – Full report. FAO Forestry Paper No. 184. Rome
 
+- Ivits, E., and M. Cherlet. 2013. “Land-Productivity Dynamics Towards Integrated Assessment of Land Degradation at Global Scales.” Technical Report EUR 26052. Joint Research Centre of the European Commission.
+
+- Middleton, N., L. Stringer, A. Goudie, and D. Thomas. 2011. “The Forgotten Billion. MDG Achievement in the Drylands.” New York, NY, 10017, USA: United Nations Development Programme.

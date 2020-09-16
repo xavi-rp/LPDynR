@@ -391,9 +391,129 @@ $(document).ready(function () {
 install_github(&quot;xavi-rp/LPDynR&quot;)</code></pre>
 <p> </p>
 </div>
+<div id="example" class="section level3">
+<h3>Example</h3>
+<pre><code>library(LPDynR)</code></pre>
+<p>Loading a land productivity variable derived from Earth Observation imagery. A RasterBrick or RasterStack object with time series (each layer is one year).</p>
+<pre><code>variables_dir &lt;- &quot;yourDirectoryPath/&quot;   # directory where land productivity and phenological variables are (RasterBrick or RasterStack objects with time series)
+
+sb &lt;- brick(paste0(variables_dir, &quot;/standingBiomass.tif&quot;))    # Standing biomass (integral between the two minimas)</code></pre>
+<p> </p>
+<ol style="list-style-type: decimal">
+<li><strong>Steadiness Index</strong> (trend tendency + net change).</li>
+</ol>
+<pre><code>?steadiness
+
+SteadInd &lt;- steadiness(obj2process = sb, 
+                       cores2use = 3,  # for parallel processing
+                       filename = &quot;SteadInd.tif&quot;)</code></pre>
+<p> </p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Baseline Level</strong>. The user has to define the proportion of drylands over the total land. As examples, in Europe drylands cover 20% of total land (FAO, 2019); globally, 40 percent of the World’s land resources are drylands (Middleton et al., 2011).</li>
+</ol>
+<pre><code>?baseline_lev
+
+Baseline_Level &lt;- baseline_lev(obj2process = sb, 
+                               yearsBaseline = 3, 
+                               drylandProp = 0.4,    # 40% of total land 
+                               cores2use = 3, 
+                               filename = &quot;Baseline_Level.tif&quot;)</code></pre>
+<p> </p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>State Change</strong>.</li>
+</ol>
+<pre><code>?state_change
+
+State_Change &lt;- state_change(obj2process = sb, 
+                             yearsBaseline = 3, 
+                             cores2use = 3,
+                             filename = &quot;State_Change.tif&quot;)</code></pre>
+<p> </p>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Long Term Change Map</strong>.</li>
+</ol>
+<pre><code>?LongTermChange
+
+Long_Term_Change_Map &lt;- LongTermChange(SteadinessIndex = SteadInd, 
+                                       BaselineLevels = Baseline_Level,
+                                       StateChange = State_Change, 
+                                       filename = &quot;Long_Term_Change_Map.tif&quot;)</code></pre>
+<p> </p>
+<ol start="5" style="list-style-type: decimal">
+<li>Renoving multicollinearity among variables.</li>
+</ol>
+<pre><code>?rm_multicol
+
+variables_noCor &lt;- rm_multicol(dir2process = variables_dir,    
+                               multicol_cutoff = 0.7, 
+                               cores2use = 3,
+                               filename = &quot;variables_noCor.tif&quot;)</code></pre>
+<p> </p>
+<ol start="6" style="list-style-type: decimal">
+<li>PCAs: Preparing variables for clustering.</li>
+</ol>
+<pre><code>?PCAs4clust
+
+pca_final_brick &lt;- PCAs4clust(obj2process = variables_noCor, 
+                              cumul_var_threshold = 0.9,
+                              filename = &quot;pca_final_brick.tif&quot;)</code></pre>
+<p> </p>
+<ol start="7" style="list-style-type: decimal">
+<li>Ecosystem Functional Types (<strong>EFTs</strong>).</li>
+</ol>
+<pre><code>?clust_optim
+?EFT_clust
+
+# Producing a scree plot with number of cluster at x-axis and total within-cluster sum of squares at y-axis.
+# The &#39;scree plot method&#39; allows the user to assess how the quality of the K-means clustering improves when 
+# increasing the number of clusters. An elbow in the curve indicates the optimal number of clusters
+
+jpeg(&quot;OptimalNumClusters.jpg&quot;)
+clust_optim(obj2clust = pca_final_brick, 
+            num_clstrs = seq(5, 50, 5))
+dev.off()
+
+
+# Deriving EFTs with the optimal number of clusters calculated before
+
+EFTs &lt;- EFT_clust(obj2clust = pca_final_brick, 
+                  n_clust = 12, 
+                  nstart = 5,  
+                  algorithm = &quot;Hartigan-Wong&quot;,
+                  filename = &quot;EFTs.tif&quot;)</code></pre>
+<p> </p>
+<ol start="8" style="list-style-type: decimal">
+<li>Local net productivity scaling (<strong>LNS</strong>). Current Net Primary Production relative to its potential.</li>
+</ol>
+<pre><code>?LNScaling
+
+# Productivity variable
+si &lt;- brick(paste0(variables_dir, &quot;/cyclicFraction.tif&quot;))    # Season integral (seasonal growth)
+
+LNScal &lt;- LNScaling(EFTs = EFTs, 
+                    ProdVar = si, 
+                    cores2use = 3,
+                    filename = &quot;LNScal.tif&quot;)</code></pre>
+<p> </p>
+<ol start="9" style="list-style-type: decimal">
+<li><strong>Land Productivity Dynamics Combined Assessment</strong>. The final product, a RasterLayer object.</li>
+</ol>
+<pre><code>?LPD_CombAssess
+
+LPD_finalMap &lt;- LPD_CombAssess(LandProd_change = &quot;Long_Term_Change_Map&quot;, 
+                               LandProd_current =  &quot;LNScal&quot;,
+                               filename = &quot;LPD_finalMap.tif&quot;)
+plot(LPD_finalMap)</code></pre>
+<p> </p>
+<p> </p>
+</div>
 <div id="references" class="section level3">
 <h3>References</h3>
-<p>Ivits, E., and M. Cherlet. 2013. “Land-Productivity Dynamics Towards Integrated Assessment of Land Degradation at Global Scales.” Technical Report EUR 26052. Joint Research Centre of the European Commission.</p>
+<ul>
+<li><p>FAO. 2019. “Trees, forests and land use in drylands: the first global assessment” – Full report. FAO Forestry Paper No. 184. Rome</p></li>
+<li><p>Ivits, E., and M. Cherlet. 2013. “Land-Productivity Dynamics Towards Integrated Assessment of Land Degradation at Global Scales.” Technical Report EUR 26052. Joint Research Centre of the European Commission.</p></li>
+<li><p>Middleton, N., L. Stringer, A. Goudie, and D. Thomas. 2011. “The Forgotten Billion. MDG Achievement in the Drylands.” New York, NY, 10017, USA: United Nations Development Programme.</p></li>
+</ul>
 </div>
 </div>
 
