@@ -24,7 +24,7 @@ install_github("xavi-rp/LPDynR")
 &nbsp;
 
 
-### Example
+### Example:
 
 ```
 library(LPDynR)

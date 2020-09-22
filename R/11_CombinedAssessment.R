@@ -5,7 +5,7 @@
 #' @author Xavier Rotllan-Puig
 #' @title LPD_CombAssess
 #' @description LPD_CombAssess combines a 'LandProd_change' map (RasterLayer) with a 'LandProd_current'
-#' map (RasterLayer), giving a 6-classes map ranging from declining to strongly increasing land
+#' map (RasterLayer), giving a 5-classes map ranging from declining to increasing land
 #' productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 50% of the
 #' highest local production (within the EFT) and pixels with more or equal to their 50%
 #' @details The Land Productivity Dynamics (LPD) is a qualitative indicator produced by the combined
@@ -61,8 +61,9 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
   LPD_CombAssess[LandProd_change %in% c(13:15)                                 ] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
   LPD_CombAssess[LandProd_change %in% c(16:17, 19)     & LandProd_current  < 50] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
   LPD_CombAssess[LandProd_change %in% c(18, 20:22)     & LandProd_current  < 50] <- 5      # 5(i): Increasing land productivity
-  LPD_CombAssess[LandProd_change %in% c(16:17, 19:20)  & LandProd_current >= 50] <- 5      # 5(i): Increasing land productivity
-  LPD_CombAssess[LandProd_change %in% c(18, 21:22)     & LandProd_current >= 50] <- 6      # 6(si): Strongly increasing land productivity
+  LPD_CombAssess[LandProd_change %in% c(16:22)         & LandProd_current >= 50] <- 5      # 5(i): Increasing land productivity
+  #LPD_CombAssess[LandProd_change %in% c(16:17, 19:20)  & LandProd_current >= 50] <- 5      # 5(i): Increasing land productivity
+  #LPD_CombAssess[LandProd_change %in% c(18, 21:22)     & LandProd_current >= 50] <- 6      # 6(si): Strongly increasing land productivity
   LPD_CombAssess[is.na(LandProd_change)] <- NA
 
   ## Saving results ####

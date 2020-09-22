@@ -9,8 +9,9 @@ Description: It uses phenological and productivity-related variables derived fro
     result of the LPD indicator is a categorical map with 6 classes of land productivity dynamics, ranging 
     from declining to strongly increasing productivity.
 Depends: R (>= 3.6.0)
-Imports: raster, dplyr, stats, data.table, virtualspecies
+Imports: raster, dplyr, stats, data.table, virtualspecies, magrittr
 Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
