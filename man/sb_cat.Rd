@@ -12,7 +12,7 @@
 \url{https://www.eea.europa.eu/data-and-maps}
 }
 \usage{
-sb_cat
+sb_cat <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 }
 \description{
 RasterBrick object containing time series of land productivity data (14400 cells; 17 layers).

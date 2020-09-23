@@ -13,6 +13,7 @@
 #'
 #'
 #' @docType data
+#' @usage sb_cat <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #'
 #' @format GeoTIFF. RasterBrick object with dimensions: 120, 120, 14400, 17  (nrow, ncol, ncell, nlayers)
 #' \describe{
@@ -41,6 +42,7 @@
 #'
 #'
 #' @docType data
+#' @usage sbd_cat <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))
 #'
 #' @format GeoTIFF. RasterBrick object with dimensions: 120, 120, 14400, 17  (nrow, ncol, ncell, nlayers)
 #' \describe{
@@ -68,6 +70,7 @@
 #'
 #'
 #' @docType data
+#' @usage sl_cat <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sl_cat.tif"))
 #'
 #' @format GeoTIFF. RasterBrick object with dimensions: 120, 120, 14400, 17  (nrow, ncol, ncell, nlayers)
 #' \describe{
