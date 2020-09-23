@@ -19,7 +19,7 @@ RasterLayer
 }
 \description{
 LPD_CombAssess combines a 'LandProd_change' map (RasterLayer) with a 'LandProd_current'
-map (RasterLayer), giving a 6-classes map ranging from declining to strongly increasing land
+map (RasterLayer), giving a 5-classes map ranging from declining to increasing land
 productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 50% of the
 highest local production (within the EFT) and pixels with more or equal to their 50%
 }
