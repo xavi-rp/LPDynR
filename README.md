@@ -1,6 +1,6 @@
 # LPDynR
 
-As part of the UN Sustainable Development Goal 15 (Life on Land), the indicator 15.3.1 is adopted to measure the Land Degradation Neutrality (stable —or increasing— state regarding the amount and quality of land resources required to support ecosystem functions and services and enhance food security during a certain period of time). It is a binary indicator (i.e. degraded/not degraded), expressed as the proportion (%) of land that is degraded over total land area, and is based on three sub-indicators: (1) Trends in Land Cover, (2) Land Productivity and (3) Carbon Stocks. 
+As part of the UN Sustainable Development Goal 15 (Life on Land), the [indicator 15.3.1](https://knowledge.unccd.int/topics/sustainable-development-goals-sdgs/sdg-indicator-1531) is adopted to measure the Land Degradation Neutrality (stable —or increasing— state regarding the amount and quality of land resources required to support ecosystem functions and services and enhance food security during a certain period of time). It is a binary indicator (i.e. degraded/not degraded), expressed as the proportion (%) of land that is degraded over total land area, and is based on three sub-indicators: (1) Trends in Land Cover, (2) Land Productivity and (3) Carbon Stocks. 
 
 The Land Productivity sub-indicator (LP) refers to the total above-ground Net Primary Production and reflects changes in health and productive capacity of the land. Its declining trends can be usually understood as land degradation. LP is calculated using the Land Productivity Dynamics (LPD) approach, first developed by Ivits and Cherlet (2013). The LPD approach uses phenological and productivity variables derived from time series of remote sensed imagery, particularly the normalized difference vegetation index (NDVI), to estimate ecosystem dynamics and change. 
 
@@ -24,152 +24,37 @@ install_github("xavi-rp/LPDynR")
 &nbsp;
 
 
-### Example:
+### Examples:
+
+After installing the package, you can check the vignettes for examples on how to calculate the LPD indicator using *LPDynR*.
 
 ```
 library(LPDynR)
-```
-
-Loading a land productivity variable derived from Earth Observation imagery. A RasterBrick or RasterStack object with time series (each layer is one year).
-```
-variables_dir <- "yourDirectoryPath/"   # directory where land productivity and phenological variables are (RasterBrick or RasterStack objects with time series)
-
-sb <- brick(paste0(variables_dir, "/standingBiomass.tif"))    # Standing biomass (integral between the two minimas)
+vignette(package = "LPDynR")  # to see available vignettes
 ```
 &nbsp;
 
 
-1) **Steadiness Index** (trend tendency + net change).
-```
-?steadiness
+In the vignette *LPD_simple_example* we show a simple example on how to run the functions included in the *LPDynR* package to calculate the indicator from scratch. It uses the data set included in the package, but also you can use your own data.
 
-SteadInd <- steadiness(obj2process = sb, 
-                       cores2use = 3,  # for parallel processing
-                       filename = "SteadInd.tif")
+```
+vignette(topic = "LPD_simple_example", package = "LPDynR")
 ```
 &nbsp;
 
 
-2) **Baseline Level**. The user has to define the proportion of drylands over the total land. As examples, in Europe drylands cover 20% of total land (FAO, 2019); globally, 40 percent of the World’s land resources are drylands (Middleton et al., 2011).
+The LPD indicator shows the dynamics of the land productivity giving higher importance to the point at which we are now and where we come from (i.e. the very last year of the time series and the first ones). To better understand the dynamics along the time series as well as the final result, the user might want to calculate several "partial indicators" using only part of the time series in addition to the one for the whole data set. In the vignette *LPD_PartialTimeSeries_example* we show an example on how to calculate these "partial indicators". 
+
 
 ```
-?baseline_lev
-
-Baseline_Level <- baseline_lev(obj2process = sb, 
-                               yearsBaseline = 3, 
-                               drylandProp = 0.4,    # 40% of total land 
-                               cores2use = 3, 
-                               filename = "Baseline_Level.tif")
+vignette(topic = "LPD_PartialTimeSeries_example", package = "LPDynR")
 ```
 &nbsp;
 
 
-3) **State Change**.
-```
-?state_change
-
-State_Change <- state_change(obj2process = sb, 
-                             yearsBaseline = 3, 
-                             cores2use = 3,
-                             filename = "State_Change.tif")
-```
-&nbsp;
-
-
-4) **Long Term Change Map**.
-```
-?LongTermChange
-
-Long_Term_Change_Map <- LongTermChange(SteadinessIndex = SteadInd, 
-                                       BaselineLevels = Baseline_Level,
-                                       StateChange = State_Change, 
-                                       filename = "Long_Term_Change_Map.tif")
-```
-&nbsp;
-
-
-5) Renoving multicollinearity among variables.
-```
-?rm_multicol
-
-variables_noCor <- rm_multicol(dir2process = variables_dir,    
-                               multicol_cutoff = 0.7, 
-                               cores2use = 3,
-                               filename = "variables_noCor.tif")
-```
-&nbsp;
-
-
-6) PCAs: Preparing variables for clustering.
-```
-?PCAs4clust
-
-pca_final_brick <- PCAs4clust(obj2process = variables_noCor, 
-                              cumul_var_threshold = 0.9,
-                              filename = "pca_final_brick.tif")
-```
-&nbsp;
-
-
-7) Ecosystem Functional Types (**EFTs**).
-```
-?clust_optim
-?EFT_clust
-
-# Producing a scree plot with number of cluster at x-axis and total within-cluster sum of squares at y-axis.
-# The 'scree plot method' allows the user to assess how the quality of the K-means clustering improves when 
-# increasing the number of clusters. An elbow in the curve indicates the optimal number of clusters
-
-jpeg("OptimalNumClusters.jpg")
-clust_optim(obj2clust = pca_final_brick, 
-            num_clstrs = seq(5, 50, 5))
-dev.off()
-
-
-# Deriving EFTs with the optimal number of clusters calculated before
-
-EFTs <- EFT_clust(obj2clust = pca_final_brick, 
-                  n_clust = 12, 
-                  nstart = 5,  
-                  algorithm = "Hartigan-Wong",
-                  filename = "EFTs.tif")
-```
-&nbsp;
-
-
-8) Local net productivity scaling (**LNS**). Current Net Primary Production relative to its potential.
-```
-?LNScaling
-
-# Productivity variable
-si <- brick(paste0(variables_dir, "/cyclicFraction.tif"))    # Season integral (seasonal growth)
-
-LNScal <- LNScaling(EFTs = EFTs, 
-                    ProdVar = si, 
-                    cores2use = 3,
-                    filename = "LNScal.tif")
-```
-&nbsp;
-
-
-9) **Land Productivity Dynamics Combined Assessment**. The final product, a RasterLayer object.
-```
-?LPD_CombAssess
-
-LPD_finalMap <- LPD_CombAssess(LandProd_change = "Long_Term_Change_Map", 
-                               LandProd_current =  "LNScal",
-                               filename = "LPD_finalMap.tif")
-plot(LPD_finalMap)
-```
-
-&nbsp;
 
 &nbsp;
 
 ### References
 
-- FAO. 2019. “Trees, forests and land use in drylands: the first global assessment” – Full report. FAO Forestry Paper No. 184. Rome
-
 - Ivits, E., and M. Cherlet. 2013. “Land-Productivity Dynamics Towards Integrated Assessment of Land Degradation at Global Scales.” Technical Report EUR 26052. Joint Research Centre of the European Commission.
-
-- Middleton, N., L. Stringer, A. Goudie, and D. Thomas. 2011. “The Forgotten Billion. MDG Achievement in the Drylands.” New York, NY, 10017, USA: United Nations Development Programme.
