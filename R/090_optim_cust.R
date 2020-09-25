@@ -9,7 +9,7 @@
 #' K-means clustering improves when increasing the number of clusters. An elbow in the curve
 #' indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}
 #' @import raster
-#' @importFrom stats kmeans
+#' @importFrom stats kmeans complete.cases var
 #' @param obj2clust RasterStack or RasterBrick object (or its file name). Each layer is one variable
 #' @param num_clstrs Numeric. Optional. Vector with a sequence of number of clusters to check for optimal
 #' @param ... Optional. Arguments for \code{\link[stats]{kmeans}}

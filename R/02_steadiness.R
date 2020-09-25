@@ -41,17 +41,17 @@ steadiness <- function(obj2process = NULL,
   #obj2process <- stack(paste0("/Users/xavi_rp/Documents/D6_LPD/phenolo_data_Cat", "/mi_clean_Cat.tif"))
 
   ## Fitting a linear regression and getting the slope
-  yrs <<- 1:nlayers(obj2process)
-
   beginCluster(cores2use)
-  slope_rstr <- clusterR(obj2process, calc, args = list(fun = LPDynR:::slp_lm), export = "yrs")
+  yrs <- c()
+  yrs <<- 1:nlayers(obj2process)
+  slope_rstr <- clusterR(obj2process, calc, args = list(fun = slp_lm), export = "yrs")
   endCluster()
 
 
   ## Computing net change: MTID (Multi Temporal Image Differencing)
   beginCluster(cores2use)
   #years <<- length(yrs)
-  mtid_rstr <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mtid_function))#, export = "years")
+  mtid_rstr <- clusterR(obj2process, calc, args = list(fun = mtid_function))#, export = "years")
   endCluster()
 
 

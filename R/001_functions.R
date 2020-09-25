@@ -1,3 +1,5 @@
+# global variables
+utils::globalVariables(c("yrs", "EFT", "rn"))
 
 
 #### Compilation of functions used in the project ####
@@ -11,7 +13,7 @@ slp_lm <- function(x){
   } else if (sum(!is.na(x)) == 1){
     slp <- 0
   } else {
-    slp <- lm(x ~ yrs)$coefficients[2]
+    slp <- stats::lm(x ~ yrs)$coefficients[2]
   }
   return(slp)
 }

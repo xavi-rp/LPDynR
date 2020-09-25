@@ -12,7 +12,7 @@
 \url{https://www.eea.europa.eu/data-and-maps}
 }
 \usage{
-sbd_cat <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))
+raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))
 }
 \description{
 RasterBrick object containing time series of phenological data (14400 cells; 17 layers).

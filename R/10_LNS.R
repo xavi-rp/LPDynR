@@ -66,11 +66,13 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
     ProdVar_average <- ProdVar
   }else if(nlayers(ProdVar) <= 4){
     beginCluster(cores2use)
+    yrs <- c()
     yrs <<- (1:nlayers(ProdVar))
     ProdVar_average <- clusterR(ProdVar, calc, args = list(fun = mean_years_function), export = "yrs")
     endCluster()
   }else if(nlayers(ProdVar) > 4){
     beginCluster(cores2use)
+    yrs <- c()
     yrs <<- (nlayers(ProdVar) - 4):nlayers(ProdVar)
     ProdVar_average <- clusterR(ProdVar, calc, args = list(fun = mean_years_function), export = "yrs")
     endCluster()
@@ -120,7 +122,6 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
   LocalNetProductivity_rstr <- setValues(ProdVar, ProdVar_average_df$LSP)
   names(LocalNetProductivity_rstr) <- "CurrentScaledNetProd"
 
-  rm(list = c("yrs"), envir = globalenv())
   if (filename != "") writeRaster(LocalNetProductivity_rstr, filename = filename, overwrite = TRUE)
   return(LocalNetProductivity_rstr)
 

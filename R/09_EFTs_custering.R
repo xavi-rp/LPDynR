@@ -12,8 +12,8 @@
 #' EFT_clust passes as default to \code{\link[stats]{kmeans}} iter.max = 500 and algorithm = "MacQueen", but these can be
 #' modified passing these arguments through '...'
 #' @import raster
+#' @importFrom stats complete.cases kmeans
 #' @importFrom dplyr bind_rows
-#' @importFrom stats kmeans
 #' @param obj2clust RasterStack or RasterBrick object (or its file name). Each layer is one variable
 #' @param n_clust Numeric. Number of total clusters. Optional. Default = 20
 #' @param filename Character. Output filename. Optional

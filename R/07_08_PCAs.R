@@ -11,8 +11,8 @@
 #' is run with the results of the 'screening PCA' (i.e. number of PC axes and their most associated
 #' variables). PCAs4clust uses \code{\link[stats]{prcomp}} to run PCAs
 #' @import raster
-#' @importFrom stats prcomp
-#' @importFrom data.table rbindlist setorderv
+#' @importFrom stats na.omit varimax prcomp
+#' @importFrom data.table rbindlist setorderv :=
 #' @param obj2process Raster* object (or its file name). Each layer is one variable
 #' @param cumul_var_threshold Numeric. Optional (default = 0.9). Threshold of cumulative variance
 #' to select the number of useful PCs

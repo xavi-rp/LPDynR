@@ -63,6 +63,7 @@ rm_multicol <- function(dir2process = NULL,
     ## Calculating averages
     # Average is calculated over ALL the available years, but this might be included as an argument
     beginCluster(cores2use)   # it uses n - 1 clusters
+    yrs <- c()
     yrs <<- 1:nlayers(var2process)
     rstr_average <- clusterR(var2process, calc, args = list(fun = mean_years_function), export = "yrs")
     endCluster()

@@ -51,8 +51,9 @@ baseline_lev <- function(obj2process = NULL,
 
   ## Averaging first years
   beginCluster(cores2use)
+  yrs <- c()
   yrs <<- 1:yearsBaseline
-  obj2process_avg13 <- clusterR(obj2process, calc, args = list(fun = LPDynR:::mean_years_function), export = "yrs")
+  obj2process_avg13 <- clusterR(obj2process, calc, args = list(fun = mean_years_function), export = "yrs")
   endCluster()
 
   #some checks...
@@ -92,7 +93,6 @@ baseline_lev <- function(obj2process = NULL,
   obj2process_3class <- reclassify(obj2process_avg13, rcl = pix_categs1, filename = '', include.lowest = FALSE, right = TRUE)
 
   ## Saving results
-  rm(list = c("yrs"), envir = globalenv())
   if (filename != "") writeRaster(obj2process_3class, filename = filename, overwrite = TRUE)
   return(obj2process_3class)
 
