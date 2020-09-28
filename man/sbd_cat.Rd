@@ -12,7 +12,7 @@
 \url{https://www.eea.europa.eu/data-and-maps}
 }
 \usage{
-raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))
+sbd_cat
 }
 \description{
 RasterBrick object containing time series of phenological data (14400 cells; 17 layers).
@@ -26,6 +26,10 @@ Coord. ref. : +proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GR
 Resolution  : 500, 500  (x, y)
 
 Extent      : 3620000, 3680000, 2110000, 2170000  (xmin, xmax, ymin, ymax)
+}
+\examples{
+raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))
+
 }
 \references{
 \url{https://www.eea.europa.eu/data-and-maps/data/annual-start-of-vegetation-growing}
