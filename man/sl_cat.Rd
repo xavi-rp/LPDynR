@@ -28,7 +28,7 @@ Resolution  : 500, 500  (x, y)
 Extent      : 3620000, 3680000, 2110000, 2170000  (xmin, xmax, ymin, ymax)
 }
 \examples{
-raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sl_cat.tif"))
+\dontrun{raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sl_cat.tif"))}
 
 }
 \references{
