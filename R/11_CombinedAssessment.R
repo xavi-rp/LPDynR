@@ -75,7 +75,7 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
     ## Reclassification of 'LandProd_change' ####
     LPD_CombAssess <- LandProd_change
     LPD_CombAssess[LandProd_change %in% c(1:6, 8:9)      ] <- 1      # 1(d): Declining land productivity
-    LPD_CombAssess[LandProd_change %in% c(1:2, 4:5, 8:9) ] <- 2      # 2(ew): Early signs of decline of land productivity
+    LPD_CombAssess[LandProd_change %in% c(7)             ] <- 2      # 2(ew): Early signs of decline of land productivity
     LPD_CombAssess[LandProd_change %in% c(10:12)         ] <- 3      # 3(nf): Negative fluctuation (stable, but stressed land prod.)
     LPD_CombAssess[LandProd_change %in% c(13:15)         ] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
     LPD_CombAssess[LandProd_change %in% c(16:17, 19)     ] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
