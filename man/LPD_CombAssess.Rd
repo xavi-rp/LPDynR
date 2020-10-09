@@ -21,7 +21,9 @@ RasterLayer
 LPD_CombAssess combines a 'LandProd_change' map (RasterLayer) with a 'LandProd_current'
 map (RasterLayer), giving a 5-classes map ranging from declining to increasing land
 productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 50% of the
-highest local production (within the EFT) and pixels with more or equal to their 50%
+highest local production (within the EFT) and pixels with more or equal to their 50%.
+If 'LandProd_current' = NULL, 'LandProd_change' is directly reclassified into the same 5-classes map
+without using 'LandProd_current'. See the ATBD for the way pixels are reclassified
 }
 \details{
 The Land Productivity Dynamics (LPD) is a qualitative indicator produced by the combined
