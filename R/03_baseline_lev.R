@@ -8,12 +8,14 @@
 #' @details baseline_lev() uses the proportion of drylands over the total land ('drylandProp') to classify the level of productivity into
 #' low level. UNPD declares that 40 percent of the World’s land resources are drylands (Middleton et al., 2011) and, therefore, 40 percent
 #' of pixels at the global level can be classified as low productivity land. This assumption is the default, but it should be adjusted for
-#' local and regional studies. In addition, baseline_lev() classifies 10 percent of pixels as high level of land productivity and the rest
-#' (100 - ('drylandProp' + 10)) as medium level.
+#' local and regional studies. In addition, baseline_lev() classifies by default 10 percent of pixels as high level of land productivity
+#' and the rest (100 - ('drylandProp' + 10)) as medium level. Proportion of pixels classified as 'high' can be also modified by passing the
+#' argument 'highprodProp'
 #' @import raster parallel
 #' @param obj2process Raster* object (or its file name). If time series, each layer is one year
 #' @param yearsBaseline Numeric. Number of years to be averaged and used as baseline. Optional. Default is 3
 #' @param drylandProp Numeric. Proportion of drylands over total land, either expressed as a fraction of unity or percentage. Optional. Default is 0.4
+#' @param highprodProp Numeric. Proportion of land classified as 'highly productive' over total land, either expressed as a fraction of unity or percentage. Optional. Default is 0.1
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @param filename Character. Output filename. Optional
 #' @return RasterLayer object
@@ -33,6 +35,7 @@
 baseline_lev <- function(obj2process = NULL,
                          yearsBaseline = 3,
                          drylandProp = 0.4,
+                         highprodProp = 0.1,
                          cores2use = 1,
                          filename = ""){
 
@@ -83,9 +86,20 @@ baseline_lev <- function(obj2process = NULL,
   }else if(drylandProp == 1 | drylandProp == 100){
     drylandProp <- 10
   }
-  otherLand <- 9 - drylandProp
-  #pix_categs1$becomes <- 1:(length(pix_categs) - 1)
-  pix_categs1$becomes <- c(rep(1, drylandProp), rep(2, otherLand), 3)
+  if(highprodProp > 100){
+    stop("Proportion of land classified as highgly productive ('highprodProp') must be < 100%")
+  }else if(highprodProp > 1){
+    highprodProp <- round((highprodProp / 10), 0)
+  }else if(highprodProp < 1){
+    highprodProp <- round((highprodProp * 10), 0)
+  }else if(highprodProp == 1 | highprodProp == 100){
+    highprodProp <- 10
+  }
+  if(highprodProp + drylandProp > 10) stop("'highprodProp' + 'drylandProp' cannot be > 100%")
+
+  otherLand <- 10 - highprodProp - drylandProp
+
+  pix_categs1$becomes <- c(rep(1, drylandProp), rep(2, otherLand), rep(3, highprodProp))
   pix_categs1 <- pix_categs1[, c(2, 1, 3)]
   names(pix_categs1)[2] <- "to"
   pix_categs1[1, 1] <- pix_categs1[1, 1] - 1
