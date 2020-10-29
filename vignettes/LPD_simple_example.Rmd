@@ -87,6 +87,7 @@ SteadInd <- steadiness(obj2process = sb,
 Baseline_Level <- baseline_lev(obj2process = sb, 
                                yearsBaseline = 3, 
                                drylandProp = 0.4,    # 40% of total land 
+                               highprodProp = 0.1,   # 10% of total land
                                cores2use = 3, 
                                filename = "Baseline_Level.tif")
 ```
@@ -162,6 +163,9 @@ EFTs <- EFT_clust(obj2clust = pca_final_brick,
                   nstart = 5,  
                   algorithm = "Hartigan-Wong",
                   filename = "EFTs.tif")
+
+clust_eval <- EFTs[[2]]     # Evaluation of clustering performance
+EFTs <- EFTs[[1]]           # RasterLayer object with the clusters (i.e. EFTs)
 ```
 &nbsp;
 
