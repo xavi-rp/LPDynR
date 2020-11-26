@@ -9,10 +9,34 @@
 #' productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 50% of the
 #' highest local production (within the EFT) and pixels with more or equal to their 50%.
 #' If 'LandProd_current' = NULL, 'LandProd_change' is directly reclassified into the same 5-classes map
-#' without using 'LandProd_current'. See the ATBD for the way pixels are reclassified
-#' @details The Land Productivity Dynamics (LPD) is a qualitative indicator produced by the combined
-#' assessment of the Land Productivity Long Term Change Map and the Land Productivity Current
-#' Status Map
+#' without using 'LandProd_current'. See the ATBD for the way pixels are reclassified.
+#'
+#' @details
+#' LandProd_change c(1:6, 8:9)       &  LandProd_current  < 50  <- 1 Declining land productivity
+#'
+#' LandProd_change c(3, 6)           &  LandProd_current >= 50  <- 1 Declining land productivity
+#'
+#' LandProd_change c(7)              &  LandProd_current  < 50  <- 2 Early signs of decline of land productivity
+#'
+#' LandProd_change c(1:2, 4:5, 8:9)  &  LandProd_current >= 50  <- 2 Early signs of decline of land productivity
+#'
+#' LandProd_change c(7)              &  LandProd_current >= 50  <- 3 Negative fluctuation (stable, but stressed land prod.)
+#'
+#' LandProd_change c(10:12)                                     <- 3 Negative fluctuation (stable, but stressed land prod.)
+#
+#' LandProd_change c(13:15)                                     <- 4 Positive fluctuation (stable, not stressed land prod.)
+#'
+#' LandProd_change c(16:17, 19)      &  LandProd_current  < 50  <- 4 Positive fluctuation (stable, not stressed land prod.)
+#'
+#' LandProd_change c(18, 20:22)      &  LandProd_current  < 50  <- 5 Increasing land productivity
+#'
+#' LandProd_change c(16:22)          &  LandProd_current >= 50  <- 5 Increasing land productivity
+#'
+#'
+#' Values = 0 in the final map indicates that there is a scarcity of data in the productivity variable
+#' (i.e. only 1 year with data), so that the indicator cannot be calculated
+#'
+#'
 #' @import raster
 #' @param LandProd_change RasterLayer object (or its file name). Land Productivity Long Term Change Map
 #' @param LandProd_current RasterLayer object (or its file name). Land Productivity Current Status Map
@@ -53,7 +77,7 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
       stop("LandProd_change and LandProd_current must have same extent and resolution")
 
     ## Combined Assessment ####
-    LPD_CombAssess <- LandProd_current
+    LPD_CombAssess <- LandProd_change
     LPD_CombAssess[LandProd_change %in% c(1:6, 8:9)      & LandProd_current  < 50] <- 1      # 1(d): Declining land productivity
     LPD_CombAssess[LandProd_change %in% c(3, 6)          & LandProd_current >= 50] <- 1      # 1(d): Declining land productivity
     LPD_CombAssess[LandProd_change %in% c(7)             & LandProd_current  < 50] <- 2      # 2(ew): Early signs of decline of land productivity

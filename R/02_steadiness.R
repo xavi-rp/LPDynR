@@ -7,7 +7,11 @@
 #' @details The Steadiness Index is based on the combination of two metrics calculated per pixel: (1) the slope derived
 #' from a linear regression of the different years of the time series and (2) the net change on the same period. It
 #' results in a 4-class RasterLayer object ranging from (1) strong negative to (4) strong positive ecosystem dynamics.
-#' See Ivits et al. (2013) for further explanations
+#' See Ivits et al. (2013) for further explanations.
+#'
+#' Values = 0 in the final map indicates that there is a scarcity of data in the productivity variable
+#' (i.e. only 1 year with data), so that the indicator cannot be calculated
+#'
 #' @import raster parallel
 #' @param obj2process Raster* object (or its file name). If time series, each layer is one year
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)

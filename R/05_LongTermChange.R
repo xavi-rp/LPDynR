@@ -22,7 +22,7 @@
 #'
 #' St1-high-Change 1 categ  <- 8
 #'
-#' t1-high-Change 2 or more categs  <- 9
+#' St1-high-Change 2 or more categs  <- 9
 #'
 #' St2-low-No Change  <- 10
 #'
@@ -77,6 +77,10 @@
 #' St4-high-Change 1 categ  <- 22
 #'
 #' St4-high-Change 2 or more categs  <- 22
+#'
+#' Values = 0 in the final map indicates that there is a scarcity of data in the productivity variable
+#' (i.e. only 1 year with data), so that the indicator cannot be calculated
+#'
 #' @import raster
 #' @importFrom data.table as.data.table setkeyv
 #' @importFrom dplyr group_by summarise_at
