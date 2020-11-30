@@ -130,7 +130,7 @@ LongTermChange <- function(SteadinessIndex = NULL,
 
 
   ## Combining Steadiness Index with baseline levels
-  SteadInd_Baseline <- raster(SteadinessIndex)
+  SteadInd_Baseline <- SteadinessIndex
 
   SteadInd_Baseline[SteadinessIndex == 1 & BaselineLevels == 1] <- 1    # Steadiness Index 1 (Strong Negative) - Base Line Level 1 (low)      -> St1-low
   SteadInd_Baseline[SteadinessIndex == 1 & BaselineLevels == 2] <- 2    # Steadiness Index 1 (Strong Negative) - Base Line Level 2 (medium)   -> St1-medium
