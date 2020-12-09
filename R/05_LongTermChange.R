@@ -128,7 +128,10 @@ LongTermChange <- function(SteadinessIndex = NULL,
     stop("Please provide objects of classe RasterLayer for 'StateChange' (or a file name to read in from)")
   }
 
-
+  ## Creating a directory in temp
+  if(!dir.exists(paste0(tempdir(), "/LPDynR/"))) dir.create(paste0(tempdir(), "/LPDynR/"))
+  
+  
   ## Combining Steadiness Index with baseline levels
   SteadInd_Baseline <- SteadinessIndex
 
@@ -136,17 +139,32 @@ LongTermChange <- function(SteadinessIndex = NULL,
   SteadInd_Baseline[SteadinessIndex == 1 & BaselineLevels == 2] <- 2    # Steadiness Index 1 (Strong Negative) - Base Line Level 2 (medium)   -> St1-medium
   SteadInd_Baseline[SteadinessIndex == 1 & BaselineLevels == 3] <- 3    # Steadiness Index 1 (Strong Negative) - Base Line Level 3 (high)     -> St1-high
   SteadInd_Baseline[SteadinessIndex == 2 & BaselineLevels == 1] <- 4    # Steadiness Index 2 (Moderate Negative) - Base Line Level 1 (low)    -> St2-low
+  # cleaning up to free up memory
+  writeRaster(SteadInd_Baseline, filename = paste0(tempdir(), "/LPDynR/SteadInd_Baseline.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  SteadInd_Baseline <- raster(paste0(tempdir(), "/LPDynR/SteadInd_Baseline.tif"))
+  
   SteadInd_Baseline[SteadinessIndex == 2 & BaselineLevels == 2] <- 5    # Steadiness Index 2 (Moderate Negative) - Base Line Level 2 (medium) -> St2-medium
   SteadInd_Baseline[SteadinessIndex == 2 & BaselineLevels == 3] <- 6    # Steadiness Index 2 (Moderate Negative) - Base Line Level 3 (high)   -> St2-high
   SteadInd_Baseline[SteadinessIndex == 3 & BaselineLevels == 1] <- 7    # Steadiness Index 3 (Moderate Positive) - Base Line Level 1 (low)    -> St3-low
   SteadInd_Baseline[SteadinessIndex == 3 & BaselineLevels == 2] <- 8    # Steadiness Index 3 (Moderate Positive) - Base Line Level 2 (medium) -> St3-medium
+  # cleaning up to free up memory
+  writeRaster(SteadInd_Baseline, filename = paste0(tempdir(), "/LPDynR/SteadInd_Baseline.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  SteadInd_Baseline <- raster(paste0(tempdir(), "/LPDynR/SteadInd_Baseline.tif"))
+  
   SteadInd_Baseline[SteadinessIndex == 3 & BaselineLevels == 3] <- 9    # Steadiness Index 3 (Moderate Positive) - Base Line Level 3 (high)   -> St3-high
   SteadInd_Baseline[SteadinessIndex == 4 & BaselineLevels == 1] <- 10   # Steadiness Index 4 (Strong Positive) - Base Line Level 1 (low)     -> St4-low
   SteadInd_Baseline[SteadinessIndex == 4 & BaselineLevels == 2] <- 11   # Steadiness Index 4 (Strong Positive) - Base Line Level 2 (medium)  -> St4-medium
   SteadInd_Baseline[SteadinessIndex == 4 & BaselineLevels == 3] <- 12   # Steadiness Index 4 (Strong Positive) - Base Line Level 3 (high)    -> St4-high
-
-
-
+  
+  # cleaning up to free up memory
+  writeRaster(SteadInd_Baseline, filename = paste0(tempdir(), "/LPDynR/SteadInd_Baseline.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  SteadInd_Baseline <- raster(paste0(tempdir(), "/LPDynR/SteadInd_Baseline.tif"))
+  
+  
+  
   ## Reclassifying into long term change categories (22)
   LandProd_change <- SteadInd_Baseline
 
@@ -154,39 +172,85 @@ LongTermChange <- function(SteadinessIndex = NULL,
   LandProd_change[SteadInd_Baseline == 1 & StateChange == 2] <- 2      #St1-low-Change 1 categ
   LandProd_change[SteadInd_Baseline == 1 & StateChange == 3] <- 3      #St1-low-Change 2 or more categs
   LandProd_change[SteadInd_Baseline == 2 & StateChange == 1] <- 4      #St1-medium-No Change
+  # cleaning up to free up memory
+  writeRaster(LandProd_change, filename = paste0(tempdir(), "/LPDynR/LandProd_change.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  LandProd_change <- raster(paste0(tempdir(), "/LPDynR/LandProd_change.tif"))
+  
   LandProd_change[SteadInd_Baseline == 2 & StateChange == 2] <- 5      #St1-medium-Change 1 categ
   LandProd_change[SteadInd_Baseline == 2 & StateChange == 3] <- 6      #St1-medium-Change 2 or more categs
   LandProd_change[SteadInd_Baseline == 3 & StateChange == 1] <- 7      #St1-high-No Change
   LandProd_change[SteadInd_Baseline == 3 & StateChange == 2] <- 8      #St1-high-Change 1 categ
+  # cleaning up to free up memory
+  writeRaster(LandProd_change, filename = paste0(tempdir(), "/LPDynR/LandProd_change.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  LandProd_change <- raster(paste0(tempdir(), "/LPDynR/LandProd_change.tif"))
+  
   LandProd_change[SteadInd_Baseline == 3 & StateChange == 3] <- 9      #St1-high-Change 2 or more categs
   LandProd_change[SteadInd_Baseline == 4 & StateChange == 1] <- 10     #St2-low-No Change
   LandProd_change[SteadInd_Baseline == 4 & StateChange == 2] <- 10     #St2-low-Change 1 categ
   LandProd_change[SteadInd_Baseline == 4 & StateChange == 3] <- 10     #St2-low-Change 2 or more categs
+  # cleaning up to free up memory
+  writeRaster(LandProd_change, filename = paste0(tempdir(), "/LPDynR/LandProd_change.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  LandProd_change <- raster(paste0(tempdir(), "/LPDynR/LandProd_change.tif"))
+  
   LandProd_change[SteadInd_Baseline == 5 & StateChange == 1] <- 11     #St2-medium-No Change
   LandProd_change[SteadInd_Baseline == 5 & StateChange == 2] <- 11     #St2-medium-Change 1 categ
   LandProd_change[SteadInd_Baseline == 5 & StateChange == 3] <- 11     #St2-medium-Change 2 or more categs
   LandProd_change[SteadInd_Baseline == 6 & StateChange == 1] <- 12     #St2-high-No Change
+  # cleaning up to free up memory
+  writeRaster(LandProd_change, filename = paste0(tempdir(), "/LPDynR/LandProd_change.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  LandProd_change <- raster(paste0(tempdir(), "/LPDynR/LandProd_change.tif"))
+  
   LandProd_change[SteadInd_Baseline == 6 & StateChange == 2] <- 12     #St2-high-Change 1 categ
   LandProd_change[SteadInd_Baseline == 6 & StateChange == 3] <- 12     #St2-high-Change 2 or more categs
   LandProd_change[SteadInd_Baseline == 7 & StateChange == 1] <- 13     #St3-low-No Change
   LandProd_change[SteadInd_Baseline == 7 & StateChange == 2] <- 13     #St3-low-Change 1 categ
+  # cleaning up to free up memory
+  writeRaster(LandProd_change, filename = paste0(tempdir(), "/LPDynR/LandProd_change.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  LandProd_change <- raster(paste0(tempdir(), "/LPDynR/LandProd_change.tif"))
+  
   LandProd_change[SteadInd_Baseline == 7 & StateChange == 3] <- 13     #St3-low-Change 2 or more categs
   LandProd_change[SteadInd_Baseline == 8 & StateChange == 1] <- 14     #St3-medium-No Change
   LandProd_change[SteadInd_Baseline == 8 & StateChange == 2] <- 14     #St3-medium-Change 1 categ
   LandProd_change[SteadInd_Baseline == 8 & StateChange == 3] <- 14     #St3-medium-Change 2 or more categs
+  # cleaning up to free up memory
+  writeRaster(LandProd_change, filename = paste0(tempdir(), "/LPDynR/LandProd_change.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  LandProd_change <- raster(paste0(tempdir(), "/LPDynR/LandProd_change.tif"))
+  
   LandProd_change[SteadInd_Baseline == 9 & StateChange == 1] <- 15     #St3-high-No Change
   LandProd_change[SteadInd_Baseline == 9 & StateChange == 2] <- 15     #St3-high-Change 1 categ
   LandProd_change[SteadInd_Baseline == 9 & StateChange == 3] <- 15     #St3-high-Change 2 or more categs
   LandProd_change[SteadInd_Baseline == 10 & StateChange == 1] <- 16    #St4-low-No Change
+  # cleaning up to free up memory
+  writeRaster(LandProd_change, filename = paste0(tempdir(), "/LPDynR/LandProd_change.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  LandProd_change <- raster(paste0(tempdir(), "/LPDynR/LandProd_change.tif"))
+  
   LandProd_change[SteadInd_Baseline == 10 & StateChange == 2] <- 17    #St4-low-Change 1 categ
   LandProd_change[SteadInd_Baseline == 10 & StateChange == 3] <- 18    #St4-low-Change 2 or more categs
   LandProd_change[SteadInd_Baseline == 11 & StateChange == 1] <- 19    #St4-medium-No Change
   LandProd_change[SteadInd_Baseline == 11 & StateChange == 2] <- 20    #St4-medium-Change 1 categ
+  # cleaning up to free up memory
+  writeRaster(LandProd_change, filename = paste0(tempdir(), "/LPDynR/LandProd_change.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  LandProd_change <- raster(paste0(tempdir(), "/LPDynR/LandProd_change.tif"))
+  
   LandProd_change[SteadInd_Baseline == 11 & StateChange == 3] <- 21    #St4-medium-Change 2 or more categs
   LandProd_change[SteadInd_Baseline == 12 & StateChange == 1] <- 22    #St4-high-No Change
   LandProd_change[SteadInd_Baseline == 12 & StateChange == 2] <- 22    #St4-high-Change 1 categ
   LandProd_change[SteadInd_Baseline == 12 & StateChange == 3] <- 22    #St4-high-Change 2 or more categs
   LandProd_change[is.na(StateChange)] <- NA
+  
+  # cleaning up to free up memory
+  writeRaster(LandProd_change, filename = paste0(tempdir(), "/LPDynR/LandProd_change.tif"), overwrite = TRUE)
+  removeTmpFiles(h = 0)
+  LandProd_change <- raster(paste0(tempdir(), "/LPDynR/LandProd_change.tif"))
+  
 
   ## Saving results
   if (filename != "") writeRaster(LandProd_change, filename = filename, overwrite = TRUE)
