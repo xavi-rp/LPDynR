@@ -24,7 +24,7 @@ LNScaling (Local Net Productivity Scaling) uses a productivity variable
 (Raster*), e.g. season growth, to calculate the actual status of land productivity
 relative to its potential in homogeneous land areas or Ecosystem Functional Types
 (RasterLayer). If the productivity variable 'ProdVar' is a RasterStack or RasterBrick
-object with time series, it is calculated the average of the last 4 years
+object with time series, it is calculated the average of the last 5 years
 }
 \details{
 The Local Net Primary Production Scaling (LNS) method (Prince, 2009) calculates
