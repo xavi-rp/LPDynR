@@ -1,7 +1,7 @@
 #' Standing Biomass
 #'
-#' RasterBrick object containing time series of land productivity data (14400 cells; 17 layers).
-#' Years 2000-2016. The variable has been derived from MODIS using Timesat
+#' RasterBrick object containing time series of land productivity data (400 cells; 10 layers).
+#' Years 2000-2009. The variable has been derived from MODIS using Timesat
 #'
 #' Downloaded from www.eea.europa.eu (20/08/2020)
 #'
@@ -9,13 +9,13 @@
 #'
 #' Resolution  : 500, 500  (x, y)
 #'
-#' Extent      : 3620000, 3680000, 2110000, 2170000  (xmin, xmax, ymin, ymax)
+#' Extent      : 3640000, 3650000, 2140000, 2150000  (xmin, xmax, ymin, ymax)
 #'
 #'
 #' @docType data
-#' @examples \dontrun{ raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))}
+#' @examples raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #'
-#' @format GeoTIFF. RasterBrick object with dimensions: 120, 120, 14400, 17  (nrow, ncol, ncell, nlayers)
+#' @format GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 #' \describe{
 #'   \item{sb_cat}{Standing biomass}
 #' }
@@ -29,8 +29,8 @@
 
 #' Season Beginning Day
 #'
-#' RasterBrick object containing time series of phenological data (14400 cells; 17 layers).
-#' Years 2000-2016. The variable has been derived from MODIS using Timesat
+#' RasterBrick object containing time series of phenological data (400 cells; 10 layers).
+#' Years 2000-2009. The variable has been derived from MODIS using Timesat
 #'
 #' Downloaded from www.eea.europa.eu (20/08/2020)
 #'
@@ -38,13 +38,13 @@
 #'
 #' Resolution  : 500, 500  (x, y)
 #'
-#' Extent      : 3620000, 3680000, 2110000, 2170000  (xmin, xmax, ymin, ymax)
+#' Extent      : 3640000, 3650000, 2140000, 2150000  (xmin, xmax, ymin, ymax)
 #'
 #'
 #' @docType data
-#' @examples \dontrun{raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))}
+#' @examples raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))
 #'
-#' @format GeoTIFF. RasterBrick object with dimensions: 120, 120, 14400, 17  (nrow, ncol, ncell, nlayers)
+#' @format GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 #' \describe{
 #'   \item{sbd_cat}{Season beginning day}
 #' }
@@ -57,8 +57,8 @@
 
 #' Season Length
 #'
-#' RasterBrick object containing time series of phenological data (14400 cells; 17 layers).
-#' Years 2000-2016. The variable has been derived from MODIS using Timesat
+#' RasterBrick object containing time series of phenological data (400 cells; 10 layers).
+#' Years 2000-2009. The variable has been derived from MODIS using Timesat
 #'
 #' Downloaded from www.eea.europa.eu (20/08/2020)
 #'
@@ -66,13 +66,13 @@
 #'
 #' Resolution  : 500, 500  (x, y)
 #'
-#' Extent      : 3620000, 3680000, 2110000, 2170000  (xmin, xmax, ymin, ymax)
+#' Extent      : 3640000, 3650000, 2140000, 2150000  (xmin, xmax, ymin, ymax)
 #'
 #'
 #' @docType data
-#' @examples \dontrun{raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sl_cat.tif"))}
+#' @examples raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sl_cat.tif"))
 #'
-#' @format GeoTIFF. RasterBrick object with dimensions: 120, 120, 14400, 17  (nrow, ncol, ncell, nlayers)
+#' @format GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 #' \describe{
 #'   \item{sl_cat}{Season Length}
 #' }
@@ -81,3 +81,4 @@
 #'
 #' @source \url{https://www.eea.europa.eu/data-and-maps}
 "sl_cat"
+

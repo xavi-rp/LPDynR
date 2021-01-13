@@ -32,8 +32,11 @@ is run with the results of the 'screening PCA' (i.e. number of PC axes and their
 variables). PCAs4clust uses \code{\link[stats]{prcomp}} to run PCAs
 }
 \examples{
-\dontrun{
-PCAs4clust(obj2process = obj2process_raster,
+\donttest{
+dirctry <- paste0(system.file(package='LPDynR'), "/extdata")
+variables_noCor <- rm_multicol(dir2process = dirctry,
+                               multicol_cutoff = 0.7)
+PCAs4clust(obj2process = variables_noCor,
             cumul_var_threshold = 0.9)
 }
 

@@ -46,7 +46,27 @@
 #' @seealso \code{\link{LongTermChange}}; \code{\link{LNScaling}}
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' SteadinessIndex_raster <- steadiness(obj2process = sb)
+#' BaselineLevels_raster <- baseline_lev(obj2process = sb,
+#'                                       yearsBaseline = 3,
+#'                                       drylandProp = 0.4)
+#' StateChange_raster <- state_change(obj2process = sb,
+#'                                    yearsBaseline = 3)
+#' LandProd_change_raster <- LongTermChange(SteadinessIndex = SteadinessIndex_raster,
+#'                                          BaselineLevels = BaselineLevels_raster,
+#'                                          StateChange = StateChange_raster)
+#'
+#' dirctry <- paste0(system.file(package='LPDynR'), "/extdata")
+#' variables_noCor <- rm_multicol(dir2process = dirctry,
+#'                                multicol_cutoff = 0.7)
+#' EFTs_raster <- EFT_clust(obj2clust = variables_noCor,
+#'                          n_clust = 10)
+#'
+#' LandProd_current_raster <- LNScaling(EFTs = EFTs_raster[[1]],
+#'                                      ProdVar = sb)
+#'
 #' LPD_CombAssess(LandProd_change = LandProd_change_raster,
 #'                LandProd_current = LandProd_current_raster)
 #' }
@@ -94,7 +114,7 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
 
 
   }else{
-    cat("'LandProd_current' is NULL... no combined assessment and proceeding with 'LandProd_change' reclassification\n")
+    message("'LandProd_current' is NULL... no combined assessment and proceeding with 'LandProd_change' reclassification\n")
 
     ## Reclassification of 'LandProd_change' ####
     LPD_CombAssess <- LandProd_change

@@ -100,7 +100,15 @@ Values = 0 in the final map indicates that there is a scarcity of data in the pr
 (i.e. only 1 year with data), so that the indicator cannot be calculated
 }
 \examples{
-\dontrun{
+\donttest{
+sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+SteadinessIndex_raster <- steadiness(obj2process = sb)
+BaselineLevels_raster <- baseline_lev(obj2process = sb,
+                                      yearsBaseline = 3,
+                                      drylandProp = 0.4)
+StateChange_raster <- state_change(obj2process = sb,
+                                   yearsBaseline = 3)
+
 LongTermChange(SteadinessIndex = SteadinessIndex_raster,
                BaselineLevels = BaselineLevels_raster,
                StateChange = StateChange_raster)

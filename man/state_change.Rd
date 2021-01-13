@@ -27,10 +27,9 @@ on study, resulting in a 3-class RasterLayer object with (1) not change, (2) cha
 state_change uses the average of 'yearsBaseline' number of years at the beginning and the end of the time series
 }
 \examples{
-\dontrun{
-state_change(obj2process = obj2process_raster,
+sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+state_change(obj2process = sb,
              yearsBaseline = 3)
-}
 
 }
 \author{

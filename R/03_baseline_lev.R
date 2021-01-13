@@ -24,11 +24,10 @@
 #' NY, 10017, USA: United Nations Development Programme.
 #' @export
 #' @examples
-#' \dontrun{
-#' baseline_lev(obj2process = obj2process_raster,
+#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' baseline_lev(obj2process = sb,
 #'              yearsBaseline = 3,
 #'              drylandProp = 0.4)
-#' }
 #'
 
 

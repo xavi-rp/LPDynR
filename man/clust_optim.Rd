@@ -26,11 +26,13 @@ K-means clustering improves when increasing the number of clusters. An elbow in 
 indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}
 }
 \examples{
-\dontrun{
-LPDynR:::clust_optim(obj2clust = obj2clust_raster,
-                     num_clstrs = seq(5, 50, 5))
+\donttest{
+dirctry <- paste0(system.file(package='LPDynR'), "/extdata")
+variables_noCor <- rm_multicol(dir2process = dirctry,
+                               multicol_cutoff = 0.7)
+clust_optim(obj2clust = variables_noCor,
+            num_clstrs = seq(5, 50, 5))
 }
-
 }
 \seealso{
 \code{\link{PCAs4clust}}; \code{\link{EFT_clust}}; \code{\link[stats]{kmeans}}

@@ -34,9 +34,16 @@ The Local Net Primary Production Scaling (LNS) method (Prince, 2009) calculates
  the delineation of a land productivity status map
 }
 \examples{
-\dontrun{
-LNScaling(EFTs = EFTs_raster,
-          ProdVar = ProdVar_brick)
+\donttest{
+dirctry <- paste0(system.file(package='LPDynR'), "/extdata")
+variables_noCor <- rm_multicol(dir2process = dirctry,
+                               multicol_cutoff = 0.7)
+EFTs_raster <- EFT_clust(obj2clust = variables_noCor,
+                         n_clust = 10)
+sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+
+LNScaling(EFTs = EFTs_raster[[1]],
+          ProdVar = sb)
 }
 
 }

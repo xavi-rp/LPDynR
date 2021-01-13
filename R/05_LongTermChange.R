@@ -93,7 +93,15 @@
 #' @seealso \code{\link{steadiness}}, \code{\link{baseline_lev}}, \code{\link{state_change}}
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' SteadinessIndex_raster <- steadiness(obj2process = sb)
+#' BaselineLevels_raster <- baseline_lev(obj2process = sb,
+#'                                       yearsBaseline = 3,
+#'                                       drylandProp = 0.4)
+#' StateChange_raster <- state_change(obj2process = sb,
+#'                                    yearsBaseline = 3)
+#'
 #' LongTermChange(SteadinessIndex = SteadinessIndex_raster,
 #'                BaselineLevels = BaselineLevels_raster,
 #'                StateChange = StateChange_raster)

@@ -27,9 +27,16 @@
 #' @references Prince, S.D., Becker-Reshef, I. and Rishmawi, K. 2009. “Detection and Mapping of Long-Term Land Degradation Using Local Net Production Scaling: Application to Zimbabwe.” REMOTE SENSING OF ENVIRONMENT 113 (5): 1046–57
 #' @export
 #' @examples
-#' \dontrun{
-#' LNScaling(EFTs = EFTs_raster,
-#'           ProdVar = ProdVar_brick)
+#' \donttest{
+#' dirctry <- paste0(system.file(package='LPDynR'), "/extdata")
+#' variables_noCor <- rm_multicol(dir2process = dirctry,
+#'                                multicol_cutoff = 0.7)
+#' EFTs_raster <- EFT_clust(obj2clust = variables_noCor,
+#'                          n_clust = 10)
+#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#'
+#' LNScaling(EFTs = EFTs_raster[[1]],
+#'           ProdVar = sb)
 #' }
 #'
 
@@ -84,7 +91,7 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
   ProdVar_average_df$EFT <- EFTs_df[[1]]
   ProdVar_average_df$rwnms <- as.numeric(rownames(EFTs_df))
   names(ProdVar_average_df)[1] <- "ProductivityVariable"
-  if(exists("EFTs_df")) rm(EFTs_df)
+  #if(exists("EFTs_df")) rm(EFTs_df)
   #gc()
 
   ## Calculating 90-percentile by EFT ####
@@ -100,7 +107,7 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
 
   cond <- ProdVar_average_df$ProductivityVariable > ProdVar_average_df$ProductivityVariable_90perc & !is.na(ProdVar_average_df$ProductivityVariable)
   ProdVar_average_df$ProductivityVariable[cond] <- ProdVar_average_df$ProductivityVariable_90perc[cond]
-  rm(cond)
+  #rm(cond)
   ProdVar_average_df$ProductivityVariable_90perc[is.na(ProdVar_average_df$ProductivityVariable)] <- NA
 
   ProdVar_average_df <- as.data.frame(ProdVar_average_df)

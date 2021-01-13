@@ -22,12 +22,12 @@
 #' @references Leroy B, Meynard CN, Bellard C, Courchamp F (2015). “virtualspecies, an R package to generate virtual species distributions”. Ecography. doi: 10.1111/ecog.01388
 #' @export
 #' @examples
-#' \dontrun{
-#' rm_multicol(dir2process = dir2rasters,
-#'             multicol_cutoff = 0.7)
-#' }
-#'
-
+#' \donttest{
+#' dirctry <- paste0(system.file(package='LPDynR'), "/extdata")  # directory with variables to process
+#' rm_multicol(dir2process = dirctry,
+#'             multicol_cutoff = 0.7,
+#'             plot = TRUE)
+#'}
 
 rm_multicol <- function(dir2process = NULL,
                         multicol_cutoff = 0.70,
@@ -36,8 +36,6 @@ rm_multicol <- function(dir2process = NULL,
                         ...){
 
   ## Reading in data (Phenologivcal/productivity variables) and averaging
-  # dir2process <- paste0("/Users/xavi_rp/Documents/D6_LPD/", "phenolo_data_Cat")
-
   if(!is.character(dir2process) | is.na(dir2process) | is.null(dir2process) |
      !dir.exists(dir2process))
     stop("Please provide a character vector where the .tif files can be read in from")
@@ -46,7 +44,7 @@ rm_multicol <- function(dir2process = NULL,
                  pattern = ".tif$", full.names = TRUE)
 
   if(length(varbles) == 0) stop(paste0("No .tif files in ", dir2process))
-  if(length(varbles) > 0) cat(paste0(varbles, "... being processed.", "\n"))
+  #if(length(varbles) > 0) cat(paste0(varbles, "... being processed.", "\n"))
 
 
   vrbles <- c()
@@ -57,8 +55,6 @@ rm_multicol <- function(dir2process = NULL,
     rstr_name <- unlist(strsplit(v, "/"))
     rstr_name <- rstr_name[length(rstr_name)]
     rstr_name <- sub(".tif", "", rstr_name)
-    #assign(rstr_name, var2process)
-    #cat(rstr_name, "... read in", "\n")
 
     ## Calculating averages
     # Average is calculated over ALL the available years, but this might be included as an argument
@@ -72,14 +68,9 @@ rm_multicol <- function(dir2process = NULL,
     vrbles <- c(vrbles, rstr_name)
 
     stack_rstrs_avg <- stack(stack_rstrs_avg, rstr_average)
-    #print(paste0(rstr_name, " ... average calculated"))
-
   }
-  #writeRaster(stack_rstrs_avg, paste0(path2tempResults, "/stack_rstrs_avg.tif"), options = "INTERLEAVE=BAND", overwrite = TRUE)
-
 
   ## Multicollinearity
-  #multicol_df <- cor(getValues(stack_rstrs_avg), use = "complete.obs", method = "pearson")  #method = c("pearson", "kendall", "spearman")
   dts <- list(...)
   if(is.null(dts$select.variables)) dts$select.variables <- TRUE
   if(is.null(dts$sample.points)) dts$sample.points <- TRUE
@@ -99,7 +90,7 @@ rm_multicol <- function(dir2process = NULL,
 
 
   ## Saving results
-  rm(list = c("yrs"), envir = globalenv())
+  #rm(list = c("yrs"), envir = globalenv())
   if (filename != "") writeRaster(variables_avg_noC, filename = filename, options = "INTERLEAVE=BAND", overwrite = TRUE)
   return(variables_avg_noC)
 

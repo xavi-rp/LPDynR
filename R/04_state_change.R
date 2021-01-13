@@ -15,10 +15,9 @@
 #' @name state_change
 #' @export
 #' @examples
-#' \dontrun{
-#' state_change(obj2process = obj2process_raster,
+#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' state_change(obj2process = sb,
 #'              yearsBaseline = 3)
-#' }
 #'
 
 

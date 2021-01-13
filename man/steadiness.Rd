@@ -29,15 +29,16 @@ Values = 0 in the final map indicates that there is a scarcity of data in the pr
 (i.e. only 1 year with data), so that the indicator cannot be calculated
 }
 \examples{
-\dontrun{
-steadiness(obj2process = obj2process_raster)
+\donttest{
+sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+steadiness(obj2process = sb)
 }
 
 }
 \references{
 Ivits, E., M. Cherlet, W. Mehl, and S. Sommer. 2013. “Ecosystem Functional Units Characterized by
 Satellite Observed Phenology and Productivity Gradients: A Case Study for Europe.” Ecological Indicators 27: 17–28.
-\url{https://doi.org/10.1016/j.ecolind.2012.11.010}
+\doi{10.1016/j.ecolind.2012.11.010}
 }
 \author{
 Xavier Rotllan-Puig

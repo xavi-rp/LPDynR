@@ -4,7 +4,7 @@
 \name{sb_cat}
 \alias{sb_cat}
 \title{Standing Biomass}
-\format{GeoTIFF. RasterBrick object with dimensions: 120, 120, 14400, 17  (nrow, ncol, ncell, nlayers)
+\format{GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 \describe{
   \item{sb_cat}{Standing biomass}
 }}
@@ -15,8 +15,8 @@
 sb_cat
 }
 \description{
-RasterBrick object containing time series of land productivity data (14400 cells; 17 layers).
-Years 2000-2016. The variable has been derived from MODIS using Timesat
+RasterBrick object containing time series of land productivity data (400 cells; 10 layers).
+Years 2000-2009. The variable has been derived from MODIS using Timesat
 }
 \details{
 Downloaded from www.eea.europa.eu (20/08/2020)
@@ -25,10 +25,10 @@ Coord. ref. : +proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GR
 
 Resolution  : 500, 500  (x, y)
 
-Extent      : 3620000, 3680000, 2110000, 2170000  (xmin, xmax, ymin, ymax)
+Extent      : 3640000, 3650000, 2140000, 2150000  (xmin, xmax, ymin, ymax)
 }
 \examples{
-\dontrun{ raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))}
+raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 
 }
 \references{

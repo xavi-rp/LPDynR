@@ -23,17 +23,20 @@
 #' @seealso \code{\link{rm_multicol}}; \code{\link[stats]{prcomp}}
 #' @export
 #' @examples
-#' \dontrun{
-#' PCAs4clust(obj2process = obj2process_raster,
+#' \donttest{
+#' dirctry <- paste0(system.file(package='LPDynR'), "/extdata")
+#' variables_noCor <- rm_multicol(dir2process = dirctry,
+#'                                multicol_cutoff = 0.7)
+#' PCAs4clust(obj2process = variables_noCor,
 #'             cumul_var_threshold = 0.9)
 #' }
 #'
 
 
 PCAs4clust <- function(obj2process = NULL,
-                         cumul_var_threshold = 0.9,
-                         filename = "",
-                         ...){
+                       cumul_var_threshold = 0.9,
+                       filename = "",
+                       ...){
 
   ## Reading in data (not correlated Phenolo variables)
 
@@ -95,13 +98,13 @@ PCAs4clust <- function(obj2process = NULL,
   )
 
   ## Spatial Patterns of PCs
-  if(exists("pca")) rm(pca)
-  if(exists("obj2process_df")) rm(obj2process_df)
-  gc()
+  #if(exists("pca")) rm(pca)
+  #if(exists("obj2process_df")) rm(obj2process_df)
+  #gc()
 
   pca_final_rottd_varbles <- as.data.frame(pca_final$x)
-  if(exists("pca_final")) rm(pca_final)
-  gc()
+  #if(exists("pca_final")) rm(pca_final)
+  #gc()
 
   pca_final_rottd_varbles$rn <- as.integer(rownames(pca_final_rottd_varbles))
   num_pix <- obj2process@ncols * obj2process@nrows
@@ -113,22 +116,22 @@ PCAs4clust <- function(obj2process = NULL,
   names(df2fill) <- c(paste0("PC", seq(1:(ncol(pca_final_rottd_varbles) - 1))), "rn")
   df2fill$rn <- num_pix1
   rownames(df2fill) <- num_pix1
-  rm(num_pix1)
+  #rm(num_pix1)
 
   pca_final_raster1 <- rbindlist(list(pca_final_rottd_varbles, df2fill))
-  rm(df2fill)
+  #rm(df2fill)
 
   setorderv(pca_final_raster1, "rn")
   pca_final_raster1 <- pca_final_raster1[, rn := NULL]
 
   xtnt <- extent(obj2process)
-  pca_final_brick <- brick(nrows = obj2process@nrows, ncols = obj2process@ncols,
-                           xmn = xtnt[1], xmx = xtnt[2], ymn = xtnt[3], ymx = xtnt[4],
-                           crs = crs(obj2process),
-                           nl = (ncol(pca_final_rottd_varbles) - 1)
-  )
-  rm(pca_final_rottd_varbles)
-
+  #pca_final_brick <- brick(nrows = obj2process@nrows, ncols = obj2process@ncols,
+  #                         xmn = xtnt[1], xmx = xtnt[2], ymn = xtnt[3], ymx = xtnt[4],
+  #                         crs = crs(obj2process),
+  #                         nl = (ncol(pca_final_rottd_varbles) - 1)
+  #)
+  #rm(pca_final_rottd_varbles)
+  pca_final_brick <- stack()
   for(i in 1:ncol(pca_final_raster1)){
     rastr_tmp <- raster(nrows = obj2process@nrows, ncols = obj2process@ncols,
                         xmn = xtnt[1], xmx = xtnt[2], ymn = xtnt[3], ymx = xtnt[4],
@@ -136,10 +139,11 @@ PCAs4clust <- function(obj2process = NULL,
                         #ext,
                         #resolution,
                         vals = pca_final_raster1[[i]])
-    pca_final_brick[[i]] <- rastr_tmp
+    #pca_final_brick[[i]] <- rastr_tmp
+    pca_final_brick <- stack(pca_final_brick, rastr_tmp)
     names(pca_final_brick[[i]]) <- names(pca_final_raster1)[i]
   }
-
+  pca_final_brick <- brick(pca_final_brick)
 
   ## Saving results
   if (filename != "") writeRaster(pca_final_brick, filename = filename, options = "INTERLEAVE=BAND", overwrite = TRUE)

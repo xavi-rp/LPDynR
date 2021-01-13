@@ -6,12 +6,12 @@ Authors@R: c(
     person("Eva", "Ivits", email = "", role = c("aut")),
     person("Michael", "Cherlet", email = "", role = c("aut")))
 Description: It uses 'phenological' and productivity-related variables derived from time series of vegetation 
-    indices, such as the Normalized Difference Vegetation Index, to assess ecosystem dynamics and change, which 
+    indexes, such as the Normalized Difference Vegetation Index, to assess ecosystem dynamics and change, which 
     eventually might drive to land degradation. The final result of the Land Productivity Dynamics indicator 
     is a categorical map with 5 classes of land productivity dynamics, ranging from declining to increasing 
     productivity.
 Depends: R (>= 3.6.0)
-Imports: raster, dplyr, stats, data.table, virtualspecies, magrittr
+Imports: raster, dplyr, stats, data.table, virtualspecies, magrittr, rgdal, parallel
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 License: GPL-3

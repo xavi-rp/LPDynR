@@ -20,12 +20,13 @@
 #' @name steadiness
 #' @references Ivits, E., M. Cherlet, W. Mehl, and S. Sommer. 2013. “Ecosystem Functional Units Characterized by
 #' Satellite Observed Phenology and Productivity Gradients: A Case Study for Europe.” Ecological Indicators 27: 17–28.
-#' \url{https://doi.org/10.1016/j.ecolind.2012.11.010}
+#' \doi{10.1016/j.ecolind.2012.11.010}
 #' @export
 #' @examples
-#' \dontrun{
-#' steadiness(obj2process = obj2process_raster)
-#' }
+#' \donttest{
+#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' steadiness(obj2process = sb)
+#'}
 #'
 
 
@@ -70,7 +71,7 @@ steadiness <- function(obj2process = NULL,
 
   ## Saving results
   #rm(list = c("yrs", "years"), envir = globalenv())
-  rm(list = c("yrs"), envir = globalenv())
+  #rm(list = c("yrs"), envir = globalenv())
   if (filename != "") writeRaster(SteadInd_rstr, filename = filename, overwrite = TRUE)
   return(SteadInd_rstr)
 

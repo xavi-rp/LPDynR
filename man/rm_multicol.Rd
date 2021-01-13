@@ -32,11 +32,12 @@ correlation coefficient below 'multicol_cutoff'. See \code{\link[virtualspecies]
 and functionalities
 }
 \examples{
-\dontrun{
-rm_multicol(dir2process = dir2rasters,
-            multicol_cutoff = 0.7)
+\donttest{
+dirctry <- paste0(system.file(package='LPDynR'), "/extdata")  # directory with variables to process
+rm_multicol(dir2process = dirctry,
+            multicol_cutoff = 0.7,
+            plot = TRUE)
 }
-
 }
 \references{
 Leroy B, Meynard CN, Bellard C, Courchamp F (2015). “virtualspecies, an R package to generate virtual species distributions”. Ecography. doi: 10.1111/ecog.01388
