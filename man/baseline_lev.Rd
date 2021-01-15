@@ -37,10 +37,13 @@ and the rest (100 - ('drylandProp' + 10)) as medium level. Proportion of pixels 
 argument 'highprodProp'
 }
 \examples{
+\donttest{
 sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 baseline_lev(obj2process = sb,
              yearsBaseline = 3,
-             drylandProp = 0.4)
+             drylandProp = 0.4,
+             cores2use = 2)
+}
 
 }
 \references{

@@ -15,10 +15,12 @@
 #' @name state_change
 #' @export
 #' @examples
+#' \donttest{
 #' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #' state_change(obj2process = sb,
-#'              yearsBaseline = 3)
-#'
+#'              yearsBaseline = 3,
+#'              cores2use = 2)
+#' }
 
 
 state_change <- function(obj2process = NULL,

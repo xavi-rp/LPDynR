@@ -1,6 +1,6 @@
 Package: LPDynR
 Title: Land Productivity Dynamics Indicator
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Xavier", "Rotllan-Puig", email = "xavier.rotllan.puig@aster-projects.cat", role = c("aut", "cre")),
     person("Eva", "Ivits", email = "", role = c("aut")),

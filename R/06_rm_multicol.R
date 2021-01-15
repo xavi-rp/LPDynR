@@ -8,8 +8,7 @@
 #' calculated. Secondly, it creates a RasterBrick object with those (averaged) variables which have a Pearson's
 #' correlation coefficient below 'multicol_cutoff'. See \code{\link[virtualspecies]{removeCollinearity}} for further arguments
 #' and functionalities
-#' @import raster parallel
-#' @importFrom virtualspecies removeCollinearity
+#' @import raster parallel virtualspecies
 #' @param dir2process Character. Directory where the Raster* objects are stored. All the .tif
 #' files in the directory will be read in to be used
 #' @param multicol_cutoff Numeric. Cutoff value of (Pearson's) correlation. Optional. Default is 0.70
@@ -27,7 +26,7 @@
 #' rm_multicol(dir2process = dirctry,
 #'             multicol_cutoff = 0.7,
 #'             plot = TRUE)
-#'}
+#' }
 
 rm_multicol <- function(dir2process = NULL,
                         multicol_cutoff = 0.70,
