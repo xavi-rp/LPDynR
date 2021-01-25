@@ -14,7 +14,16 @@ Figure1: Flowchart of the process to calculate the Land Productivity Dynamics in
 
 &nbsp;
 
-### To install the latest version:
+### To install the latest stable version from CRAN (https://cran.r-project.org/web/packages/LPDynR/index.html):
+
+```
+install.packages("LPDynR")
+```
+
+&nbsp;
+
+
+### To install the latest 'under development' version:
 
 ```
 library(devtools)
