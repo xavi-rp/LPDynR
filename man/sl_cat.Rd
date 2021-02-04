@@ -4,10 +4,12 @@
 \name{sl_cat}
 \alias{sl_cat}
 \title{Season Length}
-\format{GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
+\format{
+GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 \describe{
   \item{sl_cat}{Season Length}
-}}
+}
+}
 \source{
 \url{https://www.eea.europa.eu/data-and-maps}
 }

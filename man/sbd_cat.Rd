@@ -4,10 +4,12 @@
 \name{sbd_cat}
 \alias{sbd_cat}
 \title{Season Beginning Day}
-\format{GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
+\format{
+GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 \describe{
   \item{sbd_cat}{Season beginning day}
-}}
+}
+}
 \source{
 \url{https://www.eea.europa.eu/data-and-maps}
 }

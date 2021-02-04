@@ -4,8 +4,7 @@
 \alias{LPD_CombAssess}
 \title{LPD_CombAssess}
 \usage{
-LPD_CombAssess(LandProd_change = NULL, LandProd_current = NULL,
-  filename = "")
+LPD_CombAssess(LandProd_change = NULL, LandProd_current = NULL, filename = "")
 }
 \arguments{
 \item{LandProd_change}{RasterLayer object (or its file name). Land Productivity Long Term Change Map}

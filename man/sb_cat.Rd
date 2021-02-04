@@ -4,10 +4,12 @@
 \name{sb_cat}
 \alias{sb_cat}
 \title{Standing Biomass}
-\format{GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
+\format{
+GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 \describe{
   \item{sb_cat}{Standing biomass}
-}}
+}
+}
 \source{
 \url{https://www.eea.europa.eu/data-and-maps}
 }

@@ -4,8 +4,13 @@
 \alias{rm_multicol}
 \title{rm_multicol}
 \usage{
-rm_multicol(dir2process = NULL, multicol_cutoff = 0.7, cores2use = 1,
-  filename = "", ...)
+rm_multicol(
+  dir2process = NULL,
+  multicol_cutoff = 0.7,
+  cores2use = 1,
+  filename = "",
+  ...
+)
 }
 \arguments{
 \item{dir2process}{Character. Directory where the Raster* objects are stored. All the .tif

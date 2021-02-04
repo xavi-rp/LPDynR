@@ -4,8 +4,7 @@
 \alias{LNScaling}
 \title{LNScaling}
 \usage{
-LNScaling(EFTs = NULL, ProdVar = NULL, cores2use = 1,
-  filename = "")
+LNScaling(EFTs = NULL, ProdVar = NULL, cores2use = 1, filename = "")
 }
 \arguments{
 \item{EFTs}{RasterLayer object (or its file name). Ecosystem Functional Types. Its first variable has the number of EFT (cluster) each pixel belongs to}

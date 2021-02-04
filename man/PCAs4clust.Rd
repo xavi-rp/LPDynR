@@ -4,8 +4,7 @@
 \alias{PCAs4clust}
 \title{PCAs4clust}
 \usage{
-PCAs4clust(obj2process = NULL, cumul_var_threshold = 0.9,
-  filename = "", ...)
+PCAs4clust(obj2process = NULL, cumul_var_threshold = 0.9, filename = "", ...)
 }
 \arguments{
 \item{obj2process}{Raster* object (or its file name). Each layer is one variable}

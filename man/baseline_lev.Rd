@@ -4,9 +4,14 @@
 \alias{baseline_lev}
 \title{baseline_lev}
 \usage{
-baseline_lev(obj2process = NULL, yearsBaseline = 3,
-  drylandProp = 0.4, highprodProp = 0.1, cores2use = 1,
-  filename = "")
+baseline_lev(
+  obj2process = NULL,
+  yearsBaseline = 3,
+  drylandProp = 0.4,
+  highprodProp = 0.1,
+  cores2use = 1,
+  filename = ""
+)
 }
 \arguments{
 \item{obj2process}{Raster* object (or its file name). If time series, each layer is one year}

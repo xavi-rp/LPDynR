@@ -4,8 +4,12 @@
 \alias{LongTermChange}
 \title{LongTermChange}
 \usage{
-LongTermChange(SteadinessIndex = NULL, BaselineLevels = NULL,
-  StateChange = NULL, filename = "")
+LongTermChange(
+  SteadinessIndex = NULL,
+  BaselineLevels = NULL,
+  StateChange = NULL,
+  filename = ""
+)
 }
 \arguments{
 \item{SteadinessIndex}{RasterLayer object (or its file name). Steadiness Index (4-class)}
