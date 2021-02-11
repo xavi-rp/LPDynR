@@ -4,11 +4,13 @@
 #' @author Xavier Rotllan-Puig
 #' @title state_change
 #' @description state_change derives land productivity state change between the beginning and the end of the time series
-#' on study, resulting in a 3-class RasterLayer object with (1) not change, (2) changed 1 class and (3) changed 2 or more classes
+#' on study, resulting in a 3-class RasterLayer object with (1) no change, (2) changed between 1 and x classes or
+#' (3) changed more than x classes, where x can be defined by the user (default is 1)
 #' @details state_change uses the average of 'yearsBaseline' number of years at the beginning and the end of the time series
 #' @import raster parallel
 #' @param obj2process Raster* object (or its file name). If time series, each layer is one year
 #' @param yearsBaseline Numeric. Number of years to be averaged at the beginning and end of the time series. Optional. Default is 3
+#' @param changeNclass Numeric. Number of classes changed for classification. Optional. Default is 1
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @param filename Character. Output filename. Optional
 #' @return RasterLayer object
@@ -19,12 +21,14 @@
 #' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #' state_change(obj2process = sb,
 #'              yearsBaseline = 3,
+#'              changeNclass = 1,
 #'              cores2use = 2)
 #' }
 
 
 state_change <- function(obj2process = NULL,
                          yearsBaseline = 3,
+                         changeNclass = 1,
                          cores2use = 1,
                          filename = ""){
 
@@ -80,10 +84,10 @@ state_change <- function(obj2process = NULL,
   obj2process_10class_dif <- obj2process_10class_beg - obj2process_10class_end
 
   pix_categs2 <- as.data.frame(matrix(nrow = 5, ncol = 0))
-  pix_categs2$from    <- c(-10, -1.5, -0.5, 0.5, 1.5)
-  pix_categs2$to      <- c( -2,   -1,    0,   1,   9)
-  pix_categs2$becomes <- c(  3,    2,    1,   2,   3)
-
+  pix_categs2$from    <- c(-10, - changeNclass - 0.5, - 0.5, 0.5, changeNclass + 0.5)
+  pix_categs2$to      <- c(- changeNclass - 1, - 1, 0, changeNclass, 9)
+  pix_categs2$becomes <- c( 3, 2, 1, 2, 3)
+  pix_categs2
   obj2process_3classChange <- reclassify(obj2process_10class_dif, rcl = pix_categs2, filename='', include.lowest = TRUE, right = TRUE)
 
 
