@@ -4,12 +4,19 @@
 \alias{LPD_CombAssess}
 \title{LPD_CombAssess}
 \usage{
-LPD_CombAssess(LandProd_change = NULL, LandProd_current = NULL, filename = "")
+LPD_CombAssess(
+  LandProd_change = NULL,
+  LandProd_current = NULL,
+  local_prod_threshold = 50,
+  filename = ""
+)
 }
 \arguments{
 \item{LandProd_change}{RasterLayer object (or its file name). Land Productivity Long Term Change Map}
 
 \item{LandProd_current}{RasterLayer object (or its file name). Land Productivity Current Status Map}
+
+\item{local_prod_threshold}{Numeric. Potential local productivity threshold (within the Ecosystem Functional Type) in percentage. Optional. Default = 50}
 
 \item{filename}{Character. Output filename. Optional}
 }
@@ -19,34 +26,39 @@ RasterLayer
 \description{
 LPD_CombAssess combines a 'LandProd_change' map (RasterLayer) with a 'LandProd_current'
 map (RasterLayer), giving a 5-classes map ranging from declining to increasing land
-productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 50% of the
-highest local production (within the EFT) and pixels with more or equal to their 50%.
+productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 'local_prod_threshold'
+(in percentage; 50 by default) of potential local productivity (within the EFT) and pixels with more or equal to
+'local_prod_threshold'.
+
 If 'LandProd_current' = NULL, 'LandProd_change' is directly reclassified into the same 5-classes map
 without using 'LandProd_current'. See the ATBD for the way pixels are reclassified.
 }
 \details{
-LandProd_change c(1:6, 8:9)       &  LandProd_current  < 50  <- 1 Declining land productivity
+LandProd_change c(1:6, 8:9)       &  LandProd_current  < 'local_prod_threshold'  <- 1 Declining land productivity
 
-LandProd_change c(3, 6)           &  LandProd_current >= 50  <- 1 Declining land productivity
+LandProd_change c(3, 6)           &  LandProd_current >= 'local_prod_threshold'  <- 1 Declining land productivity
 
-LandProd_change c(7)              &  LandProd_current  < 50  <- 2 Early signs of decline of land productivity
+LandProd_change c(7)              &  LandProd_current  < 'local_prod_threshold'  <- 2 Early signs of decline of land productivity
 
-LandProd_change c(1:2, 4:5, 8:9)  &  LandProd_current >= 50  <- 2 Early signs of decline of land productivity
+LandProd_change c(1:2, 4:5, 8:9)  &  LandProd_current >= 'local_prod_threshold'  <- 2 Early signs of decline of land productivity
 
-LandProd_change c(7)              &  LandProd_current >= 50  <- 3 Negative fluctuation (stable, but stressed land prod.)
+LandProd_change c(7)              &  LandProd_current >= 'local_prod_threshold'  <- 3 Negative fluctuation (stable, but stressed land prod.)
 
 LandProd_change c(10:12)                                     <- 3 Negative fluctuation (stable, but stressed land prod.)
 LandProd_change c(13:15)                                     <- 4 Positive fluctuation (stable, not stressed land prod.)
 
-LandProd_change c(16:17, 19)      &  LandProd_current  < 50  <- 4 Positive fluctuation (stable, not stressed land prod.)
+LandProd_change c(16:17, 19)      &  LandProd_current  < 'local_prod_threshold'  <- 4 Positive fluctuation (stable, not stressed land prod.)
 
-LandProd_change c(18, 20:22)      &  LandProd_current  < 50  <- 5 Increasing land productivity
+LandProd_change c(18, 20:22)      &  LandProd_current  < 'local_prod_threshold'  <- 5 Increasing land productivity
 
-LandProd_change c(16:22)          &  LandProd_current >= 50  <- 5 Increasing land productivity
+LandProd_change c(16:22)          &  LandProd_current >= 'local_prod_threshold'  <- 5 Increasing land productivity
 
 
 Values = 0 in the final map indicates that there is a scarcity of data in the productivity variable
 (i.e. only 1 year with data), so that the indicator cannot be calculated
+
+'local_prod_threshold' is the threshold used to classify 'LandProd_current' into pixels with low or high
+potential productivity within its Ecosystem Functional Type
 }
 \examples{
 \donttest{
