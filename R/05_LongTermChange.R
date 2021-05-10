@@ -139,62 +139,78 @@ LongTermChange <- function(SteadinessIndex = NULL,
 
   ## Combining Steadiness Index with baseline levels
   SteadInd_Baseline <- SteadinessIndex
+  
+  SteadInd_Baseline_vals <- getValues(SteadInd_Baseline)
+  SteadinessIndex_vals <- getValues(SteadinessIndex)
+  BaselineLevels_vals <- getValues(BaselineLevels)
+  
+  
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 1 & BaselineLevels_vals == 1] <- 1    # Steadiness Index 1 (Strong Negative) - Base Line Level 1 (low)      -> St1-low
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 1 & BaselineLevels_vals == 2] <- 2    # Steadiness Index 1 (Strong Negative) - Base Line Level 2 (medium)   -> St1-medium
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 1 & BaselineLevels_vals == 3] <- 3    # Steadiness Index 1 (Strong Negative) - Base Line Level 3 (high)     -> St1-high
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 2 & BaselineLevels_vals == 1] <- 4    # Steadiness Index 2 (Moderate Negative) - Base Line Level 1 (low)    -> St2-low
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 2 & BaselineLevels_vals == 2] <- 5    # Steadiness Index 2 (Moderate Negative) - Base Line Level 2 (medium) -> St2-medium
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 2 & BaselineLevels_vals == 3] <- 6    # Steadiness Index 2 (Moderate Negative) - Base Line Level 3 (high)   -> St2-high
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 3 & BaselineLevels_vals == 1] <- 7    # Steadiness Index 3 (Moderate Positive) - Base Line Level 1 (low)    -> St3-low
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 3 & BaselineLevels_vals == 2] <- 8    # Steadiness Index 3 (Moderate Positive) - Base Line Level 2 (medium) -> St3-medium
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 3 & BaselineLevels_vals == 3] <- 9    # Steadiness Index 3 (Moderate Positive) - Base Line Level 3 (high)   -> St3-high
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 4 & BaselineLevels_vals == 1] <- 10   # Steadiness Index 4 (Strong Positive) - Base Line Level 1 (low)     -> St4-low
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 4 & BaselineLevels_vals == 2] <- 11   # Steadiness Index 4 (Strong Positive) - Base Line Level 2 (medium)  -> St4-medium
+  SteadInd_Baseline_vals[SteadinessIndex_vals == 4 & BaselineLevels_vals == 3] <- 12   # Steadiness Index 4 (Strong Positive) - Base Line Level 3 (high)    -> St4-high
 
-  SteadInd_Baseline[SteadinessIndex == 1 & BaselineLevels == 1] <- 1    # Steadiness Index 1 (Strong Negative) - Base Line Level 1 (low)      -> St1-low
-  SteadInd_Baseline[SteadinessIndex == 1 & BaselineLevels == 2] <- 2    # Steadiness Index 1 (Strong Negative) - Base Line Level 2 (medium)   -> St1-medium
-  SteadInd_Baseline[SteadinessIndex == 1 & BaselineLevels == 3] <- 3    # Steadiness Index 1 (Strong Negative) - Base Line Level 3 (high)     -> St1-high
-  SteadInd_Baseline[SteadinessIndex == 2 & BaselineLevels == 1] <- 4    # Steadiness Index 2 (Moderate Negative) - Base Line Level 1 (low)    -> St2-low
-  SteadInd_Baseline[SteadinessIndex == 2 & BaselineLevels == 2] <- 5    # Steadiness Index 2 (Moderate Negative) - Base Line Level 2 (medium) -> St2-medium
-  SteadInd_Baseline[SteadinessIndex == 2 & BaselineLevels == 3] <- 6    # Steadiness Index 2 (Moderate Negative) - Base Line Level 3 (high)   -> St2-high
-  SteadInd_Baseline[SteadinessIndex == 3 & BaselineLevels == 1] <- 7    # Steadiness Index 3 (Moderate Positive) - Base Line Level 1 (low)    -> St3-low
-  SteadInd_Baseline[SteadinessIndex == 3 & BaselineLevels == 2] <- 8    # Steadiness Index 3 (Moderate Positive) - Base Line Level 2 (medium) -> St3-medium
-  SteadInd_Baseline[SteadinessIndex == 3 & BaselineLevels == 3] <- 9    # Steadiness Index 3 (Moderate Positive) - Base Line Level 3 (high)   -> St3-high
-  SteadInd_Baseline[SteadinessIndex == 4 & BaselineLevels == 1] <- 10   # Steadiness Index 4 (Strong Positive) - Base Line Level 1 (low)     -> St4-low
-  SteadInd_Baseline[SteadinessIndex == 4 & BaselineLevels == 2] <- 11   # Steadiness Index 4 (Strong Positive) - Base Line Level 2 (medium)  -> St4-medium
-  SteadInd_Baseline[SteadinessIndex == 4 & BaselineLevels == 3] <- 12   # Steadiness Index 4 (Strong Positive) - Base Line Level 3 (high)    -> St4-high
-
-
+  #SteadInd_Baseline <- setValues(SteadInd_Baseline, SteadInd_Baseline_vals)
+  if(exists("SteadinessIndex_vals")) rm(SteadinessIndex_vals)
+  if(exists("BaselineLevels_vals")) rm(BaselineLevels_vals)
 
   ## Reclassifying into long term change categories (22)
-  LandProd_change <- SteadInd_Baseline
+  LandProd_change <- SteadinessIndex
+  
+  LandProd_change_vals <- getValues(LandProd_change)
+  StateChange_vals <- getValues(StateChange)
 
-  LandProd_change[SteadInd_Baseline == 1 & StateChange == 1] <- 1      #St1-low-No Change
-  LandProd_change[SteadInd_Baseline == 1 & StateChange == 2] <- 2      #St1-low-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 1 & StateChange == 3] <- 3      #St1-low-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 2 & StateChange == 1] <- 4      #St1-medium-No Change
-  LandProd_change[SteadInd_Baseline == 2 & StateChange == 2] <- 5      #St1-medium-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 2 & StateChange == 3] <- 6      #St1-medium-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 3 & StateChange == 1] <- 7      #St1-high-No Change
-  LandProd_change[SteadInd_Baseline == 3 & StateChange == 2] <- 8      #St1-high-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 3 & StateChange == 3] <- 9      #St1-high-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 4 & StateChange == 1] <- 10     #St2-low-No Change
-  LandProd_change[SteadInd_Baseline == 4 & StateChange == 2] <- 10     #St2-low-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 4 & StateChange == 3] <- 10     #St2-low-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 5 & StateChange == 1] <- 11     #St2-medium-No Change
-  LandProd_change[SteadInd_Baseline == 5 & StateChange == 2] <- 11     #St2-medium-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 5 & StateChange == 3] <- 11     #St2-medium-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 6 & StateChange == 1] <- 12     #St2-high-No Change
-  LandProd_change[SteadInd_Baseline == 6 & StateChange == 2] <- 12     #St2-high-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 6 & StateChange == 3] <- 12     #St2-high-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 7 & StateChange == 1] <- 13     #St3-low-No Change
-  LandProd_change[SteadInd_Baseline == 7 & StateChange == 2] <- 13     #St3-low-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 7 & StateChange == 3] <- 13     #St3-low-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 8 & StateChange == 1] <- 14     #St3-medium-No Change
-  LandProd_change[SteadInd_Baseline == 8 & StateChange == 2] <- 14     #St3-medium-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 8 & StateChange == 3] <- 14     #St3-medium-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 9 & StateChange == 1] <- 15     #St3-high-No Change
-  LandProd_change[SteadInd_Baseline == 9 & StateChange == 2] <- 15     #St3-high-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 9 & StateChange == 3] <- 15     #St3-high-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 10 & StateChange == 1] <- 16    #St4-low-No Change
-  LandProd_change[SteadInd_Baseline == 10 & StateChange == 2] <- 17    #St4-low-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 10 & StateChange == 3] <- 18    #St4-low-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 11 & StateChange == 1] <- 19    #St4-medium-No Change
-  LandProd_change[SteadInd_Baseline == 11 & StateChange == 2] <- 20    #St4-medium-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 11 & StateChange == 3] <- 21    #St4-medium-Change 2 or more categs
-  LandProd_change[SteadInd_Baseline == 12 & StateChange == 1] <- 22    #St4-high-No Change
-  LandProd_change[SteadInd_Baseline == 12 & StateChange == 2] <- 22    #St4-high-Change 1 categ
-  LandProd_change[SteadInd_Baseline == 12 & StateChange == 3] <- 22    #St4-high-Change 2 or more categs
-  LandProd_change[is.na(StateChange)] <- NA
+  LandProd_change_vals[SteadInd_Baseline_vals == 1 & StateChange_vals == 1] <- 1      #St1-low-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 1 & StateChange_vals == 2] <- 2      #St1-low-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 1 & StateChange_vals == 3] <- 3      #St1-low-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 2 & StateChange_vals == 1] <- 4      #St1-medium-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 2 & StateChange_vals == 2] <- 5      #St1-medium-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 2 & StateChange_vals == 3] <- 6      #St1-medium-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 3 & StateChange_vals == 1] <- 7      #St1-high-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 3 & StateChange_vals == 2] <- 8      #St1-high-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 3 & StateChange_vals == 3] <- 9      #St1-high-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 4 & StateChange_vals == 1] <- 10     #St2-low-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 4 & StateChange_vals == 2] <- 10     #St2-low-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 4 & StateChange_vals == 3] <- 10     #St2-low-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 5 & StateChange_vals == 1] <- 11     #St2-medium-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 5 & StateChange_vals == 2] <- 11     #St2-medium-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 5 & StateChange_vals == 3] <- 11     #St2-medium-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 6 & StateChange_vals == 1] <- 12     #St2-high-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 6 & StateChange_vals == 2] <- 12     #St2-high-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 6 & StateChange_vals == 3] <- 12     #St2-high-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 7 & StateChange_vals == 1] <- 13     #St3-low-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 7 & StateChange_vals == 2] <- 13     #St3-low-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 7 & StateChange_vals == 3] <- 13     #St3-low-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 8 & StateChange_vals == 1] <- 14     #St3-medium-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 8 & StateChange_vals == 2] <- 14     #St3-medium-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 8 & StateChange_vals == 3] <- 14     #St3-medium-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 9 & StateChange_vals == 1] <- 15     #St3-high-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 9 & StateChange_vals == 2] <- 15     #St3-high-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 9 & StateChange_vals == 3] <- 15     #St3-high-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 10 & StateChange_vals == 1] <- 16    #St4-low-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 10 & StateChange_vals == 2] <- 17    #St4-low-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 10 & StateChange_vals == 3] <- 18    #St4-low-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 11 & StateChange_vals == 1] <- 19    #St4-medium-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 11 & StateChange_vals == 2] <- 20    #St4-medium-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 11 & StateChange_vals == 3] <- 21    #St4-medium-Change 2 or more categs
+  LandProd_change_vals[SteadInd_Baseline_vals == 12 & StateChange_vals == 1] <- 22    #St4-high-No Change
+  LandProd_change_vals[SteadInd_Baseline_vals == 12 & StateChange_vals == 2] <- 22    #St4-high-Change 1 categ
+  LandProd_change_vals[SteadInd_Baseline_vals == 12 & StateChange_vals == 3] <- 22    #St4-high-Change 2 or more categs
+  LandProd_change_vals[is.na(StateChange_vals)] <- NA
+  
+  LandProd_change <- setValues(LandProd_change, LandProd_change_vals)
+  
+  if(exists("SteadInd_Baseline_vals")) rm(SteadInd_Baseline_vals)
+  if(exists("StateChange_vals")) rm(StateChange_vals)
+  if(exists("LandProd_change_vals")) rm(LandProd_change_vals)
 
   ## Saving results
   if (filename != "") writeRaster(LandProd_change, filename = filename, overwrite = TRUE)
