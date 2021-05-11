@@ -23,7 +23,8 @@ total within-cluster sum of squares at y-axis
 \details{
 The 'scree plot method' allows the user to assess how the quality of the
 K-means clustering improves when increasing the number of clusters. An elbow in the curve
-indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}
+indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}.
+Please note that the variables are standardised (mean = 0; sd = 1) before to run the clustering
 }
 \examples{
 \donttest{
