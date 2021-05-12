@@ -106,21 +106,27 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
     if(any(extent(LandProd_change) != extent(LandProd_current), res(LandProd_change) != res(LandProd_current)))
       stop("LandProd_change and LandProd_current must have same extent and resolution")
 
+
     ## Combined Assessment ####
     LPD_CombAssess <- LandProd_change
-    LPD_CombAssess[LandProd_change %in% c(1:6, 8:9)      & LandProd_current  < local_prod_threshold] <- 1      # 1(d): Declining land productivity
-    LPD_CombAssess[LandProd_change %in% c(3, 6)          & LandProd_current >= local_prod_threshold] <- 1      # 1(d): Declining land productivity
-    LPD_CombAssess[LandProd_change %in% c(7)             & LandProd_current  < local_prod_threshold] <- 2      # 2(ew): Early signs of decline of land productivity
-    LPD_CombAssess[LandProd_change %in% c(1:2, 4:5, 8:9) & LandProd_current >= local_prod_threshold] <- 2      # 2(ew): Early signs of decline of land productivity
-    LPD_CombAssess[LandProd_change %in% c(7)             & LandProd_current >= local_prod_threshold] <- 3      # 3(nf): Negative fluctuation (stable, but stressed land prod.)
-    LPD_CombAssess[LandProd_change %in% c(10:12)                                                   ] <- 3      # 3(nf): Negative fluctuation (stable, but stressed land prod.)
-    LPD_CombAssess[LandProd_change %in% c(13:15)                                                   ] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
-    LPD_CombAssess[LandProd_change %in% c(16:17, 19)     & LandProd_current  < local_prod_threshold] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
-    LPD_CombAssess[LandProd_change %in% c(18, 20:22)     & LandProd_current  < local_prod_threshold] <- 5      # 5(i): Increasing land productivity
-    LPD_CombAssess[LandProd_change %in% c(16:22)         & LandProd_current >= local_prod_threshold] <- 5      # 5(i): Increasing land productivity
-    #LPD_CombAssess[LandProd_change %in% c(16:17, 19:20)  & LandProd_current >= local_prod_threshold] <- 5      # 5(i): Increasing land productivity
-    #LPD_CombAssess[LandProd_change %in% c(18, 21:22)     & LandProd_current >= local_prod_threshold] <- 6      # 6(si): Strongly increasing land productivity
-    LPD_CombAssess[is.na(LandProd_change)] <- NA
+
+    LPD_CombAssess_vals <- getValues(LPD_CombAssess)
+    LandProd_change_vals <- getValues(LandProd_change)
+    LandProd_current_vals <- getValues(LandProd_current)
+
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(1:6, 8:9)      & LandProd_current_vals  < local_prod_threshold] <- 1      # 1(d): Declining land productivity
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(3, 6)          & LandProd_current_vals >= local_prod_threshold] <- 1      # 1(d): Declining land productivity
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(7)             & LandProd_current_vals  < local_prod_threshold] <- 2      # 2(ew): Early signs of decline of land productivity
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(1:2, 4:5, 8:9) & LandProd_current_vals >= local_prod_threshold] <- 2      # 2(ew): Early signs of decline of land productivity
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(7)             & LandProd_current_vals >= local_prod_threshold] <- 3      # 3(nf): Negative fluctuation (stable, but stressed land prod.)
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(10:12)                                                   ] <- 3      # 3(nf): Negative fluctuation (stable, but stressed land prod.)
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(13:15)                                                   ] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(16:17, 19)     & LandProd_current_vals  < local_prod_threshold] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(18, 20:22)     & LandProd_current_vals  < local_prod_threshold] <- 5      # 5(i): Increasing land productivity
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(16:22)         & LandProd_current_vals >= local_prod_threshold] <- 5      # 5(i): Increasing land productivity
+    #LPD_CombAssess_vals[LandProd_change_vals %in% c(16:17, 19:20)  & LandProd_current_vals >= local_prod_threshold] <- 5      # 5(i): Increasing land productivity
+    #LPD_CombAssess_vals[LandProd_change_vals %in% c(18, 21:22)     & LandProd_current_vals >= local_prod_threshold] <- 6      # 6(si): Strongly increasing land productivity
+    LPD_CombAssess_vals[is.na(LandProd_change_vals)] <- NA
 
 
   }else{
@@ -128,14 +134,24 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
 
     ## Reclassification of 'LandProd_change' ####
     LPD_CombAssess <- LandProd_change
-    LPD_CombAssess[LandProd_change %in% c(1:6, 8:9)      ] <- 1      # 1(d): Declining land productivity
-    LPD_CombAssess[LandProd_change %in% c(7)             ] <- 2      # 2(ew): Early signs of decline of land productivity
-    LPD_CombAssess[LandProd_change %in% c(10:12)         ] <- 3      # 3(nf): Negative fluctuation (stable, but stressed land prod.)
-    LPD_CombAssess[LandProd_change %in% c(13:15)         ] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
-    LPD_CombAssess[LandProd_change %in% c(16:17, 19)     ] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
-    LPD_CombAssess[LandProd_change %in% c(18, 20:22)     ] <- 5      # 5(i): Increasing land productivity
-    LPD_CombAssess[is.na(LandProd_change)] <- NA
+
+    LPD_CombAssess_vals <- getValues(LPD_CombAssess)
+    LandProd_change_vals <- getValues(LandProd_change)
+
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(1:6, 8:9)      ] <- 1      # 1(d): Declining land productivity
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(7)             ] <- 2      # 2(ew): Early signs of decline of land productivity
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(10:12)         ] <- 3      # 3(nf): Negative fluctuation (stable, but stressed land prod.)
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(13:15)         ] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(16:17, 19)     ] <- 4      # 4(pf): Positive fluctuation (stable, not stressed land prod.)
+    LPD_CombAssess_vals[LandProd_change_vals %in% c(18, 20:22)     ] <- 5      # 5(i): Increasing land productivity
+    LPD_CombAssess_vals[is.na(LandProd_change_vals)] <- NA
   }
+
+  LPD_CombAssess <- setValues(LPD_CombAssess, LPD_CombAssess_vals)
+
+  if(exists("LPD_CombAssess_vals")) rm(LPD_CombAssess_vals)
+  if(exists("LandProd_change_vals")) rm(LandProd_change_vals)
+  if(exists("LandProd_current_vals")) rm(LandProd_current_vals)
 
 
   ## Saving results ####
