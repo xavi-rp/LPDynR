@@ -91,8 +91,6 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
   ProdVar_average_df$EFT <- EFTs_df[[1]]
   ProdVar_average_df$rwnms <- as.numeric(rownames(EFTs_df))
   names(ProdVar_average_df)[1] <- "ProductivityVariable"
-  #if(exists("EFTs_df")) rm(EFTs_df)
-  #gc()
 
   ## Calculating 90-percentile by EFT ####
   ## EFT = 0 is NoData in the raster

@@ -139,12 +139,13 @@ LongTermChange <- function(SteadinessIndex = NULL,
 
   ## Combining Steadiness Index with baseline levels
   SteadInd_Baseline <- SteadinessIndex
-  
-  SteadInd_Baseline_vals <- getValues(SteadInd_Baseline)
+  names(SteadInd_Baseline) <- "SteadInd_Baseline"
+
   SteadinessIndex_vals <- getValues(SteadinessIndex)
   BaselineLevels_vals <- getValues(BaselineLevels)
-  
-  
+  SteadInd_Baseline_vals <- rep(NA, length(SteadinessIndex_vals))
+
+
   SteadInd_Baseline_vals[SteadinessIndex_vals == 1 & BaselineLevels_vals == 1] <- 1    # Steadiness Index 1 (Strong Negative) - Base Line Level 1 (low)      -> St1-low
   SteadInd_Baseline_vals[SteadinessIndex_vals == 1 & BaselineLevels_vals == 2] <- 2    # Steadiness Index 1 (Strong Negative) - Base Line Level 2 (medium)   -> St1-medium
   SteadInd_Baseline_vals[SteadinessIndex_vals == 1 & BaselineLevels_vals == 3] <- 3    # Steadiness Index 1 (Strong Negative) - Base Line Level 3 (high)     -> St1-high
@@ -157,16 +158,15 @@ LongTermChange <- function(SteadinessIndex = NULL,
   SteadInd_Baseline_vals[SteadinessIndex_vals == 4 & BaselineLevels_vals == 1] <- 10   # Steadiness Index 4 (Strong Positive) - Base Line Level 1 (low)     -> St4-low
   SteadInd_Baseline_vals[SteadinessIndex_vals == 4 & BaselineLevels_vals == 2] <- 11   # Steadiness Index 4 (Strong Positive) - Base Line Level 2 (medium)  -> St4-medium
   SteadInd_Baseline_vals[SteadinessIndex_vals == 4 & BaselineLevels_vals == 3] <- 12   # Steadiness Index 4 (Strong Positive) - Base Line Level 3 (high)    -> St4-high
-
   #SteadInd_Baseline <- setValues(SteadInd_Baseline, SteadInd_Baseline_vals)
-  if(exists("SteadinessIndex_vals")) rm(SteadinessIndex_vals)
-  if(exists("BaselineLevels_vals")) rm(BaselineLevels_vals)
 
   ## Reclassifying into long term change categories (22)
   LandProd_change <- SteadinessIndex
-  
-  LandProd_change_vals <- getValues(LandProd_change)
+  names(LandProd_change) <- "LandProd_change"
+
   StateChange_vals <- getValues(StateChange)
+  LandProd_change_vals <- rep(NA, length(StateChange_vals))
+
 
   LandProd_change_vals[SteadInd_Baseline_vals == 1 & StateChange_vals == 1] <- 1      #St1-low-No Change
   LandProd_change_vals[SteadInd_Baseline_vals == 1 & StateChange_vals == 2] <- 2      #St1-low-Change 1 categ
@@ -204,13 +204,10 @@ LongTermChange <- function(SteadinessIndex = NULL,
   LandProd_change_vals[SteadInd_Baseline_vals == 12 & StateChange_vals == 1] <- 22    #St4-high-No Change
   LandProd_change_vals[SteadInd_Baseline_vals == 12 & StateChange_vals == 2] <- 22    #St4-high-Change 1 categ
   LandProd_change_vals[SteadInd_Baseline_vals == 12 & StateChange_vals == 3] <- 22    #St4-high-Change 2 or more categs
-  LandProd_change_vals[is.na(StateChange_vals)] <- NA
-  
+  #LandProd_change_vals[is.na(StateChange_vals)] <- NA
+
   LandProd_change <- setValues(LandProd_change, LandProd_change_vals)
-  
-  if(exists("SteadInd_Baseline_vals")) rm(SteadInd_Baseline_vals)
-  if(exists("StateChange_vals")) rm(StateChange_vals)
-  if(exists("LandProd_change_vals")) rm(LandProd_change_vals)
+
 
   ## Saving results
   if (filename != "") writeRaster(LandProd_change, filename = filename, overwrite = TRUE)
