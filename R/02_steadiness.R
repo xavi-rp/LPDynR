@@ -62,12 +62,20 @@ steadiness <- function(obj2process = NULL,
 
   ## Calculating steadiness classes
   SteadInd_rstr <- raster(mtid_rstr)
-  SteadInd_rstr[slope_rstr < 0 & mtid_rstr > 0] <- 1   # strong negative ecosystem dynamics
-  SteadInd_rstr[slope_rstr < 0 & mtid_rstr < 0] <- 2   # moderate negative ecoystem dynamics
-  SteadInd_rstr[slope_rstr > 0 & mtid_rstr < 0] <- 3   # moderate positive ecosystem dynamics
-  SteadInd_rstr[slope_rstr > 0 & mtid_rstr > 0] <- 4   # strong positive ecosystem dynamics
-  SteadInd_rstr[slope_rstr == 0 | mtid_rstr == 0] <- 0   # stable ecosystem dynamics
+  names(SteadInd_rstr) <- "SteadInd"
 
+  slope_rstr_vals <- getValues(slope_rstr)
+  mtid_rstr_vals <- getValues(mtid_rstr)
+  SteadInd_rstr_vals <- rep(NA, length(mtid_rstr_vals))
+
+
+  SteadInd_rstr_vals[slope_rstr_vals < 0 & mtid_rstr_vals > 0] <- 1     # strong negative ecosystem dynamics
+  SteadInd_rstr_vals[slope_rstr_vals < 0 & mtid_rstr_vals < 0] <- 2     # moderate negative ecoystem dynamics
+  SteadInd_rstr_vals[slope_rstr_vals > 0 & mtid_rstr_vals < 0] <- 3     # moderate positive ecosystem dynamics
+  SteadInd_rstr_vals[slope_rstr_vals > 0 & mtid_rstr_vals > 0] <- 4     # strong positive ecosystem dynamics
+  SteadInd_rstr_vals[slope_rstr_vals == 0 | mtid_rstr_vals == 0] <- 0   # stable ecosystem dynamics
+
+  SteadInd_rstr <- setValues(SteadInd_rstr, SteadInd_rstr_vals)
 
   ## Saving results
   #rm(list = c("yrs", "years"), envir = globalenv())

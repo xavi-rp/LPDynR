@@ -21,7 +21,7 @@ As part of the UN Sustainable Development Goal 15 (Life on Land), the indicator 
 
 The Land Productivity sub-indicator (LP) refers to the total above-ground Net Primary Production and reflects changes in health and productive capacity of the land. Its declining trends can be usually understood as land degradation. LP is calculated using the Land Productivity Dynamics (LPD) approach, first developed by Ivits and Cherlet (2013). The LPD approach uses phenological and productivity variables derived from time series of remote sensed imagery, particularly the normalized difference vegetation index (NDVI), to estimate ecosystem dynamics and change. 
 
-LPD is the methodological basis of the *LPDynR* package. It is based on a combined assessment of two sources of information, as seen in Figure 1. On the one hand, the first layer is the Long Term Change Map and, in general terms, it shows the tendency of change of land productivity (positive or negative) and the effect that this tendency might have had on a particular original point after a certain period of time. On the other hand, the second layer is the Current Status Map, which provides information on the current efficiency levels of vegetation on the productivity or, in other words, the current level of land productivity in relation to its potential. Further explanations for both branches can be found in the ATBD. The final result of the indicator is a categorical map with 5 classes of land productivity dynamics, ranging from declining to increasing productivity.
+LPD is the methodological basis of the *LPDynR* package. It is based on a combined assessment of two sources of information, as seen in Figure 1. On the one hand, the first layer is the Long Term Change Map and, in general terms, it shows the tendency of change of land productivity (positive or negative) and the effect that this tendency might have had on a particular original point after a certain period of time. On the other hand, the second layer is the Current Status Map, which provides information on the current efficiency levels of vegetation on the productivity or, in other words, the current level of land productivity in relation to its potential. Further explanations for both branches can be found in Rotllan-Puig, et al. (2021). The final result of the indicator is a categorical map with 5 classes of land productivity dynamics, ranging from declining to increasing productivity.
 
 &nbsp;
 
@@ -120,6 +120,9 @@ Finally, you can plot your maps!
 
 ## References
 
-- Ivits, E., and M. Cherlet. 2013. “Land-Productivity Dynamics Towards Integrated Assessment of Land Degradation at Global Scales.” Technical Report EUR 26052. Joint Research Centre of the European Commission.
+- Ivits, E., and M. Cherlet. 2013. 'Land-Productivity Dynamics Towards Integrated Assessment of Land Degradation at Global Scales'. Technical Report EUR 26052. Joint Research Centre of the European Commission.
+
+- Rotllan-Puig, X., Ivits, E. and M. Cherlet. 2021. 'LPDynR: a new tool to calculate the Land Productivity Dynamics indicator'. Preprint in EarthArXiv. https://eartharxiv.org/repository/view/2294/
+
 
 
