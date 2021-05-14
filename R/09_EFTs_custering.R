@@ -69,15 +69,15 @@ EFT_clust <- function(obj2clust = NULL,
   obj2clust_ini_NA[, clstr := as.integer(clstr)]
   obj2clust_ini_NA <- obj2clust_ini_NA[, .(clstr, rn)]
 
-
   obj2clust_ini <- na.omit(obj2clust_ini)
+
 
   ## Scaling
   cols2scale <- colnames(obj2clust_ini)
   cols2scale <- cols2scale[!cols2scale %in% c("rn")]
-  cols2keep <- c(paste0(cols2scale, "_scld"), "rn")
+  cols2keep <- paste0(cols2scale, "_scld")
   obj2clust_ini[, (cols2keep) := lapply(.SD, function(x) as.vector(scale(x))), .SDcols = cols2scale]
-  obj2clust_ini <- obj2clust_ini[, .SD, .SDcols = cols2keep]
+  obj2clust_ini <- obj2clust_ini[, .SD, .SDcols = c(cols2keep, "rn")]
 
 
   ## Clustering using optimal number of clusters
