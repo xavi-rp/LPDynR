@@ -4,12 +4,19 @@
 \alias{clust_optim}
 \title{clust_optim}
 \usage{
-clust_optim(obj2clust = NULL, num_clstrs = seq(5, 50, 5), ...)
+clust_optim(
+  obj2clust = NULL,
+  num_clstrs = seq(5, 50, 5),
+  standardise_vars = TRUE,
+  ...
+)
 }
 \arguments{
 \item{obj2clust}{RasterStack or RasterBrick object (or its file name). Each layer is one variable}
 
 \item{num_clstrs}{Numeric. Optional. Vector with a sequence of number of clusters to check for optimal}
+
+\item{standardise_vars}{Logical. Optional. If TRUE (default), variables are standardised (mean = 0; sd = 1)}
 
 \item{...}{Optional. Arguments for \code{\link[stats]{kmeans}}}
 }
@@ -23,8 +30,7 @@ total within-cluster sum of squares at y-axis
 \details{
 The 'scree plot method' allows the user to assess how the quality of the
 K-means clustering improves when increasing the number of clusters. An elbow in the curve
-indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}.
-Please note that the variables are standardised (mean = 0; sd = 1) before running the clustering
+indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}
 }
 \examples{
 \donttest{

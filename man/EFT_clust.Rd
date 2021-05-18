@@ -4,12 +4,20 @@
 \alias{EFT_clust}
 \title{EFT_clust}
 \usage{
-EFT_clust(obj2clust = NULL, n_clust = 20, filename = "", ...)
+EFT_clust(
+  obj2clust = NULL,
+  n_clust = 20,
+  standardise_vars = TRUE,
+  filename = "",
+  ...
+)
 }
 \arguments{
 \item{obj2clust}{RasterStack or RasterBrick object (or its file name). Each layer is one variable}
 
 \item{n_clust}{Numeric. Number of total clusters. Optional. Default = 20}
+
+\item{standardise_vars}{Logical. Optional. If TRUE (default), variables are standardised (mean = 0; sd = 1)}
 
 \item{filename}{Character. Output filename. Optional}
 
