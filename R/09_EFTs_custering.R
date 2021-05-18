@@ -23,6 +23,7 @@
 #' @importFrom dplyr bind_rows
 #' @param obj2clust RasterStack or RasterBrick object (or its file name). Each layer is one variable
 #' @param n_clust Numeric. Number of total clusters. Optional. Default = 20
+#' @param standardise_vars Logical. Optional. If TRUE (default), variables are standardised (mean = 0; sd = 1)
 #' @param filename Character. Output filename. Optional
 #' @param ... Arguments for \code{\link[stats]{kmeans}}. Optional
 #' @return A list with two components: (1) a RasterLayer object with the clusters and (2) a vector with the clustering evaluation in percentage
@@ -42,6 +43,7 @@
 
 EFT_clust <- function(obj2clust = NULL,
                       n_clust = 20,
+                      standardise_vars = TRUE,
                       filename = "",
                       ...){
 
@@ -72,12 +74,14 @@ EFT_clust <- function(obj2clust = NULL,
   obj2clust_ini <- na.omit(obj2clust_ini)
 
 
-  ## Scaling
-  cols2scale <- colnames(obj2clust_ini)
-  cols2scale <- cols2scale[!cols2scale %in% c("rn")]
-  cols2keep <- paste0(cols2scale, "_scld")
-  obj2clust_ini[, (cols2keep) := lapply(.SD, function(x) as.vector(scale(x))), .SDcols = cols2scale]
-  obj2clust_ini <- obj2clust_ini[, .SD, .SDcols = c(cols2keep, "rn")]
+  ## Standardising
+  if(standardise_vars == TRUE){
+    cols2scale <- colnames(obj2clust_ini)
+    cols2scale <- cols2scale[!cols2scale %in% c("rn")]
+    cols2keep <- paste0(cols2scale, "_scld")
+    obj2clust_ini[, (cols2keep) := lapply(.SD, function(x) as.vector(scale(x))), .SDcols = cols2scale]
+    obj2clust_ini <- obj2clust_ini[, .SD, .SDcols = c(cols2keep, "rn")]
+    }
 
 
   ## Clustering using optimal number of clusters

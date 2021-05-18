@@ -7,13 +7,13 @@
 #' total within-cluster sum of squares at y-axis
 #' @details The 'scree plot method' allows the user to assess how the quality of the
 #' K-means clustering improves when increasing the number of clusters. An elbow in the curve
-#' indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}.
-#' Please note that the variables are standardised (mean = 0; sd = 1) before running the clustering
+#' indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}
 #' @import raster
 #' @import data.table
 #' @importFrom stats kmeans complete.cases var
 #' @param obj2clust RasterStack or RasterBrick object (or its file name). Each layer is one variable
 #' @param num_clstrs Numeric. Optional. Vector with a sequence of number of clusters to check for optimal
+#' @param standardise_vars Logical. Optional. If TRUE (default), variables are standardised (mean = 0; sd = 1)
 #' @param ... Optional. Arguments for \code{\link[stats]{kmeans}}
 #' @return A scree plot
 #' @name clust_optim
@@ -32,6 +32,7 @@
 
 clust_optim <- function(obj2clust = NULL,
                         num_clstrs = seq(5, 50, 5),
+                        standardise_vars = TRUE,
                         ...){
 
   if(is.null(obj2clust))
@@ -47,21 +48,22 @@ clust_optim <- function(obj2clust = NULL,
     stop("Please provide a sequence of number of clusters to check for optimal")
 
 
-  obj2clust1 <- as.data.frame(obj2clust)
-  rm(obj2clust)
-  gc()
-  setDT(obj2clust1)
-  obj2clust1 <- na.omit(obj2clust1)
+  obj2clust <- as.data.frame(obj2clust)
+  #rm(obj2clust)
+  #gc()
+  setDT(obj2clust)
+  obj2clust <- na.omit(obj2clust)
 
-  ## Scaling
-  cols2scale <- names(obj2clust1)
-  cols2keep <- paste0(names(obj2clust1), "_scld")
-  obj2clust1[, (cols2keep) := lapply(.SD, function(x) as.vector(scale(x))), .SDcols = cols2scale]
-  obj2clust1 <- obj2clust1[, .SD, .SDcols = cols2keep]
-
+  ## Standardising
+  if(standardise_vars == TRUE){
+    cols2scale <- names(obj2clust)
+    cols2keep <- paste0(names(obj2clust), "_scld")
+    obj2clust[, (cols2keep) := lapply(.SD, function(x) as.vector(scale(x))), .SDcols = cols2scale]
+    obj2clust <- obj2clust[, .SD, .SDcols = cols2keep]
+  }
 
   ## K-means
-  wss <- (nrow(obj2clust1) - 1) * sum(apply(obj2clust1, 2, var))
+  wss <- (nrow(obj2clust) - 1) * sum(apply(obj2clust, 2, var))
 
   dts <- list(...)
   if(is.null(dts$nstart)) dts$nstart <- 1
@@ -69,7 +71,7 @@ clust_optim <- function(obj2clust = NULL,
   if(is.null(dts$algorithm)) dts$algorithm <- "MacQueen"
 
   for (i in 2:(length(num_clstrs) + 1)){
-    wss_i <- kmeans(obj2clust1,
+    wss_i <- kmeans(obj2clust,
                    centers = num_clstrs[i - 1],
                    nstart = dts$nstart,
                    iter.max = dts$iter.max,
