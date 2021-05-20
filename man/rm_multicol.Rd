@@ -6,6 +6,7 @@
 \usage{
 rm_multicol(
   dir2process = NULL,
+  yrs2use = NULL,
   multicol_cutoff = 0.7,
   cores2use = 1,
   filename = "",
@@ -15,6 +16,8 @@ rm_multicol(
 \arguments{
 \item{dir2process}{Character. Directory where the Raster* objects are stored. All the .tif
 files in the directory will be read in to be used}
+
+\item{yrs2use}{Numeric. A numeric vector with the years (layers positions) of the time series to be used (e.g. yrs2use = 2:21). Optional. Default (= NULL) uses all years}
 
 \item{multicol_cutoff}{Numeric. Cutoff value of (Pearson's) correlation. Optional. Default is 0.70}
 
