@@ -11,6 +11,7 @@
 #' @import raster parallel virtualspecies
 #' @param dir2process Character. Directory where the Raster* objects are stored. All the .tif
 #' files in the directory will be read in to be used
+#' @param yrs2use Numeric. A numeric vector with the years (layers positions) of the time series to be used (e.g. yrs2use = 2:21). Optional. Default (= NULL) uses all years
 #' @param multicol_cutoff Numeric. Cutoff value of (Pearson's) correlation. Optional. Default is 0.70
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @param filename Character. Output filename. Optional
@@ -29,6 +30,7 @@
 #' }
 
 rm_multicol <- function(dir2process = NULL,
+                        yrs2use = NULL,
                         multicol_cutoff = 0.70,
                         cores2use = 1,
                         filename = "",
@@ -38,6 +40,9 @@ rm_multicol <- function(dir2process = NULL,
   if(!is.character(dir2process) | is.na(dir2process) | is.null(dir2process) |
      !dir.exists(dir2process))
     stop("Please provide a character vector where the .tif files can be read in from")
+
+  if(!any(is.numeric(yrs2use) | is.null(yrs2use)) | any(is.na(yrs2use)))
+    stop("Please provide a numeric vector with the years (layers positions) of the time series to be used")
 
   varbles <- dir(path = dir2process,
                  pattern = ".tif$", full.names = TRUE)
@@ -51,6 +56,8 @@ rm_multicol <- function(dir2process = NULL,
 
   for (v in varbles) {
     var2process <- brick(v)
+    if(!is.null(yrs2use)) var2process <- var2process[[yrs2use]]
+
     rstr_name <- unlist(strsplit(v, "/"))
     rstr_name <- rstr_name[length(rstr_name)]
     rstr_name <- sub(".tif", "", rstr_name)
