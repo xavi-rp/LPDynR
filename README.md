@@ -68,4 +68,4 @@ vignette(topic = "LPD_PartialTimeSeries_example", package = "LPDynR")
 
 - Ivits, E. and M. Cherlet. 2013. 'Land-Productivity Dynamics Towards Integrated Assessment of Land Degradation at Global Scales'. Technical Report EUR 26052. Joint Research Centre of the European Commission.
 
-- Rotllan-Puig, X., Ivits, E. and M. Cherlet. 2021. 'LPDynR: a new tool to calculate the Land Productivity Dynamics indicator'. Preprint in EarthArXiv. https://eartharxiv.org/repository/view/2294/
+- Rotllan-Puig, X., Ivits, E. and M. Cherlet. 2021. 'LPDynR: a new tool to calculate the Land Productivity Dynamics indicator'. Ecological Indicators, 133: 108386. https://doi.org/10.1016/j.ecolind.2021.108386
