@@ -11,21 +11,21 @@
 #' local and regional studies. In addition, baseline_lev() classifies by default 10 percent of pixels as high level of land productivity
 #' and the rest (100 - ('drylandProp' + 10)) as medium level. Proportion of pixels classified as 'high' can be also modified by passing the
 #' argument 'highprodProp'
-#' @import raster parallel
+#' @import terra
 #' @param obj2process Raster* object (or its file name). If time series, each layer is one year
 #' @param yearsBaseline Numeric. Number of years to be averaged and used as baseline. Optional. Default is 3
 #' @param drylandProp Numeric. Proportion of drylands over total land, either expressed as a fraction of unity or percentage. Optional. Default is 0.4
 #' @param highprodProp Numeric. Proportion of land classified as 'highly productive' over total land, either expressed as a fraction of unity or percentage. Optional. Default is 0.1
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @param filename Character. Output filename. Optional
-#' @return RasterLayer object
+#' @return SpatRaster object
 #' @name baseline_lev
 #' @references Middleton, N., L. Stringer, A. Goudie, and D. Thomas. 2011. “The Forgotten Billion. MDG Achievement in the Drylands.” New York,
 #' NY, 10017, USA: United Nations Development Programme.
 #' @export
 #' @examples
 #' \donttest{
-#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' sb <- terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #' baseline_lev(obj2process = sb,
 #'              yearsBaseline = 3,
 #'              drylandProp = 0.4,
@@ -46,27 +46,24 @@ baseline_lev <- function(obj2process = NULL,
 
   if(is.character(obj2process)){
     obj2process <- stack(obj2process)
-  }else if(!class(obj2process) %in% c("RasterLayer", "RasterStack", "RasterBrick")){
-    stop("Please provide an object of classe Raster* (or a file name to read in from)")
+  }else if(!class(obj2process) %in% c("RasterLayer", "RasterStack", "RasterBrick", "SpatRaster")){
+    stop("Please provide an object of classe Raster*/SpatRaster (or a file name to read in from)")
   }
 
-  if(yearsBaseline > nlayers(obj2process)) yearsBaseline <- nlayers(obj2process)
+  if(yearsBaseline > nlyr(obj2process)) yearsBaseline <- nlyr(obj2process)
 
-  #obj2process <- stack(paste0("/Users/xavi_rp/Documents/D6_LPD/phenolo_data_Cat", "/mi_clean_Cat.tif"))
 
   ## Averaging first years
-  beginCluster(cores2use)
-  yrs <- c()
-  yrs <<- 1:yearsBaseline
-  obj2process_avg13 <- clusterR(obj2process, calc, args = list(fun = mean_years_function), export = "yrs")
-  endCluster()
+  yrs <- 1:yearsBaseline
+  obj2process_avg13 <- app(obj2process, fun = mean_years_function, cores = cores2use, yrs = yrs)
+
 
   #some checks...
   rning_tsts <- "y"
   rning_tsts <- "n"
   if(rning_tsts == "y"){
-    chk_cell <- raster::sampleRandom(obj2process_avg13, size = 1, cells = TRUE)[1]
-    chk_avg <- round(mean(as.vector(obj2process[chk_cell][1:yearsBaseline])), 0) == round(as.vector(obj2process_avg13[chk_cell]), 0) # has to be TRUE
+    cchk_cell <- spatSample(obj2process_avg13, size = 1, cells = TRUE)[1]
+    chk_avg <- round(mean(as.numeric(obj2process[as.numeric(chk_cell)][1:yearsBaseline])), 0) == round(as.numeric(obj2process_avg13[as.numeric(chk_cell)]), 0) # has to be TRUE
     if(chk_avg != TRUE) stop("Something wrong in the averaging process")
   }
 
@@ -74,10 +71,10 @@ baseline_lev <- function(obj2process = NULL,
   ## Classification of averaged pixels
   #The assumption of 40% of World's land area is dryland and, therefore, 40% of pixels is "low"
   #is fine at Global level. It must be adjusted for local studies!!!
-  pix_categs <- raster::quantile(obj2process_avg13, probs =  seq(0, 1, 0.1), names = TRUE)
-  pix_categs01 <- c(pix_categs[- length(pix_categs)])
-  pix_categs1 <- as.data.frame(pix_categs[-1])
-  pix_categs1$from <- pix_categs01
+  pix_categs <- terra::global(obj2process_avg13, fun = quantile, probs = seq(0, 1, 0.1), na.rm = TRUE)
+  pix_categs01 <- unlist(pix_categs[- length(pix_categs)])
+  pix_categs1 <- as.data.frame(t(pix_categs[-1]))
+  pix_categs1$from <- unlist(pix_categs01)
 
   if(drylandProp > 100){
     stop("Proportion of drylands ('drylandProp') must be < 100%")
@@ -106,7 +103,7 @@ baseline_lev <- function(obj2process = NULL,
   names(pix_categs1)[2] <- "to"
   pix_categs1[1, 1] <- pix_categs1[1, 1] - 1
 
-  obj2process_3class <- reclassify(obj2process_avg13, rcl = pix_categs1, filename = '', include.lowest = FALSE, right = TRUE)
+  obj2process_3class <- classify(obj2process_avg13, rcl = pix_categs1, filename = '', include.lowest = FALSE, right = TRUE)
 
   ## Saving results
   if (filename != "") writeRaster(obj2process_3class, filename = filename, overwrite = TRUE)

@@ -7,18 +7,18 @@
 #' on study, resulting in a 3-class RasterLayer object with (1) no change, (2) changed between 1 and x classes or
 #' (3) changed more than x classes, where x can be defined by the user (default is 1)
 #' @details state_change uses the average of 'yearsBaseline' number of years at the beginning and the end of the time series
-#' @import raster parallel
+#' @import terra
 #' @param obj2process Raster* object (or its file name). If time series, each layer is one year
 #' @param yearsBaseline Numeric. Number of years to be averaged at the beginning and end of the time series. Optional. Default is 3
 #' @param changeNclass Numeric. Number of classes changed for classification. Optional. Default is 1
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @param filename Character. Output filename. Optional
-#' @return RasterLayer object
+#' @return SpatRaster object
 #' @name state_change
 #' @export
 #' @examples
 #' \donttest{
-#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' sb <- terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #' state_change(obj2process = sb,
 #'              yearsBaseline = 3,
 #'              changeNclass = 1,

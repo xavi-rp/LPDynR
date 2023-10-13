@@ -12,11 +12,11 @@
 #' Values = 0 in the final map indicates that there is a scarcity of data in the productivity variable
 #' (i.e. only 1 year with data), so that the indicator cannot be calculated
 #'
-#' @import raster parallel
+#' @import terra
 #' @param obj2process Raster* object (or its file name). If time series, each layer is one year
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @param filename Character. Output filename. Optional
-#' @return RasterLayer object
+#' @return SpatRaster object
 #' @name steadiness
 #' @references Ivits, E., M. Cherlet, W. Mehl, and S. Sommer. 2013. “Ecosystem Functional Units Characterized by
 #' Satellite Observed Phenology and Productivity Gradients: A Case Study for Europe.” Ecological Indicators 27: 17–28.
@@ -24,7 +24,7 @@
 #' @export
 #' @examples
 #' \donttest{
-#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' sb <- terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #' steadiness(obj2process = sb)
 #'}
 #'
@@ -35,37 +35,33 @@ steadiness <- function(obj2process = NULL,
                        filename = ""){
 
   ## Reading in data (Standing Biomass)
-  if(is.null(obj2process)) stop("Please provide an object of classe Raster* (or a file names to read in from)")
+  if(is.null(obj2process)) stop("Please provide an object of classe SpatRaster (or a file names to read in from)")
 
   if(is.character(obj2process)){
-    obj2process <- stack(obj2process)
-  }else if(!class(obj2process) %in% c("RasterLayer", "RasterStack", "RasterBrick")){
+    obj2process <- rast(obj2process)
+  }else if(!class(obj2process) %in% c("RasterLayer", "RasterStack", "RasterBrick", "SpatRaster")){
     stop("Please provide an object of classe Raster* (or a file name to read in from)")
   }
 
-  #obj2process <- stack(paste0("/Users/xavi_rp/Documents/D6_LPD/phenolo_data_Cat", "/mi_clean_Cat.tif"))
-
   ## Fitting a linear regression and getting the slope
-  beginCluster(cores2use)
-  yrs <- c()
-  yrs <<- 1:nlayers(obj2process)
-  slope_rstr <- clusterR(obj2process, calc, args = list(fun = slp_lm), export = "yrs")
-  endCluster()
+
+  yrs <- 1:nlyr(obj2process)
+  #slope_rstr <- app(obj2process, fun = function(yrs, ff) ff(yrs), cores = cores2use, ff = slp_lm)
+  slope_rstr <- app(obj2process, fun = slp_lm, cores = cores2use, yrs = yrs)
 
 
   ## Computing net change: MTID (Multi Temporal Image Differencing)
-  beginCluster(cores2use)
-  #years <<- length(yrs)
-  mtid_rstr <- clusterR(obj2process, calc, args = list(fun = mtid_function))#, export = "years")
-  endCluster()
+
+  mtid_rstr <- app(obj2process, fun = mtid_function, cores = cores2use)
+
 
 
   ## Calculating steadiness classes
-  SteadInd_rstr <- raster(mtid_rstr)
+  SteadInd_rstr <- mtid_rstr
   names(SteadInd_rstr) <- "SteadInd"
 
-  slope_rstr_vals <- getValues(slope_rstr)
-  mtid_rstr_vals <- getValues(mtid_rstr)
+  slope_rstr_vals <- values(slope_rstr, mat = FALSE)
+  mtid_rstr_vals <- values(mtid_rstr, mat = FALSE)
   SteadInd_rstr_vals <- rep(NA, length(mtid_rstr_vals))
 
 
@@ -76,6 +72,7 @@ steadiness <- function(obj2process = NULL,
   SteadInd_rstr_vals[slope_rstr_vals == 0 | mtid_rstr_vals == 0] <- 0   # stable ecosystem dynamics
 
   SteadInd_rstr <- setValues(SteadInd_rstr, SteadInd_rstr_vals)
+
 
   ## Saving results
   #rm(list = c("yrs", "years"), envir = globalenv())
