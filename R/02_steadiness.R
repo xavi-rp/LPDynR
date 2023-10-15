@@ -6,14 +6,14 @@
 #' @description steadiness derives the Steadiness Index from a land productivity variable
 #' @details The Steadiness Index is based on the combination of two metrics calculated per pixel: (1) the slope derived
 #' from a linear regression of the different years of the time series and (2) the net change on the same period. It
-#' results in a 4-class RasterLayer object ranging from (1) strong negative to (4) strong positive ecosystem dynamics.
+#' results in a 4-class SpatRaster object ranging from (1) strong negative to (4) strong positive ecosystem dynamics.
 #' See Ivits et al. (2013) for further explanations.
 #'
 #' Values = 0 in the final map indicates that there is a scarcity of data in the productivity variable
 #' (i.e. only 1 year with data), so that the indicator cannot be calculated
 #'
 #' @import terra
-#' @param obj2process Raster* object (or its file name). If time series, each layer is one year
+#' @param obj2process SpatRaster object (or its file name). If time series, each layer is one year
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @param filename Character. Output filename. Optional
 #' @return SpatRaster object
@@ -38,9 +38,9 @@ steadiness <- function(obj2process = NULL,
   if(is.null(obj2process)) stop("Please provide an object of classe SpatRaster (or a file names to read in from)")
 
   if(is.character(obj2process)){
-    obj2process <- rast(obj2process)
-  }else if(!class(obj2process) %in% c("RasterLayer", "RasterStack", "RasterBrick", "SpatRaster")){
-    stop("Please provide an object of classe Raster* (or a file name to read in from)")
+    obj2process <- terra::rast(obj2process)
+  }else if(!class(obj2process) %in% c("SpatRaster")){
+    stop("Please provide an object of classe SpatRaster (or a file name to read in from)")
   }
 
   ## Fitting a linear regression and getting the slope

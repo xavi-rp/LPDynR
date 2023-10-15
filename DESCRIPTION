@@ -1,6 +1,6 @@
 Package: LPDynR
 Title: Land Productivity Dynamics Indicator
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: c(
     person("Xavier", "Rotllan-Puig", email = "xavier.rotllan.puig@aster-projects.cat", role = c("aut", "cre")),
     person("Eva", "Ivits", email = "", role = c("aut")),
@@ -12,7 +12,7 @@ Description: It uses 'phenological' and productivity-related variables derived f
     productivity. See <https://eartharxiv.org/repository/view/2294/> for a description of the methods used in 
     the package to calculate the indicator.
 Depends: R (>= 3.6.0)
-Imports: raster, dplyr, stats, data.table, virtualspecies, magrittr, rgdal, parallel
+Imports: terra, dplyr, stats, data.table, virtualspecies, magrittr
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 License: GPL-3

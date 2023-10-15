@@ -4,8 +4,8 @@
 #'
 #' @author Xavier Rotllan-Puig
 #' @title LPD_CombAssess
-#' @description LPD_CombAssess combines a 'LandProd_change' map (RasterLayer) with a 'LandProd_current'
-#' map (RasterLayer), giving a 5-classes map ranging from declining to increasing land
+#' @description LPD_CombAssess combines a 'LandProd_change' map (SpatRaster) with a 'LandProd_current'
+#' map (SpatRaster), giving a 5-classes map ranging from declining to increasing land
 #' productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 'local_prod_threshold'
 #' (in percentage; 50 by default) of potential local productivity (within the EFT) and pixels with more or equal to
 #' 'local_prod_threshold'.
@@ -43,18 +43,18 @@
 #' potential productivity within its Ecosystem Functional Type
 #'
 #'
-#' @import raster
-#' @param LandProd_change RasterLayer object (or its file name). Land Productivity Long Term Change Map
-#' @param LandProd_current RasterLayer object (or its file name). Land Productivity Current Status Map
+#' @import terra
+#' @param LandProd_change SpatRaster object (or its file name). Land Productivity Long Term Change Map
+#' @param LandProd_current SpatRaster object (or its file name). Land Productivity Current Status Map
 #' @param local_prod_threshold Numeric. Potential local productivity threshold (within the Ecosystem Functional Type) in percentage. Optional. Default = 50
 #' @param filename Character. Output filename. Optional
-#' @return RasterLayer
+#' @return SpatRaster
 #' @name LPD_CombAssess
 #' @seealso \code{\link{LongTermChange}}; \code{\link{LNScaling}}
 #' @export
 #' @examples
 #' \donttest{
-#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' sb <- terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #' SteadinessIndex_raster <- steadiness(obj2process = sb)
 #' BaselineLevels_raster <- baseline_lev(obj2process = sb,
 #'                                       yearsBaseline = 3,
@@ -85,25 +85,25 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
                            filename = ""){
 
   ## Reading in rasters ####
-  if(is.null(LandProd_change)) stop("Please provide an object of classe RasterLayer (or file names to read in some) for 'LandProd_change'")
+  if(is.null(LandProd_change)) stop("Please provide an object of classe SpatRaster (or file names to read in some) for 'LandProd_change'")
 
   if(is.character(LandProd_change)){
-    LandProd_change <- raster(LandProd_change)
-  }else if(class(LandProd_change) != "RasterLayer"){
-    stop("Please provide objects of classe RasterLayer (or file names to read in some)")
+    LandProd_change <- rast(LandProd_change)
+  }else if(class(LandProd_change) != "SpatRaster"){
+    stop("Please provide objects of classe SpatRaster (or file names to read in some)")
   }
 
   if(!is.null(LandProd_current)){
     if(is.character(LandProd_current)){
-      LandProd_current <- raster(LandProd_current)
-    }else if(class(LandProd_current) != "RasterLayer"){
-      stop("Please provide objects of classe RasterLayer (or file names to read in some)")
+      LandProd_current <- rast(LandProd_current)
+    }else if(class(LandProd_current) != "SpatRaster"){
+      stop("Please provide objects of classe SpatRaster (or file names to read in some)")
     }
 
     if(local_prod_threshold < 1 | local_prod_threshold > 100) stop("'local_prod_threshold' has to be in %")
 
     ## Checking for same extent/resolution
-    if(any(extent(LandProd_change) != extent(LandProd_current), res(LandProd_change) != res(LandProd_current)))
+    if(any(ext(LandProd_change) != ext(LandProd_current), res(LandProd_change) != res(LandProd_current)))
       stop("LandProd_change and LandProd_current must have same extent and resolution")
 
 
@@ -111,8 +111,8 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
     LPD_CombAssess <- LandProd_change
     names(LPD_CombAssess) <- "LPD_CombAssess"
 
-    LandProd_change_vals <- getValues(LandProd_change)
-    LandProd_current_vals <- getValues(LandProd_current)
+    LandProd_change_vals <- terra::values(LandProd_change)
+    LandProd_current_vals <- terra::values(LandProd_current)
     LPD_CombAssess_vals <- rep(NA, length(LandProd_change_vals))
 
 
@@ -138,7 +138,7 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
     LPD_CombAssess <- LandProd_change
     names(LPD_CombAssess) <- "LPD_LandProdChange_reclass"
 
-    LandProd_change_vals <- getValues(LandProd_change)
+    LandProd_change_vals <- terra::values(LandProd_change)
     LPD_CombAssess_vals <- rep(NA, length(LandProd_change_vals))
 
 
@@ -151,7 +151,7 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
     #LPD_CombAssess_vals[is.na(LandProd_change_vals)] <- NA
   }
 
-  LPD_CombAssess <- setValues(LPD_CombAssess, LPD_CombAssess_vals)
+  LPD_CombAssess <- terra::setValues(LPD_CombAssess, LPD_CombAssess_vals)
 
 
   ## Saving results ####

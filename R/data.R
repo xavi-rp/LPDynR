@@ -1,6 +1,6 @@
 #' Standing Biomass
 #'
-#' RasterBrick object containing time series of land productivity data (400 cells; 10 layers).
+#' SpatRaster object containing time series of land productivity data (400 cells; 10 layers).
 #' Years 2000-2009. The variable has been derived from MODIS using Timesat
 #'
 #' Downloaded from www.eea.europa.eu (20/08/2020)
@@ -13,9 +13,9 @@
 #'
 #'
 #' @docType data
-#' @examples raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' @examples terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #'
-#' @format GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
+#' @format GeoTIFF. SpatRaster object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 #' \describe{
 #'   \item{sb_cat}{Standing biomass}
 #' }
@@ -29,7 +29,7 @@
 
 #' Season Beginning Day
 #'
-#' RasterBrick object containing time series of phenological data (400 cells; 10 layers).
+#' SpatRaster object containing time series of phenological data (400 cells; 10 layers).
 #' Years 2000-2009. The variable has been derived from MODIS using Timesat
 #'
 #' Downloaded from www.eea.europa.eu (20/08/2020)
@@ -42,9 +42,9 @@
 #'
 #'
 #' @docType data
-#' @examples raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))
+#' @examples terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))
 #'
-#' @format GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
+#' @format GeoTIFF. SpatRaster object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 #' \describe{
 #'   \item{sbd_cat}{Season beginning day}
 #' }
@@ -57,7 +57,7 @@
 
 #' Season Length
 #'
-#' RasterBrick object containing time series of phenological data (400 cells; 10 layers).
+#' SpatRaster object containing time series of phenological data (400 cells; 10 layers).
 #' Years 2000-2009. The variable has been derived from MODIS using Timesat
 #'
 #' Downloaded from www.eea.europa.eu (20/08/2020)
@@ -70,9 +70,9 @@
 #'
 #'
 #' @docType data
-#' @examples raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sl_cat.tif"))
+#' @examples terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sl_cat.tif"))
 #'
-#' @format GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
+#' @format GeoTIFF. SpatRaster object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 #' \describe{
 #'   \item{sl_cat}{Season Length}
 #' }

@@ -8,10 +8,10 @@
 #' @details The 'scree plot method' allows the user to assess how the quality of the
 #' K-means clustering improves when increasing the number of clusters. An elbow in the curve
 #' indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}
-#' @import raster
+#' @import terra
 #' @rawNamespace import(data.table, except = shift)
 #' @importFrom stats kmeans complete.cases var
-#' @param obj2clust RasterStack or RasterBrick object (or its file name). Each layer is one variable
+#' @param obj2clust SpatRaster object (or its file name). Each layer is one variable
 #' @param num_clstrs Numeric. Optional. Vector with a sequence of number of clusters to check for optimal
 #' @param standardise_vars Logical. Optional. If TRUE (default), variables are standardised (mean = 0; sd = 1)
 #' @param ... Optional. Arguments for \code{\link[stats]{kmeans}}
@@ -36,12 +36,12 @@ clust_optim <- function(obj2clust = NULL,
                         ...){
 
   if(is.null(obj2clust))
-    stop("Please provide an objects of classe RasterStack or RasterBrick (or a file name to read in from)")
+    stop("Please provide an objects of classe SpatRaster (or a file name to read in from)")
 
   if(is.character(obj2clust)){
-    obj2clust <- stack(obj2clust)
-  }else if(!class(obj2clust) %in% c("RasterLayer", "RasterStack", "RasterBrick")){
-    stop("Please provide objects of classe Raster* (or a file name to read in from)")
+    obj2clust <- rast(obj2clust)
+  }else if(!class(obj2clust) %in% c("SpatRaster")){
+    stop("Please provide objects of classe SpatRaster (or a file name to read in from)")
   }
 
   if(!is.numeric(num_clstrs) | any(is.na(num_clstrs)) | is.null(num_clstrs))

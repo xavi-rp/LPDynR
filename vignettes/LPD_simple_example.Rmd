@@ -46,9 +46,9 @@ library(terra)
 ```
 &nbsp;
 
-Loading a land productivity variable derived from Earth Observation imagery. A RasterBrick or RasterStack object with time series (each layer is one year).
+Loading a land productivity variable derived from Earth Observation imagery. A SpatRaster object with time series (each layer is one year).
 ```
-variables_dir <- "yourDirectoryPath/"   # directory where land productivity and phenological variables are (RasterBrick or RasterStack objects with time series)
+variables_dir <- "yourDirectoryPath/"   # directory where land productivity and phenological variables are (SpatRaster objects with time series)
 
 sb <- rast(paste0(variables_dir, "/standingBiomass.tif"))    # Standing biomass (integral between the two minimas)
 ```
@@ -165,7 +165,7 @@ EFTs <- EFT_clust(obj2clust = pca_final_brick,
                   filename = "EFTs.tif")
 
 clust_eval <- EFTs[[2]]     # Evaluation of clustering performance
-EFTs <- EFTs[[1]]           # RasterLayer object with the clusters (i.e. EFTs)
+EFTs <- EFTs[[1]]           # SpatRaster object with the clusters (i.e. EFTs)
 ```
 &nbsp;
 
@@ -175,7 +175,7 @@ EFTs <- EFTs[[1]]           # RasterLayer object with the clusters (i.e. EFTs)
 ?LNScaling
 
 # Productivity variable
-si <- brick(paste0(variables_dir, "/cyclicFraction.tif"))    # Season integral (seasonal growth)
+si <- rast(paste0(variables_dir, "/cyclicFraction.tif"))    # Season integral (seasonal growth)
 
 LNScal <- LNScaling(EFTs = EFTs, 
                     ProdVar = si, 
@@ -185,7 +185,7 @@ LNScal <- LNScaling(EFTs = EFTs,
 &nbsp;
 
 
-9) **Land Productivity Dynamics Combined Assessment**. The final product, a RasterLayer object.
+9) **Land Productivity Dynamics Combined Assessment**. The final product, a SpatRaster object.
 ```
 ?LPD_CombAssess
 

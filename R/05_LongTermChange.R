@@ -81,20 +81,20 @@
 #' Values = 0 in the final map indicates that there is a scarcity of data in the productivity variable
 #' (i.e. only 1 year with data), so that the indicator cannot be calculated
 #'
-#' @import raster
+#' @import terra
 #' @importFrom data.table as.data.table setkeyv
 #' @importFrom dplyr group_by summarise_at
-#' @param SteadinessIndex RasterLayer object (or its file name). Steadiness Index (4-class)
-#' @param BaselineLevels RasterLayer object (or its file name). Baseline levels of land productivity (beginning of time series; 3-class)
-#' @param StateChange RasterLayer object (or its file name). Change of state of land productivity (beginning minus end of time series; 3-class)
+#' @param SteadinessIndex SpatRaster object (or its file name). Steadiness Index (4-class)
+#' @param BaselineLevels SpatRaster object (or its file name). Baseline levels of land productivity (beginning of time series; 3-class)
+#' @param StateChange SpatRaster object (or its file name). Change of state of land productivity (beginning minus end of time series; 3-class)
 #' @param filename Character. Output filename. Optional
-#' @return RasterLayer object
+#' @return SpatRaster object
 #' @name LongTermChange
 #' @seealso \code{\link{steadiness}}, \code{\link{baseline_lev}}, \code{\link{state_change}}
 #' @export
 #' @examples
 #' \donttest{
-#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' sb <- terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #' SteadinessIndex_raster <- steadiness(obj2process = sb)
 #' BaselineLevels_raster <- baseline_lev(obj2process = sb,
 #'                                       yearsBaseline = 3,
@@ -116,24 +116,24 @@ LongTermChange <- function(SteadinessIndex = NULL,
                            filename = ""){
 
   ## Reading in data
-  if(any(is.null(SteadinessIndex), is.null(BaselineLevels), is.null(StateChange))) stop("Please provide objects of classe Raster* (or file names to read in some)")
+  if(any(is.null(SteadinessIndex), is.null(BaselineLevels), is.null(StateChange))) stop("Please provide objects of classe SpatRaster (or file names to read in some)")
 
   if(is.character(SteadinessIndex)){
-    SteadinessIndex <- raster(SteadinessIndex)
-  }else if(!class(SteadinessIndex) %in% c("RasterLayer")){
-    stop("Please provide an object of classe RasterLayer for Steadiness Index (or a file name to read in from)")
+    SteadinessIndex <- rast(SteadinessIndex)
+  }else if(!class(SteadinessIndex) %in% c("SpatRaster")){
+    stop("Please provide an object of classe SpatRaster for Steadiness Index (or a file name to read in from)")
   }
 
   if(is.character(BaselineLevels)){
-    BaselineLevels <- raster(BaselineLevels)
-  }else if(!class(BaselineLevels) %in% "RasterLayer"){
-    stop("Please provide objects of classe RasterLayer for 'BaselineLevels' (or a file name to read in from)")
+    BaselineLevels <- terra::rast(BaselineLevels)
+  }else if(!class(BaselineLevels) %in% "SpatRaster"){
+    stop("Please provide objects of classe SpatRaster for 'BaselineLevels' (or a file name to read in from)")
   }
 
   if(is.character(StateChange)){
-    StateChange <- raster(StateChange)
-  }else if(!class(StateChange) %in% "RasterLayer"){
-    stop("Please provide objects of classe RasterLayer for 'StateChange' (or a file name to read in from)")
+    StateChange <- terra::rast(StateChange)
+  }else if(!class(StateChange) %in% "SpatRaster"){
+    stop("Please provide objects of classe SpatRaster for 'StateChange' (or a file name to read in from)")
   }
 
 
@@ -141,8 +141,8 @@ LongTermChange <- function(SteadinessIndex = NULL,
   SteadInd_Baseline <- SteadinessIndex
   names(SteadInd_Baseline) <- "SteadInd_Baseline"
 
-  SteadinessIndex_vals <- getValues(SteadinessIndex)
-  BaselineLevels_vals <- getValues(BaselineLevels)
+  SteadinessIndex_vals <- values(SteadinessIndex)
+  BaselineLevels_vals <- values(BaselineLevels)
   SteadInd_Baseline_vals <- rep(NA, length(SteadinessIndex_vals))
 
 
@@ -164,7 +164,7 @@ LongTermChange <- function(SteadinessIndex = NULL,
   LandProd_change <- SteadinessIndex
   names(LandProd_change) <- "LandProd_change"
 
-  StateChange_vals <- getValues(StateChange)
+  StateChange_vals <- values(StateChange)
   LandProd_change_vals <- rep(NA, length(StateChange_vals))
 
 
@@ -206,7 +206,7 @@ LongTermChange <- function(SteadinessIndex = NULL,
   LandProd_change_vals[SteadInd_Baseline_vals == 12 & StateChange_vals == 3] <- 22    #St4-high-Change 2 or more categs
   #LandProd_change_vals[is.na(StateChange_vals)] <- NA
 
-  LandProd_change <- setValues(LandProd_change, LandProd_change_vals)
+  LandProd_change <- terra::setValues(LandProd_change, LandProd_change_vals)
 
 
   ## Saving results

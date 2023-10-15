@@ -49,17 +49,17 @@ Install the latest version.
 library(devtools)
 install_github("xavi-rp/LPDynR")
 library(LPDynR)
-library(raster)
+library(terra)
 ```
 &nbsp;
 
-Loading a land productivity variable derived from Earth Observation imagery included in *LPDynR*. A RasterBrick or RasterStack object with time series (each layer is one year).
+Loading a land productivity variable derived from Earth Observation imagery included in *LPDynR*. A SpatRaster object with time series (each layer is one year).
 
 ```
 variables_dir <- paste0(system.file(package='LPDynR'), "/extdata/")   # directory
 
 ?sb_cat
-sb <- brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif")) # Standing biomass (integral between the two minimas)
+sb <- rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif")) # Standing biomass (integral between the two minimas)
 ```
 &nbsp;
 

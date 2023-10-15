@@ -10,15 +10,15 @@
 #' of cumulative variance (cumul_var_threshold; default = 0.9) is needed. Secondly, a 'final PCA'
 #' is run with the results of the 'screening PCA' (i.e. number of PC axes and their most associated
 #' variables). PCAs4clust uses \code{\link[stats]{prcomp}} to run PCAs
-#' @import raster
+#' @import terra
 #' @importFrom stats na.omit varimax prcomp
 #' @importFrom data.table rbindlist setorderv :=
-#' @param obj2process Raster* object (or its file name). Each layer is one variable
+#' @param obj2process SpatRaster object (or its file name). Each layer is one variable
 #' @param cumul_var_threshold Numeric. Optional (default = 0.9). Threshold of cumulative variance
 #' to select the number of useful PCs
 #' @param filename Character. Output filename. Optional
 #' @param ... Optional. Arguments for \code{\link[stats]{prcomp}}
-#' @return RasterBrick object
+#' @return SpatRaster object
 #' @name PCAs4clust
 #' @seealso \code{\link{rm_multicol}}; \code{\link[stats]{prcomp}}
 #' @export
@@ -40,12 +40,12 @@ PCAs4clust <- function(obj2process = NULL,
 
   ## Reading in data (not correlated Phenolo variables)
 
-  if(is.null(obj2process)) stop("Please provide an objects of classe Raster* (or a file names to read in from)")
+  if(is.null(obj2process)) stop("Please provide an objects of classe SpatRaster (or a file names to read in from)")
 
   if(is.character(obj2process)){
-    obj2process <- stack(obj2process)
-  }else if(!class(obj2process) %in% c("RasterLayer", "RasterStack", "RasterBrick")){
-    stop("Please provide objects of classe Raster* (or a file name to read in from)")
+    obj2process <- rast(obj2process)
+  }else if(!class(obj2process) %in% c("SpatRaster")){
+    stop("Please provide objects of classe SpatRaster (or a file name to read in from)")
   }
 
   if(!is.numeric(cumul_var_threshold) |
@@ -107,7 +107,7 @@ PCAs4clust <- function(obj2process = NULL,
   #gc()
 
   pca_final_rottd_varbles$rn <- as.integer(rownames(pca_final_rottd_varbles))
-  num_pix <- obj2process@ncols * obj2process@nrows
+  num_pix <- ncol(obj2process) * nrow(obj2process)
 
   num_pix1 <- c(1:num_pix)
   num_pix1 <- num_pix1[!num_pix1 %in% as.integer(rownames(pca_final_rottd_varbles))]
@@ -124,29 +124,25 @@ PCAs4clust <- function(obj2process = NULL,
   setorderv(pca_final_raster1, "rn")
   pca_final_raster1 <- pca_final_raster1[, rn := NULL]
 
-  xtnt <- extent(obj2process)
-  #pca_final_brick <- brick(nrows = obj2process@nrows, ncols = obj2process@ncols,
-  #                         xmn = xtnt[1], xmx = xtnt[2], ymn = xtnt[3], ymx = xtnt[4],
-  #                         crs = crs(obj2process),
-  #                         nl = (ncol(pca_final_rottd_varbles) - 1)
-  #)
-  #rm(pca_final_rottd_varbles)
-  pca_final_brick <- stack()
+  xtnt <- ext(obj2process)
+
+  pca_final_brick <- rast()
+
   for(i in 1:ncol(pca_final_raster1)){
-    rastr_tmp <- raster(nrows = obj2process@nrows, ncols = obj2process@ncols,
-                        xmn = xtnt[1], xmx = xtnt[2], ymn = xtnt[3], ymx = xtnt[4],
-                        crs = crs(obj2process),
-                        #ext,
-                        #resolution,
-                        vals = pca_final_raster1[[i]])
+    rastr_tmp <- rast(nrows = nrow(obj2process), ncols = ncol(obj2process),
+                      xmin = xtnt[1], xmax = xtnt[2], ymin = xtnt[3], ymax = xtnt[4],
+                      crs = crs(obj2process),
+                      #ext,
+                      #resolution,
+                      vals = pca_final_raster1[[i]])
     #pca_final_brick[[i]] <- rastr_tmp
-    pca_final_brick <- stack(pca_final_brick, rastr_tmp)
+    pca_final_brick <- suppressWarnings(c(pca_final_brick, rastr_tmp))
     names(pca_final_brick[[i]]) <- names(pca_final_raster1)[i]
   }
-  pca_final_brick <- brick(pca_final_brick)
+  #pca_final_brick <- brick(pca_final_brick)
 
   ## Saving results
-  if (filename != "") writeRaster(pca_final_brick, filename = filename, options = "INTERLEAVE=BAND", overwrite = TRUE)
+  if (filename != "") writeRaster(pca_final_brick, filename = filename, overwrite = TRUE)
   return(pca_final_brick)
 
 }

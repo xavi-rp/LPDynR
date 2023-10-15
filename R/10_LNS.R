@@ -4,24 +4,24 @@
 #' @author Xavier Rotllan-Puig
 #' @title LNScaling
 #' @description LNScaling (Local Net Productivity Scaling) uses a productivity variable
-#' (Raster*), e.g. season growth, to calculate the actual status of land productivity
+#' (SpatRaster), e.g. season growth, to calculate the actual status of land productivity
 #' relative to its potential in homogeneous land areas or Ecosystem Functional Types
-#' (RasterLayer). If the productivity variable 'ProdVar' is a RasterStack or RasterBrick
+#' (SpatRaster). If the productivity variable 'ProdVar' is a SpatRaster
 #' object with time series, it is calculated the average of the last 5 years
 #' @details The Local Net Primary Production Scaling (LNS) method (Prince, 2009) calculates
 #'  the difference between the potential and actual Net Primary Production for each pixel
 #'  in homogeneous land areas. The current land production related to the local potential
 #'  reflects the current level of productivity efficiency and, therefore, it is useful for
 #'  the delineation of a land productivity status map
-#' @import raster
+#' @import terra
 #' @importFrom data.table as.data.table setkeyv
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by summarise_at
-#' @param EFTs RasterLayer object (or its file name). Ecosystem Functional Types. Its first variable has the number of EFT (cluster) each pixel belongs to
-#' @param ProdVar Raster* object (or its file name). Productivity variable (e.g. Cyclic fraction -season growth-)
+#' @param EFTs SpatRaster object (or its file name). Ecosystem Functional Types. Its first variable has the number of EFT (cluster) each pixel belongs to
+#' @param ProdVar SpatRaster object (or its file name). Productivity variable (e.g. Cyclic fraction -season growth-)
 #' @param filename Character. Output filename. Optional
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
-#' @return RasterLayer object
+#' @return SpatRaster object
 #' @name LNScaling
 #' @seealso \code{\link{EFT_clust}}
 #' @references Prince, S.D., Becker-Reshef, I. and Rishmawi, K. 2009. “Detection and Mapping of Long-Term Land Degradation Using Local Net Production Scaling: Application to Zimbabwe.” REMOTE SENSING OF ENVIRONMENT 113 (5): 1046–57
@@ -33,7 +33,7 @@
 #'                                multicol_cutoff = 0.7)
 #' EFTs_raster <- EFT_clust(obj2clust = variables_noCor,
 #'                          n_clust = 10)
-#' sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+#' sb <- terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 #'
 #' LNScaling(EFTs = EFTs_raster[[1]],
 #'           ProdVar = sb)
@@ -47,42 +47,38 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
                       filename = ""){
 
   ## Reading in EFTs data (Step 09)
-  if(any(is.null(EFTs), is.null(ProdVar))) stop("Please provide objects of classe Raster* (or file names to read in some)")
+  if(any(is.null(EFTs), is.null(ProdVar))) stop("Please provide objects of classe SpatRaster (or file names to read in some)")
 
   if(is.character(EFTs)){
-    EFTs <- raster(EFTs)
-  }else if(class(EFTs) != "RasterLayer"){
-    stop("Please provide objects of classe RasterLayer for EFTs (or a file name to read in from)")
+    EFTs <- rast(EFTs)
+  }else if(class(EFTs) != "SpatRaster"){
+    stop("Please provide objects of classe SpatRaster for EFTs (or a file name to read in from)")
   }
 
 
   ## Reading in productivity data (e.g. Cyclic Fraction) and averaging
   if(is.character(ProdVar)){
-    ProdVar <- stack(ProdVar)
-  }else if(!class(ProdVar) %in% c("RasterLayer", "RasterStack", "RasterBrick")){
-    stop("Please provide objects of classe Raster* (or a file name to read in from)")
+    ProdVar <- rast(ProdVar)
+  }else if(!class(ProdVar) %in% c("SpatRaster")){
+    stop("Please provide objects of classe SpatRaster (or a file name to read in from)")
   }
 
   ## Checking for same extent/resolution
-  if(any(extent(EFTs) != extent(ProdVar), round(res(EFTs), 8) != round(res(ProdVar), 8)))
+  if(any(ext(EFTs) != ext(ProdVar), round(res(EFTs), 8) != round(res(ProdVar), 8)))
     stop("EFTs and ProdVar must have same extent and resolution")
 
 
   ## Averaging (if ProdVar has > 1 layer)
-  if(nlayers(ProdVar) == 1) {
+  if(nlyr(ProdVar) == 1) {
     ProdVar_average <- ProdVar
-  }else if(nlayers(ProdVar) <= 4){
-    beginCluster(cores2use)
-    yrs <- c()
-    yrs <<- (1:nlayers(ProdVar))
-    ProdVar_average <- clusterR(ProdVar, calc, args = list(fun = mean_years_function), export = "yrs")
-    endCluster()
-  }else if(nlayers(ProdVar) > 4){
-    beginCluster(cores2use)
-    yrs <- c()
-    yrs <<- (nlayers(ProdVar) - 4):nlayers(ProdVar)
-    ProdVar_average <- clusterR(ProdVar, calc, args = list(fun = mean_years_function), export = "yrs")
-    endCluster()
+  }else if(nlyr(ProdVar) <= 4){
+    yrs <- (1:nlayers(ProdVar))
+    ProdVar_average <- app(ProdVar, fun = mean_years_function, cores = cores2use, yrs = yrs)
+
+  }else if(nlyr(ProdVar) > 4){
+    yrs <- (nlyr(ProdVar) - 4):nlyr(ProdVar)
+    ProdVar_average <- app(ProdVar, fun = mean_years_function, cores = cores2use, yrs = yrs)
+
   }
 
   ## Merging productivity variable data with new clusters
@@ -124,7 +120,7 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
   gc()
   ProdVar <- ProdVar[[1]]
 
-  LocalNetProductivity_rstr <- setValues(ProdVar, ProdVar_average_df$LSP)
+  LocalNetProductivity_rstr <- terra::setValues(ProdVar, ProdVar_average_df$LSP)
   names(LocalNetProductivity_rstr) <- "CurrentScaledNetProd"
 
   if (filename != "") writeRaster(LocalNetProductivity_rstr, filename = filename, overwrite = TRUE)

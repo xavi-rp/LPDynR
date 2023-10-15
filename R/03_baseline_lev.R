@@ -3,7 +3,7 @@
 #'
 #' @author Xavier Rotllan-Puig
 #' @title baseline_lev
-#' @description baseline_lev() derives land productivity at the beginning of the time series on study, resulting in a 3-class RasterLayer
+#' @description baseline_lev() derives land productivity at the beginning of the time series on study, resulting in a 3-class SpatRaster
 #' object with (1) low, (2) medium and (3) high productivity
 #' @details baseline_lev() uses the proportion of drylands over the total land ('drylandProp') to classify the level of productivity into
 #' low level. UNPD declares that 40 percent of the World’s land resources are drylands (Middleton et al., 2011) and, therefore, 40 percent
@@ -12,7 +12,7 @@
 #' and the rest (100 - ('drylandProp' + 10)) as medium level. Proportion of pixels classified as 'high' can be also modified by passing the
 #' argument 'highprodProp'
 #' @import terra
-#' @param obj2process Raster* object (or its file name). If time series, each layer is one year
+#' @param obj2process SpatRaster object (or its file name). If time series, each layer is one year
 #' @param yearsBaseline Numeric. Number of years to be averaged and used as baseline. Optional. Default is 3
 #' @param drylandProp Numeric. Proportion of drylands over total land, either expressed as a fraction of unity or percentage. Optional. Default is 0.4
 #' @param highprodProp Numeric. Proportion of land classified as 'highly productive' over total land, either expressed as a fraction of unity or percentage. Optional. Default is 0.1
@@ -45,9 +45,9 @@ baseline_lev <- function(obj2process = NULL,
   if(is.null(obj2process)) stop("Please provide an object of classe Raster* (or a file names to read in from)")
 
   if(is.character(obj2process)){
-    obj2process <- stack(obj2process)
-  }else if(!class(obj2process) %in% c("RasterLayer", "RasterStack", "RasterBrick", "SpatRaster")){
-    stop("Please provide an object of classe Raster*/SpatRaster (or a file name to read in from)")
+    obj2process <- terra::rast(obj2process)
+  }else if(!class(obj2process) %in% c("SpatRaster")){
+    stop("Please provide an object of classe SpatRaster (or a file name to read in from)")
   }
 
   if(yearsBaseline > nlyr(obj2process)) yearsBaseline <- nlyr(obj2process)
