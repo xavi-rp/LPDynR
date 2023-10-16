@@ -10,7 +10,7 @@
 #' indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}
 #' @rawNamespace import(data.table, except = shift)
 #' @importFrom stats kmeans complete.cases var na.omit
-#' @import terra
+#' @rawNamespace import(terra, except = na.omit)
 #' @param obj2clust SpatRaster object (or its file name). Each layer is one variable
 #' @param num_clstrs Numeric. Optional. Vector with a sequence of number of clusters to check for optimal
 #' @param standardise_vars Logical. Optional. If TRUE (default), variables are standardised (mean = 0; sd = 1)

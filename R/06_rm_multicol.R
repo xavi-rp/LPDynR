@@ -8,7 +8,7 @@
 #' calculated. Secondly, it creates a SpatRaster object with those (averaged) variables which have a Pearson's
 #' correlation coefficient below 'multicol_cutoff'. See \code{\link[virtualspecies]{removeCollinearity}} for further arguments
 #' and functionalities
-#' @import terra
+#' @rawNamespace import(terra, except = na.omit)
 #' @import virtualspecies
 #' @param dir2process Character. Directory where the SpatRaster objects are stored. All the .tif
 #' files in the directory will be read in to be used

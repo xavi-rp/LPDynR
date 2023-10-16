@@ -13,7 +13,7 @@
 #'  in homogeneous land areas. The current land production related to the local potential
 #'  reflects the current level of productivity efficiency and, therefore, it is useful for
 #'  the delineation of a land productivity status map
-#' @import terra
+#' @rawNamespace import(terra, except = na.omit)
 #' @importFrom data.table as.data.table setkeyv
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by summarise_at
@@ -51,7 +51,7 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
 
   if(is.character(EFTs)){
     EFTs <- rast(EFTs)
-  }else if(class(EFTs) != "SpatRaster"){
+  }else if(!class(EFTs) %in% c("SpatRaster")){
     stop("Please provide objects of classe SpatRaster for EFTs (or a file name to read in from)")
   }
 
@@ -72,7 +72,7 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
   if(nlyr(ProdVar) == 1) {
     ProdVar_average <- ProdVar
   }else if(nlyr(ProdVar) <= 4){
-    yrs <- (1:nlayers(ProdVar))
+    yrs <- (1:nlyr(ProdVar))
     ProdVar_average <- app(ProdVar, fun = mean_years_function, cores = cores2use, yrs = yrs)
 
   }else if(nlyr(ProdVar) > 4){
@@ -82,7 +82,7 @@ LNScaling <- function(EFTs = NULL, ProdVar = NULL,
   }
 
   ## Merging productivity variable data with new clusters
-  ProdVar_average_df <- as.data.frame(ProdVar_average)
+  ProdVar_average_df <- as.data.frame(ProdVar_average, na.rm = FALSE)
   EFTs_df <- as.data.frame(EFTs)
   ProdVar_average_df$EFT <- EFTs_df[[1]]
   ProdVar_average_df$rwnms <- as.numeric(rownames(EFTs_df))

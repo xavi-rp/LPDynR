@@ -21,7 +21,7 @@
 #' @rawNamespace import(data.table, except = shift)
 #' @importFrom stats complete.cases kmeans na.omit
 #' @importFrom dplyr bind_rows
-#' @import terra
+#' @rawNamespace import(terra, except = na.omit)
 #' @param obj2clust SpatRaster object (or its file name). Each layer is one variable
 #' @param n_clust Numeric. Number of total clusters. Optional. Default = 20
 #' @param standardise_vars Logical. Optional. If TRUE (default), variables are standardised (mean = 0; sd = 1)

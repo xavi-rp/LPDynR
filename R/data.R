@@ -23,7 +23,7 @@
 #' @references
 #' \url{https://www.eea.europa.eu/data-and-maps/data/annual-above-ground-vegetation-productivity}
 #'
-#' @source \url{https://www.eea.europa.eu/data-and-maps}
+#' @source \url{https://www.eea.europa.eu/en/analysis}
 "sb_cat"
 
 
@@ -51,7 +51,7 @@
 #' @references
 #' \url{https://www.eea.europa.eu/data-and-maps/data/annual-start-of-vegetation-growing}
 #'
-#' @source \url{https://www.eea.europa.eu/data-and-maps}
+#' @source \url{https://www.eea.europa.eu/en/analysis}
 "sbd_cat"
 
 
@@ -79,6 +79,6 @@
 #' @references
 #' \url{https://www.eea.europa.eu/data-and-maps/data/annual-above-ground-vegetation-season}
 #'
-#' @source \url{https://www.eea.europa.eu/data-and-maps}
+#' @source \url{https://www.eea.europa.eu/en/analysis}
 "sl_cat"
 

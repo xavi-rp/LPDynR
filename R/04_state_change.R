@@ -7,7 +7,7 @@
 #' on study, resulting in a 3-class SpatRaster object with (1) no change, (2) changed between 1 and x classes or
 #' (3) changed more than x classes, where x can be defined by the user (default is 1)
 #' @details state_change uses the average of 'yearsBaseline' number of years at the beginning and the end of the time series
-#' @import terra
+#' @rawNamespace import(terra, except = na.omit)
 #' @param obj2process SpatRaster object (or its file name). If time series, each layer is one year
 #' @param yearsBaseline Numeric. Number of years to be averaged at the beginning and end of the time series. Optional. Default is 3
 #' @param changeNclass Numeric. Number of classes changed for classification. Optional. Default is 1
@@ -44,6 +44,7 @@ state_change <- function(obj2process = NULL,
   if(yearsBaseline > nlyr(obj2process)) yearsBaseline <- nlyr(obj2process)
 
   ## Averaging first years
+  yrs <- 1:yearsBaseline
   obj2process_avg13 <- app(obj2process, fun = mean_years_function, cores = cores2use, yrs = yrs)
 
   ## Classification of averaged pixels

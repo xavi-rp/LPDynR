@@ -12,7 +12,7 @@ Description: It uses 'phenological' and productivity-related variables derived f
     productivity. See <https://www.sciencedirect.com/science/article/pii/S1470160X21010517/> for a description of the methods used in 
     the package to calculate the indicator.
 Depends: R (>= 3.6.0)
-Imports: stats, terra, dplyr, data.table, virtualspecies, magrittr
+Imports: stats, dplyr, data.table, virtualspecies, magrittr, terra
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 License: GPL-3

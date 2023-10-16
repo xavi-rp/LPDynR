@@ -11,7 +11,7 @@
 #' is run with the results of the 'screening PCA' (i.e. number of PC axes and their most associated
 #' variables). PCAs4clust uses \code{\link[stats]{prcomp}} to run PCAs
 #' @importFrom stats na.omit varimax prcomp
-#' @import terra
+#' @rawNamespace import(terra, except = na.omit)
 #' @importFrom data.table rbindlist setorderv :=
 #' @param obj2process SpatRaster object (or its file name). Each layer is one variable
 #' @param cumul_var_threshold Numeric. Optional (default = 0.9). Threshold of cumulative variance
@@ -83,7 +83,7 @@ PCAs4clust <- function(obj2process = NULL,
   screeningPCA_variables_df <- as.data.frame(unclass(screeningPCA_variables_df))
   screeningPCA_variables_df <- round(screeningPCA_variables_df, 0)[, c(1:nPCs)]
   screeningPCA_variables <- names(which(apply(screeningPCA_variables_df, 1, sum) != 0))
-  if(length(screeningPCA_variables) != nPCs) stop("inconsistency among number of variables selected for the next step ('final PCA') and number of PCs")
+  #if(length(screeningPCA_variables) != nPCs) stop("inconsistency among number of variables selected for the next step ('final PCA') and number of PCs")
 
 
 

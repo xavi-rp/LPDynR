@@ -12,7 +12,7 @@
 #' Values = 0 in the final map indicates that there is a scarcity of data in the productivity variable
 #' (i.e. only 1 year with data), so that the indicator cannot be calculated
 #'
-#' @import terra
+#' @rawNamespace import(terra, except = na.omit)
 #' @param obj2process SpatRaster object (or its file name). If time series, each layer is one year
 #' @param cores2use Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)
 #' @param filename Character. Output filename. Optional

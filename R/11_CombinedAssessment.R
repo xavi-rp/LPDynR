@@ -43,7 +43,7 @@
 #' potential productivity within its Ecosystem Functional Type
 #'
 #'
-#' @import terra
+#' @rawNamespace import(terra, except = na.omit)
 #' @param LandProd_change SpatRaster object (or its file name). Land Productivity Long Term Change Map
 #' @param LandProd_current SpatRaster object (or its file name). Land Productivity Current Status Map
 #' @param local_prod_threshold Numeric. Potential local productivity threshold (within the Ecosystem Functional Type) in percentage. Optional. Default = 50
@@ -89,14 +89,14 @@ LPD_CombAssess <- function(LandProd_change = NULL, LandProd_current = NULL,
 
   if(is.character(LandProd_change)){
     LandProd_change <- rast(LandProd_change)
-  }else if(class(LandProd_change) != "SpatRaster"){
+  }else if(!class(LandProd_change) %in% c("SpatRaster")){
     stop("Please provide objects of classe SpatRaster (or file names to read in some)")
   }
 
   if(!is.null(LandProd_current)){
     if(is.character(LandProd_current)){
       LandProd_current <- rast(LandProd_current)
-    }else if(class(LandProd_current) != "SpatRaster"){
+    }else if(!class(LandProd_current) %in% c("SpatRaster")){
       stop("Please provide objects of classe SpatRaster (or file names to read in some)")
     }
 

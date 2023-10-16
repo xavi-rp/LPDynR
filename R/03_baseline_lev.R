@@ -11,7 +11,7 @@
 #' local and regional studies. In addition, baseline_lev() classifies by default 10 percent of pixels as high level of land productivity
 #' and the rest (100 - ('drylandProp' + 10)) as medium level. Proportion of pixels classified as 'high' can be also modified by passing the
 #' argument 'highprodProp'
-#' @import terra
+#' @rawNamespace import(terra, except = na.omit)
 #' @param obj2process SpatRaster object (or its file name). If time series, each layer is one year
 #' @param yearsBaseline Numeric. Number of years to be averaged and used as baseline. Optional. Default is 3
 #' @param drylandProp Numeric. Proportion of drylands over total land, either expressed as a fraction of unity or percentage. Optional. Default is 0.4
@@ -62,7 +62,7 @@ baseline_lev <- function(obj2process = NULL,
   rning_tsts <- "y"
   rning_tsts <- "n"
   if(rning_tsts == "y"){
-    cchk_cell <- spatSample(obj2process_avg13, size = 1, cells = TRUE)[1]
+    chk_cell <- spatSample(obj2process_avg13, size = 1, cells = TRUE)[1]
     chk_avg <- round(mean(as.numeric(obj2process[as.numeric(chk_cell)][1:yearsBaseline])), 0) == round(as.numeric(obj2process_avg13[as.numeric(chk_cell)]), 0) # has to be TRUE
     if(chk_avg != TRUE) stop("Something wrong in the averaging process")
   }

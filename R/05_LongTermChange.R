@@ -81,7 +81,7 @@
 #' Values = 0 in the final map indicates that there is a scarcity of data in the productivity variable
 #' (i.e. only 1 year with data), so that the indicator cannot be calculated
 #'
-#' @import terra
+#' @rawNamespace import(terra, except = na.omit)
 #' @importFrom data.table as.data.table setkeyv
 #' @importFrom dplyr group_by summarise_at
 #' @param SteadinessIndex SpatRaster object (or its file name). Steadiness Index (4-class)

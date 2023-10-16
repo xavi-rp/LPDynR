@@ -11,7 +11,7 @@ GeoTIFF. SpatRaster object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell,
 }
 }
 \source{
-\url{https://www.eea.europa.eu/data-and-maps}
+\url{https://www.eea.europa.eu/en/analysis}
 }
 \usage{
 sl_cat
