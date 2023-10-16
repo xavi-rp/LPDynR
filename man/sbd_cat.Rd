@@ -5,7 +5,7 @@
 \alias{sbd_cat}
 \title{Season Beginning Day}
 \format{
-GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
+GeoTIFF. SpatRaster object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell, nlayers)
 \describe{
   \item{sbd_cat}{Season beginning day}
 }
@@ -17,7 +17,7 @@ GeoTIFF. RasterBrick object with dimensions: 20, 20, 400, 10  (nrow, ncol, ncell
 sbd_cat
 }
 \description{
-RasterBrick object containing time series of phenological data (400 cells; 10 layers).
+SpatRaster object containing time series of phenological data (400 cells; 10 layers).
 Years 2000-2009. The variable has been derived from MODIS using Timesat
 }
 \details{
@@ -30,7 +30,7 @@ Resolution  : 500, 500  (x, y)
 Extent      : 3640000, 3650000, 2140000, 2150000  (xmin, xmax, ymin, ymax)
 }
 \examples{
-raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))
+terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sbd_cat.tif"))
 
 }
 \references{

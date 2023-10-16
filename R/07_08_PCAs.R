@@ -10,8 +10,8 @@
 #' of cumulative variance (cumul_var_threshold; default = 0.9) is needed. Secondly, a 'final PCA'
 #' is run with the results of the 'screening PCA' (i.e. number of PC axes and their most associated
 #' variables). PCAs4clust uses \code{\link[stats]{prcomp}} to run PCAs
-#' @import terra
 #' @importFrom stats na.omit varimax prcomp
+#' @import terra
 #' @importFrom data.table rbindlist setorderv :=
 #' @param obj2process SpatRaster object (or its file name). Each layer is one variable
 #' @param cumul_var_threshold Numeric. Optional (default = 0.9). Threshold of cumulative variance
@@ -62,7 +62,7 @@ PCAs4clust <- function(obj2process = NULL,
   if(is.null(dts$center)) dts$center <- TRUE
   if(is.null(dts$scale.)) dts$scale. <- TRUE
 
-  pca <- prcomp(na.omit(obj2process_df),
+  pca <- prcomp(stats::na.omit(obj2process_df),
                 retx   = dts$retx,
                 center = dts$center, # variables are zero centered
                 scale. = dts$scale.  # scaling variables to have unit variance
@@ -91,7 +91,7 @@ PCAs4clust <- function(obj2process = NULL,
 
   obj2process_df <- obj2process_df[, names(obj2process_df) %in% screeningPCA_variables]
 
-  pca_final <- prcomp(na.omit(obj2process_df),
+  pca_final <- prcomp(stats::na.omit(obj2process_df),
                       retx   = dts$retx,
                       center = dts$center, # variables are zero centered
                       scale. = dts$scale.  # scaling variables to have unit variance

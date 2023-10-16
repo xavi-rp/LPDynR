@@ -9,15 +9,15 @@ Description: It uses 'phenological' and productivity-related variables derived f
     indexes, such as the Normalized Difference Vegetation Index, to assess ecosystem dynamics and change, which 
     eventually might drive to land degradation. The final result of the Land Productivity Dynamics indicator 
     is a categorical map with 5 classes of land productivity dynamics, ranging from declining to increasing 
-    productivity. See <https://eartharxiv.org/repository/view/2294/> for a description of the methods used in 
+    productivity. See <https://www.sciencedirect.com/science/article/pii/S1470160X21010517/> for a description of the methods used in 
     the package to calculate the indicator.
 Depends: R (>= 3.6.0)
-Imports: terra, dplyr, stats, data.table, virtualspecies, magrittr
+Imports: stats, terra, dplyr, data.table, virtualspecies, magrittr
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.2
 URL: https://github.com/xavi-rp/LPDynR
 BugReports: https://github.com/xavi-rp/LPDynR/issues

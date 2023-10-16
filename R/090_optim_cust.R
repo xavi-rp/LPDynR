@@ -8,9 +8,9 @@
 #' @details The 'scree plot method' allows the user to assess how the quality of the
 #' K-means clustering improves when increasing the number of clusters. An elbow in the curve
 #' indicates the optimal number of clusters. K-means are run with \code{\link[stats]{kmeans}}
-#' @import terra
 #' @rawNamespace import(data.table, except = shift)
-#' @importFrom stats kmeans complete.cases var
+#' @importFrom stats kmeans complete.cases var na.omit
+#' @import terra
 #' @param obj2clust SpatRaster object (or its file name). Each layer is one variable
 #' @param num_clstrs Numeric. Optional. Vector with a sequence of number of clusters to check for optimal
 #' @param standardise_vars Logical. Optional. If TRUE (default), variables are standardised (mean = 0; sd = 1)
@@ -52,7 +52,7 @@ clust_optim <- function(obj2clust = NULL,
   #rm(obj2clust)
   #gc()
   setDT(obj2clust)
-  obj2clust <- na.omit(obj2clust)
+  obj2clust <- stats::na.omit(obj2clust)
 
   ## Standardising
   if(standardise_vars == TRUE){

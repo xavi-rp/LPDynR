@@ -7,22 +7,22 @@
 LNScaling(EFTs = NULL, ProdVar = NULL, cores2use = 1, filename = "")
 }
 \arguments{
-\item{EFTs}{RasterLayer object (or its file name). Ecosystem Functional Types. Its first variable has the number of EFT (cluster) each pixel belongs to}
+\item{EFTs}{SpatRaster object (or its file name). Ecosystem Functional Types. Its first variable has the number of EFT (cluster) each pixel belongs to}
 
-\item{ProdVar}{Raster* object (or its file name). Productivity variable (e.g. Cyclic fraction -season growth-)}
+\item{ProdVar}{SpatRaster object (or its file name). Productivity variable (e.g. Cyclic fraction -season growth-)}
 
 \item{cores2use}{Numeric. Number of cores to use for parallelization. Optional. Default is 1 (no parallelization)}
 
 \item{filename}{Character. Output filename. Optional}
 }
 \value{
-RasterLayer object
+SpatRaster object
 }
 \description{
 LNScaling (Local Net Productivity Scaling) uses a productivity variable
-(Raster*), e.g. season growth, to calculate the actual status of land productivity
+(SpatRaster), e.g. season growth, to calculate the actual status of land productivity
 relative to its potential in homogeneous land areas or Ecosystem Functional Types
-(RasterLayer). If the productivity variable 'ProdVar' is a RasterStack or RasterBrick
+(SpatRaster). If the productivity variable 'ProdVar' is a SpatRaster
 object with time series, it is calculated the average of the last 5 years
 }
 \details{
@@ -39,7 +39,7 @@ variables_noCor <- rm_multicol(dir2process = dirctry,
                                multicol_cutoff = 0.7)
 EFTs_raster <- EFT_clust(obj2clust = variables_noCor,
                          n_clust = 10)
-sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+sb <- terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 
 LNScaling(EFTs = EFTs_raster[[1]],
           ProdVar = sb)

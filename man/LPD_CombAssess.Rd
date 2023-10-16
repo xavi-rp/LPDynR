@@ -12,20 +12,20 @@ LPD_CombAssess(
 )
 }
 \arguments{
-\item{LandProd_change}{RasterLayer object (or its file name). Land Productivity Long Term Change Map}
+\item{LandProd_change}{SpatRaster object (or its file name). Land Productivity Long Term Change Map}
 
-\item{LandProd_current}{RasterLayer object (or its file name). Land Productivity Current Status Map}
+\item{LandProd_current}{SpatRaster object (or its file name). Land Productivity Current Status Map}
 
 \item{local_prod_threshold}{Numeric. Potential local productivity threshold (within the Ecosystem Functional Type) in percentage. Optional. Default = 50}
 
 \item{filename}{Character. Output filename. Optional}
 }
 \value{
-RasterLayer
+SpatRaster
 }
 \description{
-LPD_CombAssess combines a 'LandProd_change' map (RasterLayer) with a 'LandProd_current'
-map (RasterLayer), giving a 5-classes map ranging from declining to increasing land
+LPD_CombAssess combines a 'LandProd_change' map (SpatRaster) with a 'LandProd_current'
+map (SpatRaster), giving a 5-classes map ranging from declining to increasing land
 productivity. 'LandProd_current' is reclassified into two classes: pixels with less than 'local_prod_threshold'
 (in percentage; 50 by default) of potential local productivity (within the EFT) and pixels with more or equal to
 'local_prod_threshold'.
@@ -62,7 +62,7 @@ potential productivity within its Ecosystem Functional Type
 }
 \examples{
 \donttest{
-sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+sb <- terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 SteadinessIndex_raster <- steadiness(obj2process = sb)
 BaselineLevels_raster <- baseline_lev(obj2process = sb,
                                       yearsBaseline = 3,

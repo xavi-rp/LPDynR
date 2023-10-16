@@ -12,16 +12,16 @@ LongTermChange(
 )
 }
 \arguments{
-\item{SteadinessIndex}{RasterLayer object (or its file name). Steadiness Index (4-class)}
+\item{SteadinessIndex}{SpatRaster object (or its file name). Steadiness Index (4-class)}
 
-\item{BaselineLevels}{RasterLayer object (or its file name). Baseline levels of land productivity (beginning of time series; 3-class)}
+\item{BaselineLevels}{SpatRaster object (or its file name). Baseline levels of land productivity (beginning of time series; 3-class)}
 
-\item{StateChange}{RasterLayer object (or its file name). Change of state of land productivity (beginning minus end of time series; 3-class)}
+\item{StateChange}{SpatRaster object (or its file name). Change of state of land productivity (beginning minus end of time series; 3-class)}
 
 \item{filename}{Character. Output filename. Optional}
 }
 \value{
-RasterLayer object
+SpatRaster object
 }
 \description{
 LongTermChange combines the Steadiness Index with the baseline levels of land productivity and with the change of
@@ -105,7 +105,7 @@ Values = 0 in the final map indicates that there is a scarcity of data in the pr
 }
 \examples{
 \donttest{
-sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+sb <- terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 SteadinessIndex_raster <- steadiness(obj2process = sb)
 BaselineLevels_raster <- baseline_lev(obj2process = sb,
                                       yearsBaseline = 3,

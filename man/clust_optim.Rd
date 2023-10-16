@@ -12,7 +12,7 @@ clust_optim(
 )
 }
 \arguments{
-\item{obj2clust}{RasterStack or RasterBrick object (or its file name). Each layer is one variable}
+\item{obj2clust}{SpatRaster object (or its file name). Each layer is one variable}
 
 \item{num_clstrs}{Numeric. Optional. Vector with a sequence of number of clusters to check for optimal}
 

@@ -8,7 +8,8 @@
 #' calculated. Secondly, it creates a SpatRaster object with those (averaged) variables which have a Pearson's
 #' correlation coefficient below 'multicol_cutoff'. See \code{\link[virtualspecies]{removeCollinearity}} for further arguments
 #' and functionalities
-#' @import terra virtualspecies
+#' @import terra
+#' @import virtualspecies
 #' @param dir2process Character. Directory where the SpatRaster objects are stored. All the .tif
 #' files in the directory will be read in to be used
 #' @param yrs2use Numeric. A numeric vector with the years (layers positions) of the time series to be used (e.g. yrs2use = 2:21). Optional. Default (= NULL) uses all years

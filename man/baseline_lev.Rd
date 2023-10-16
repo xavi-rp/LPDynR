@@ -14,7 +14,7 @@ baseline_lev(
 )
 }
 \arguments{
-\item{obj2process}{Raster* object (or its file name). If time series, each layer is one year}
+\item{obj2process}{SpatRaster object (or its file name). If time series, each layer is one year}
 
 \item{yearsBaseline}{Numeric. Number of years to be averaged and used as baseline. Optional. Default is 3}
 
@@ -27,10 +27,10 @@ baseline_lev(
 \item{filename}{Character. Output filename. Optional}
 }
 \value{
-RasterLayer object
+SpatRaster object
 }
 \description{
-baseline_lev() derives land productivity at the beginning of the time series on study, resulting in a 3-class RasterLayer
+baseline_lev() derives land productivity at the beginning of the time series on study, resulting in a 3-class SpatRaster
 object with (1) low, (2) medium and (3) high productivity
 }
 \details{
@@ -43,7 +43,7 @@ argument 'highprodProp'
 }
 \examples{
 \donttest{
-sb <- raster::brick(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
+sb <- terra::rast(paste0(system.file(package='LPDynR'), "/extdata/sb_cat.tif"))
 baseline_lev(obj2process = sb,
              yearsBaseline = 3,
              drylandProp = 0.4,

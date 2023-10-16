@@ -14,7 +14,7 @@ rm_multicol(
 )
 }
 \arguments{
-\item{dir2process}{Character. Directory where the Raster* objects are stored. All the .tif
+\item{dir2process}{Character. Directory where the SpatRaster objects are stored. All the .tif
 files in the directory will be read in to be used}
 
 \item{yrs2use}{Numeric. A numeric vector with the years (layers positions) of the time series to be used (e.g. yrs2use = 2:21). Optional. Default (= NULL) uses all years}
@@ -28,14 +28,14 @@ files in the directory will be read in to be used}
 \item{...}{Optional. Arguments for removeCollinearity()}
 }
 \value{
-RasterBrick object
+SpatRaster object
 }
 \description{
 rm_multicol calculates the average of each variable and removes those variables highly correlated
 }
 \details{
 Firstly, after reading in all .tif files in 'dir2process', if they are multiband (time series), averages are
-calculated. Secondly, it creates a RasterBrick object with those (averaged) variables which have a Pearson's
+calculated. Secondly, it creates a SpatRaster object with those (averaged) variables which have a Pearson's
 correlation coefficient below 'multicol_cutoff'. See \code{\link[virtualspecies]{removeCollinearity}} for further arguments
 and functionalities
 }

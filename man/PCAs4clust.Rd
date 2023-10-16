@@ -7,7 +7,7 @@
 PCAs4clust(obj2process = NULL, cumul_var_threshold = 0.9, filename = "", ...)
 }
 \arguments{
-\item{obj2process}{Raster* object (or its file name). Each layer is one variable}
+\item{obj2process}{SpatRaster object (or its file name). Each layer is one variable}
 
 \item{cumul_var_threshold}{Numeric. Optional (default = 0.9). Threshold of cumulative variance
 to select the number of useful PCs}
@@ -17,7 +17,7 @@ to select the number of useful PCs}
 \item{...}{Optional. Arguments for \code{\link[stats]{prcomp}}}
 }
 \value{
-RasterBrick object
+SpatRaster object
 }
 \description{
 PCAs4clust runs a two-steps process to prepare the data to be clustered
