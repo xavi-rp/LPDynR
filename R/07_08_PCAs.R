@@ -10,7 +10,7 @@
 #' of cumulative variance (cumul_var_threshold; default = 0.9) is needed. Secondly, a 'final PCA'
 #' is run with the results of the 'screening PCA' (i.e. number of PC axes and their most associated
 #' variables). PCAs4clust uses \code{\link[stats]{prcomp}} to run PCAs
-#' @importFrom stats na.omit varimax prcomp
+#' @importFrom stats na.omit varimax
 #' @rawNamespace import(terra, except = na.omit)
 #' @importFrom data.table rbindlist setorderv :=
 #' @param obj2process SpatRaster object (or its file name). Each layer is one variable
